@@ -1,0 +1,1 @@
+<body><div class='row' style='padding-bottom: 5px;'><input class='form-control flat' name='Name' type='text' placeholder='Name'></div><div class='row' style='padding-bottom: 5px;'><textarea class='form-control flat' name='Description' placeholder='Description' rows='3' style='resize: none;'></textarea></div></body>

@@ -1,0 +1,99 @@
+@extends('templates.content',[
+    'title'=>'Purchase Order Receiving',
+    'description'=>'View list of PO that is awaiting deliveries.',
+    'breadcrumbs' => [
+        \App\Classes\Breadcrumb::create('Home','/'),
+        \App\Classes\Breadcrumb::create('Receive Orders')
+    ]
+])
+@section('title','Issuance Receiving')
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.css') }}">
+    <style>
+        a {
+            color: #3b5998;
+            text-decoration: none; /* no underline */
+        }
+        a:hover {
+            color: #3b5998;
+            text-decoration: none; /* no underline */
+        }
+    </style>
+@endsection
+@section('content')
+    <div class="card card-danger card-outline flat"> <!--  collapsed-card-->
+        <div class="card-header card-header-icon" data-background-color="green">
+            <h4 class="card-title" style="display: inline-block">Receive Orders</h4>
+        </div>
+        @if(auth()->user()->isPPC() or auth()->user()->isAdministrator())
+            <div class="card-body">
+                <h3 class="card-title">
+                    <a href="/receive-order/new" id="add-rr" class="btn btn-flat pull-right btn-fill btn-danger btn-md" style="margin-left: 8px;">New Receive Order</a>
+                </h3>
+            </div>
+        @endif
+        <div class="card-body">
+            <div id="datatables_wrapper" class="dataTables_wrapper dt-bootstrap">
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        @include('templates.datatable',
+                            array("table"=> [
+                                'Name' => 'issuanceTable',
+                                'Classes'=> "",
+                                'Headers'=>
+                                [
+                                    ['Text'=>'Purchase Order',          'Sorting'=>false,'Classes'=>""],
+                                    ['Text'=>'Charge #',          'Sorting'=>false,'Classes'=>""],
+                                    ['Text'=>'Order Date',            'Sorting'=>false,'Classes'=>""],
+                                    ['Text'=>'Delivery Date',    'Sorting'=>false,'Classes'=>""],
+                                    ['Text'=>'Payment Term',      'Sorting'=>false,'Classes'=>""]
+                                ]
+                            ]
+                        ))
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end content-->
+    </div>
+    <!--  end card  -->
+@endsection
+@section('scripts')
+    <script src="{{ asset('js/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('js/dataTables.bootstrap4.js') }}"></script>
+
+    <script>
+        $('#issuanceTable').DataTable( {
+            serverSide: false,
+            processing: true,
+            searching: true,
+            ajax: '/receive-order/data',
+            dataSrc: 'data',
+            columns: [
+                { data:"OrderNumber" },
+                { data:"ChargeNo"},
+                { data:"OrderDate" },
+                { data:"DeliveryDate" },
+                { data:"PaymentTerm" }
+            ],
+            columnDefs: [
+                {
+                    render: function ( data, type, row ) {
+                        return '<a class="alert-link" href="/purchase-order/'+data+'/receiving">'+data+'</a>';
+                    },
+                    targets: 0
+
+                }
+            ],
+            pagingType: "full_numbers",
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            responsive: true,
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Search records",
+                infoFiltered: ""
+            }
+        } );
+    </script>
+@endsection
