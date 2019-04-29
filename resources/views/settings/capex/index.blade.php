@@ -52,6 +52,8 @@
                                             <th>Job ID</th>
                                             <th>Description</th>
                                             <th>Supervisor</th>
+                                            <th>Job Note</th>
+                                            <th>Est. Expenses</th>
                                         </tr>
                                         </thead>
                                         <tfoot>
@@ -59,6 +61,8 @@
                                             <th>Name</th>
                                             <th>Description</th>
                                             <th>Supervisor</th>
+                                            <th>Job Note</th>
+                                            <th>Est. Expenses</th>
                                         </tr>
                                         </tfoot>
                                         <tbody>
@@ -90,7 +94,9 @@
             columns: [
                 { data:"JobID" },
                 { data:"JobDescription" },
-                { data:"Supervisor" }
+                { data:"Supervisor" },
+                { data:"JobNote" },
+                { data:"DistributionEstExpenses" }
             ],
             columnDefs: [
                 {

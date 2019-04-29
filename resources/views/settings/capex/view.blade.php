@@ -45,17 +45,25 @@ $name = implode('-', $name);
                     <p class="text-muted">
                         {{ $data->JobDescription }}
                     </p>
-                    </p>
                     <hr>
                     <strong><i class="fa fa-user-tie mr-1"></i> Supervisor</strong>
                     <p class="text-muted">
                         {{ $data->Supervisor }}
                     </p>
-                    </p>
                     <hr>
                     <strong><i class="fa fa-calendar-alt mr-1"></i> Start Date</strong>
                     <p class="text-muted">
                         {{ Carbon\Carbon::parse($data->StartDate)->format('F d, Y') }}
+                    </p>
+                    <hr>
+                    <strong><i class="fa fa-calendar-alt mr-1"></i> Job Notes</strong>
+                    <p class="text-muted">
+                        {{ $data->JobNote }}
+                    </p>
+                    <hr>
+                    <strong><i class="fa fa-calendar-alt mr-1"></i> Est. Expenses</strong>
+                    <p class="text-muted">
+                        {{ number_format($data->DistributionEstExpenses,2,'.',',') }}
                     </p>
                 </div>
                 <div class="card-footer">

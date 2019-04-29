@@ -62,7 +62,8 @@ class CAPEXController extends Controller
             $capex->RetainagePercent = 0;
             $capex->NoOfUnits = 0;
             $capex->DistributionEstRevenues = 0;
-            $capex->DistributionEstExpenses = 0;
+            $capex->JobNote = $request->JobNote;
+            $capex->DistributionEstExpenses = $request->DistributionEstExpenses;
             // dd($capex);
             $capex->save();
         }
@@ -111,6 +112,8 @@ class CAPEXController extends Controller
             $capex->JobDescription = $request->JobDescription;
             $capex->Supervisor = strtoupper($request->Supervisor);
             $capex->StartDate = Carbon::parse($request->StartDate)->format('Y-m-d');
+            $capex->JobNote = $request->JobNote;
+            $capex->DistributionEstExpenses = $request->DistributionEstExpenses;
             // dd($capex);
             $capex->save();
         }
@@ -206,12 +209,12 @@ class CAPEXController extends Controller
                 null,
                 null,
                 null,
-                null,
+                $capex->JobNote,
                 null,
                 null,
                 0,
                 0,
-                0
+                $capex->DistributionEstExpenses
             );
 
             array_push($data, $entry);

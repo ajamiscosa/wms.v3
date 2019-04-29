@@ -753,7 +753,7 @@
 </head>
 
 <body class="print-page">
-<div class="sheet page1" style="padding-left:38px;padding-right:38px;padding-top:38px;padding-bottom:38px;width:739px;height:979px;">
+<div class="sheet page1" id="capture" style="padding-left:38px;padding-right:38px;padding-top:38px;padding-bottom:38px;width:739px;height:979px;">
     <div class="layer">
         <div title="" class="PurchaseOrder s0-" style="position:absolute;overflow:hidden;left:38px;top:265px;width:740px;height:666px;"></div>
         <div title="" class="Group s0-" style="position:absolute;overflow:hidden;left:38px;top:265px;width:740px;height:666px;"></div>
@@ -1055,6 +1055,27 @@
     <div title="" style="position:absolute;left:38px;top:38px;width:739px;height:0px;"></div>
     <div title="" style="position:absolute;left:38px;top:1017px;width:739px;height:0px;"></div>
 </div>
+
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('js/html2canvas.min.js') }}"></script>
+<script src="{{ asset('js/jspdf.min.js') }}"></script>
+<script>
+/// FINALLY WORKING PDF CODE. AYOS NA.
+$(document).ready(function(){
+
+    html2canvas($('#capture'),{
+
+        onrendered: function (canvas) {
+            var imgData = canvas.toDataURL(
+                'image/png');
+            var doc = new jsPDF('p', 'in', [8.5, 11]);
+            doc.addImage(imgData, 'PNG', 0, 0);
+            doc.save('{{ $data->PurchaseOrderNumber }}.pdf');
+        }
+    });
+});
+</script>
 </body>
 
 </html>

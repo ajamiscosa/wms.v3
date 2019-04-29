@@ -159,7 +159,7 @@
                                         @php($previous = $po)
                                     @endif
                                     <tr>
-                                        <td>{{ $po->OrderDate->format('d/m/Y') }}</td>
+                                        <td>{{ $po->OrderDate->format('m/d/Y') }}</td>
                                         <td>{{ $product->getGeneralLedger()->Code }}</td>
                                         <td>{{ $po->OrderNumber }}</td>
                                         <td>{{ $product->Description }}</td>

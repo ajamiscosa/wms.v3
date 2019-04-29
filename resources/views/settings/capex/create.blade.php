@@ -61,6 +61,22 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">Job Note</label>
+                                    <textarea style="resize: none;" rows="3" class="form-control flat" name="JobNote"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">Est. Expenses</label>
+                                    <input type="number" step="0.01" class="form-control" name="DistributionEstExpenses">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <div class="row">

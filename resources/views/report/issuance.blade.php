@@ -145,7 +145,8 @@
                                     <td class="text-right">{{ $product->getIssuanceLedger()->Code }}</td>
                                     <td class="text-right">{{ $receipt->Quantity }}</td>
                                     <td class="text-right">
-                                        <a href="/issuance-request/{{ $receipt->OrderNumber }}/download" class="btn btn-sm btn-default"><i class="fa fa-download"></i>&nbsp;IS Form</a>&nbsp;
+                                        <a role="button" class="btn btn-default btn-sm mb-0 mt-0 downloadrrform" rel="{{ $receipt->OrderNumber }}"><i class="fa fa-download"></i>&nbsp;IS Form</a>
+                                        {{-- <a href="/issuance-request/{{ $receipt->OrderNumber }}/download" class="btn btn-sm btn-default"><i class="fa fa-download"></i>&nbsp;IS Form</a>&nbsp; --}}
                                     </td>
                                 </tr>
                                 <tr id="demo{{$loop->index}}" class="collapse">
@@ -178,7 +179,73 @@
     <script src="{{ asset('js/bootstrap-notify.min.js') }}"></script>
     <script src="{{ asset('js/select2.js') }}"></script>
     <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
+    
+    
+    <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('js/html2canvas.min.js') }}"></script>
+    <script src="{{ asset('js/jspdf.min.js') }}"></script>
+
     <script>
+        $(document).ready(function () {
+            $('.downloadrrform').on('click', function(){
+                var rr = $(this).attr('rel');
+                $.ajax({
+                    url: "/issuance-request/"+rr+"/download",
+                    cache: false,
+                    success: function(content){
+//                        var win = window.open("", "Title",
+//                            "toolbar=no," +
+//                            "location=no," +
+//                            "directories=no," +
+//                            "status=no," +
+//                            "menubar=no," +
+//                            "scrollbars=yes," +
+//                            "resizable=yes," +
+//                            "width=765," +
+//                            "height=990,");
+//                        win.document.body.innerHTML = content;
+                        var win = PopupCenter("", "Print Preview", 850,768);
+                        win.document.body.innerHTML = content;
+//
+                        var $content = win.document.querySelector('#capture');
+
+                        html2canvas($content,{
+                            onrendered: function (canvas) {
+                                win.document.body.innerHTML = "<html><head><title>"+rr+"</title><link rel='stylesheet' href='{{asset('css/custom.css')}}'/><link rel='stylesheet' href='{{asset('css/fontawesome-all.min.css')}}'/></head><a role='button' onclick='window.print(); return false;' class='float'><i class='fa fa-print my-float'></i></a></html>";
+                                win.document.body.appendChild(canvas);
+//                                var imgData = canvas.toDataURL(
+//                                    'image/png');
+//                                var doc = new jsPDF('p', 'in', [8.5, 11]);
+//                                doc.addImage(imgData, 'PNG', 0, 0);
+//                                doc.save(rr+'.pdf');
+                            }
+                        });
+
+                    }
+                });
+            });
+        });
+
+
+
+        function PopupCenter(url, title, w, h) {
+            // Fixes dual-screen position                         Most browsers      Firefox
+            var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
+            var dualScreenTop = window.screenTop != undefined ? window.screenTop : window.screenY;
+
+            var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+            var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+            var systemZoom = width / window.screen.availWidth;
+            var left = (width - w) / 2 / systemZoom + dualScreenLeft
+            var top = (height - h) / 2 / systemZoom + dualScreenTop
+            var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w / systemZoom + ', height=' + h / systemZoom + ', top=' + top + ', left=' + left);
+
+            // Puts focus on the newWindow
+            if (window.focus) newWindow.focus();
+            return newWindow;
+        }
         $(function () {
             var selected = [];
 

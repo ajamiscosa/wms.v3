@@ -217,14 +217,14 @@
 //                            "width=765," +
 //                            "height=990,");
 //                        win.document.body.innerHTML = content;
-                        var win = PopupCenter("", "Print Preview", 730,900);
+                        var win = PopupCenter("", "Print Preview", 850,768);
                         win.document.body.innerHTML = content;
 //
                         var $content = win.document.querySelector('#capture');
 
                         html2canvas($content,{
                             onrendered: function (canvas) {
-                                win.document.body.innerHTML = "<html></html>";
+                                win.document.body.innerHTML = "<html><head><title>"+rr+"</title><link rel='stylesheet' href='{{asset('css/custom.css')}}'/><link rel='stylesheet' href='{{asset('css/fontawesome-all.min.css')}}'/></head><a role='button' onclick='window.print(); return false;' class='float'><i class='fa fa-print my-float'></i></a></html>";
                                 win.document.body.appendChild(canvas);
 //                                var imgData = canvas.toDataURL(
 //                                    'image/png');
