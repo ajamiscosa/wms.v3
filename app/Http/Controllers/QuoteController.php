@@ -138,9 +138,10 @@ class QuoteController extends Controller
      * @param  \App\Quote  $quote
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Quote $quote)
+    public function destroy(Quote $quote, $id)
     {
-        //
+        $quote = Quote::find($id);
+        $quote->forceDelete();
     }
 
     public function data($product)

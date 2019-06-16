@@ -1,4 +1,9 @@
 <?php
+use App\IssuanceReceipt;
+use Carbon\Carbon;
+use App\ReceiveOrder;
+use App\Classes\DTO\DTO;
+use App\PurchaseOrder;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +61,7 @@ Route::get('/product/{product}/qrcode', 'ProductController@previewQrCode');
 Route::get('/vendor/selectdata', 'SupplierController@selectdata');
 Route::post('/quote/store', 'QuoteController@store');
 Route::get('/quote/document/{file}', 'QuoteController@viewDocument');
+Route::post('/quote/{id}/delete', 'QuoteController@destroy');
 
 Route::get('/pending-quote', 'QuoteController@viewPendingQuotes');
 Route::get('/for-quotation', 'PurchaseOrderController@showItemsForQuotation');
@@ -642,4 +648,56 @@ Route::get('/seed/issuance', function() {
 
         }
     }
+});
+
+Route::get('/test123', function(){
+    // $po = new DTO();
+    // $po->OrderNumber = "POPHXX1903024";
+
+    // $lastReceipt = ReceiveOrder::orderByDesc('OrderNumber')->first();
+    // $length = strlen($lastReceipt->OrderNumber);
+
+    // $prefix = Carbon::today()->format('ym');
+    // $currentMonth = substr($lastReceipt->OrderNumber,6,4);
+    // if($prefix==$currentMonth) {
+    //     $current = substr($lastReceipt->OrderNumber, $length-3);
+    //     $current++;
+    // }
+    // else {
+    //     $current = 0;
+    //     $current++;
+    // }
+
+    
+    // $rrNumber = sprintf("RR%s%s%s",
+    //     substr($po->OrderNumber,2,4),
+    //     Carbon::today()->format('ym'),
+    //     str_pad($current,3,'0',STR_PAD_LEFT)
+    // );
+
+    // dd($rrNumber);
+    
+    // $lastReceipt = IssuanceReceipt::orderByDesc('OrderNumber')->first();
+    // $length = strlen($lastReceipt->OrderNumber);
+
+    // $prefix = Carbon::today()->format('ym');
+    // $currentMonth = substr($lastReceipt->OrderNumber,2,4);
+    // if($prefix==$currentMonth) {
+    //     $current = substr($lastReceipt->OrderNumber, $length-3);
+    //     $current++;
+    // }
+    // else {
+    //     $current = 0;
+    //     $current++;
+    // }
+
+    
+            
+    // $isNumber = sprintf("IS%s%s",
+    //     Carbon::today()->format('ym'),
+    //     str_pad($current,3,'0',STR_PAD_LEFT)
+    // );
+
+    // dd($isNumber);
+
 });

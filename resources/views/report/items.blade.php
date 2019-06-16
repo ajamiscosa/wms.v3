@@ -103,6 +103,7 @@
                         }
 
                         $products = $products->orderBy('created_at','desc');
+                        $products = $products->where('UniqueID','not like','%-TEMP');
 
                         if(request()->has('v')) {
                             $page = request()->v;

@@ -90,7 +90,7 @@
                             <div class="form-group">
                                 <label class="control-label ">Charge To</label>
                                 <br class="input-lining"/>
-                                <select required class="form-control department-select" name="ChargeTo">
+                                <select required class="form-control department-select" name="ChargeTo" id="ChargeTo">
                                     <option></option>
                                 </select>
                             </div>
@@ -388,6 +388,7 @@
                     case 'C': glType = 'capex'; break;
                 }
                 var deptID = $('#ChargeTo').val();
+                console.log(deptID);
                 $glCode.val("");
                 $glCode.select2({
                     ajax: {
@@ -402,6 +403,7 @@
 
             $(document).on('change','.department-select', function(e) {
                 var deptID = $('#ChargeTo').val();
+                console.log(deptID);
                 $glCode.val("");
                 $glCode.select2({
                     ajax: {
