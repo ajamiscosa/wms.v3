@@ -67,8 +67,22 @@ class ReceiveOrderController extends Controller
 
         $rrNumber = "";
 
-        for($i=0;$i<count($request->OrderItem); $i++) {
 
+        $lastReceipt = ReceiveOrder::orderByDesc('OrderNumber')->first();
+        $length = strlen($lastReceipt->OrderNumber);
+            
+        $prefix = Carbon::today()->format('ym');
+        $currentMonth = substr($lastReceipt->OrderNumber,6,4);
+        if($prefix==$currentMonth) {
+            $current = substr($lastReceipt->OrderNumber, $length-3);
+            $current++;
+        }
+        else {
+            $current = 0;
+            $current++;
+        }
+
+        for($i=0;$i<count($request->OrderItem); $i++) {
             if($request->Quantity[$i]>0) {
                 $ro = new ReceiveOrder();
                 $ro->PurchaseOrder = $po->ID;
@@ -88,14 +102,13 @@ class ReceiveOrderController extends Controller
 
                 $ro->Quantity = $request->Quantity[$i];
 
-                if($rrNumber=="") {
-                    $rrNumber = sprintf("RR%s%s%s",
-                        substr($po->OrderNumber,2,4),
-                        Carbon::today()->format('ym'),
-                        str_pad($ro->Series,3,'0',STR_PAD_LEFT)
-                    );
-                }
-
+    
+                $rrNumber = sprintf("RR%s%s%s",
+                    substr($po->OrderNumber,2,4),
+                    Carbon::today()->format('ym'),
+                    str_pad($current,3,'0',STR_PAD_LEFT)
+                );
+                
                 $ro->OrderNumber = $rrNumber;
 
                 $remarks = array();

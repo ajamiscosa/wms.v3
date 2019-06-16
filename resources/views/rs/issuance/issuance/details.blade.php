@@ -131,12 +131,13 @@
                                 <td>
                                     <div class="input-group my-colorpicker2 colorpicker-element float-right">
                                         @if($item->getRemainingReceivableQuantity()>0)
-                                        <input class="form-control text-right middle-dis" type="number" name="Quantity[]" max="{{$item->getRemainingReceivableQuantity()}}" style="max-width: 100px;" required/>
+                                        <input class="form-control text-right middle-dis" type="number" step="0.001" name="Quantity[]" max="{{$item->getRemainingReceivableQuantity()}}" style="max-width: 100px;" required/>
                                         <div class="input-group-append middle-dis xwrapper">
                                             <span class="middle-dis ml-3">/ {{ round($item->getRemainingReceivableQuantity(), 2) }} {{ $item->Product()->UOM()->Abbreviation }}</span>
                                         </div>
                                         @else
                                             <span>Completed</span>
+                                            <input type="hidden" name="Quantity[]" value=0 />
                                         @endif
                                     </div>
                                 </td>

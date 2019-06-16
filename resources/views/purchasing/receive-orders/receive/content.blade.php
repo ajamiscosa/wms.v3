@@ -114,6 +114,7 @@
                                                     <span class="middle-dis ml-3">/ {{ round($lineItem->getRemainingDeliverableQuantity(), 2) }} {{ $product->UOM()->Abbreviation }}</span>
                                                 </div>
                                             @else
+                                                <input type="hidden" name="Quantity[]" value=0 />
                                                 <span>Completed</span>
                                             @endif
                                         </div>

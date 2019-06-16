@@ -221,10 +221,36 @@ class PurchaseOrderController extends Controller
             self::$series = 1;
         }
 
+
+
+
+
+        
+        if(count(PurchaseOrder::orderByDesc('created_at')->get())>1){
+            $lastReceipt = PurchaseOrder::orderByDesc('created_at')->orderByDesc('OrderNumber')->first();
+        }
+        else {
+            $lastReceipt = PurchaseOrder::orderByDesc('created_at')->first();
+        }
+    
+        $length = strlen($lastReceipt->OrderNumber);
+
+        $prefix = Carbon::today()->format('my');
+        $currentMonth = substr($lastReceipt->OrderNumber,$length-7,4);
+        
+        if($prefix==$currentMonth) {
+            $current = substr($lastReceipt->OrderNumber, $length-3);
+        }
+        else {
+            $current = 0;
+        }
+
         // Step 3: Create PO
         foreach($data as $entry) {
             // entry = vendor.
-            DB::transaction(function () use ($request, $entry) {
+            $current++;
+
+            DB::transaction(function () use ($request, $entry, $current) {
                 foreach($entry as $item) {
                     $supplier = new Supplier();
                     $supplier = $supplier->where('ID','=',$item['Supplier'])->first();
@@ -237,7 +263,7 @@ class PurchaseOrderController extends Controller
 //                    $category,
 //                    $supplier->SupplierType==1?"PH":"US",
                         $today->format('my'),
-                        str_pad(self::$series,3,'0',STR_PAD_LEFT)
+                        str_pad($current,3,'0',STR_PAD_LEFT)
                     );
                     $po->ChargeNo = $item['OrderNumber'];
                     $po->ChargeType = 'S';
@@ -256,6 +282,7 @@ class PurchaseOrderController extends Controller
                     $po->Remarks = json_encode(['data'=>$remarks]);
 
                     $po->save();
+                    usleep( 1000 );
 
                     self::$series++;
 

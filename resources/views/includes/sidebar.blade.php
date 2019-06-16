@@ -24,7 +24,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item pt-0">
-                                <a href="/user-profile" class="nav-link flat">
+                                <a href="/account/view/{{ auth()->user()->Username }}" class="nav-link flat">
                                     <i class="fa fa-user-circle nav-icon"></i>
                                     <p>Profile</p>
                                 </a>

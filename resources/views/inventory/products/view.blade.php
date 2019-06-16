@@ -10,7 +10,7 @@
 @section('title',"[$data->UniqueID] $data->Name")
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/select2.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/sweetalert2.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/sweetalert.css') }}">
     <link rel="stylesheet" href="{{ asset('css/icheck.square-red.css') }}">
 @endsection
 @section('content')
@@ -29,9 +29,38 @@
 @section('scripts')
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="{{ asset('js/icheck.min.js') }}"></script>
-    <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('js/sweetalert.js') }}"></script>
     <script>
         $(function() {
+
+            $('.btn-delete').on('click', function(){
+                var id = $(this).val();
+                var name = $('#supplier-name'+id).val();
+                var result = swal({
+                    title: "Delete Quote",
+                    text: "Do you wish to delete quote from "+name+"?",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#DC3545',
+//                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No'
+                },function(x){
+                    if(x) {
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.post("/quote/"+id+"/delete")
+                            .done(function(){
+                                window.location = window.location.pathname;
+                            });
+                    } else {
+
+                    }
+                });
+            });
 
             var checkbox = $('input[type="checkbox"]').iCheck({
                 checkboxClass: 'icheckbox_square-red'

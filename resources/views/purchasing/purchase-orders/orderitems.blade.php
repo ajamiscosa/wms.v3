@@ -111,7 +111,7 @@ Pending Order Items
                     { orderable: false, targets: [0,4,5,6] },
                     {
                         render: function ( data, type, row ) {
-                            return '<a class="alert-link" href="/stock-adjustment/view/'+data+'">'+data+'</a>';
+                            return '<a class="alert-link" href="/purchase-request/view/'+data+'">'+data+'</a>';
                         },
                         targets: 1
                     },

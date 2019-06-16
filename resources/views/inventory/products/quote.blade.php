@@ -10,17 +10,21 @@
         @if(auth()->user()->isAuthorized('Quotes','M'))
         <div class="row">
             <div class="col-md-12">
-                <a href="/product/{{ $data->UniqueID }}/quote/new" class="btn btn-flat pull-right btn-fill btn-danger btn-sm">Add Quote</a>
+                <a href="/product/{{ $data->UniqueID }}/quote/new" class="btn btn-flat float-right btn-fill btn-danger btn-sm">Add Quote</a>
             </div>
         </div>
         <hr>
         @endif
         @if(count($quotes)>0)
             @foreach($quotes as $quote)
+                @php($supplier = \App\Supplier::find($quote['Supplier']))
+                @php($quotedata = $quote['Data'][0])
                 <div class="card card-danger card-outline flat"> <!--  collapsed-card-->
                     <div class="card-header flat" style="background-color: #FFFFFF">
                         <h2 class="card-title" style="color: #000;">
-                            <button type="button" class="btn btn-tool pl-0" data-widget="collapse" style="color: #7F7F7F;"><i class="fa fa-minus"></i></button>{{ \App\Supplier::find($quote['Supplier'])->Name }}
+                            <button type="button" class="btn btn-tool pl-0" data-widget="collapse" style="color: #7F7F7F;"><i class="fa fa-minus"></i></button>
+                            {{ $supplier->Name }}<input type="hidden" id="supplier-name{{ $quotedata->ID }}" value="{{ $supplier->Name }}">
+                            <button type="button" class="btn btn-tool pl-0 float-right btn-delete" style="color: #7F7F7F;" value="{{ $quotedata->ID }}"><i class="fa fa-trash"></i></button>
                         </h2>
                     </div>
                     <hr class="mt-0 mb-0">
