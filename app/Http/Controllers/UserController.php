@@ -220,9 +220,9 @@ class UserController extends Controller
             if($account) {
                 if($account->Password == $pass) {
                     Auth::login($account);
-                    if(session('link')) {
-                        return redirect(session('link'));
-                    }
+                    // if(session('link')) {
+                    //     return redirect(session('link'));
+                    // }
                     return redirect()->to('/');
                 }
                 else {
