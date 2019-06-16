@@ -68,7 +68,7 @@ class ReceiveOrderController extends Controller
         $rrNumber = "";
 
 
-        $lastReceipt = ReceiveOrder::orderByDesc('OrderNumber')->first();
+        $lastReceipt = ReceiveOrder::orderByDesc('ID')->first();
         $length = strlen($lastReceipt->OrderNumber);
             
         $prefix = Carbon::today()->format('ym');
