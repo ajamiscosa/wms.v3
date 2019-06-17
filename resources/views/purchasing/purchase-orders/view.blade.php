@@ -129,7 +129,7 @@
                                         <span>
                                             @php
                                                 $gl = new \App\GeneralLedger();
-                                                $gl = $gl->where('ID','=',$data->APAccount)->firstOrFail();
+                                                $gl = $gl->where('ID','=',$data->APAccount)->first();
                                                 echo "[$gl->Code] $gl->Description";
                                             @endphp
                                         </span>
