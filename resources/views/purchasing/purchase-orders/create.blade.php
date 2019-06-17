@@ -123,7 +123,7 @@
                             <div class="form-group">
                                 <strong><i class="fa fa-money-check-alt mr-1"></i> AP G/L Account</strong>
                                 <p class="text-muted">
-                                    <select class="ap-select form-control flat" name="APAccount">
+                                    <select class="ap-select form-control flat" name="APAccount" required>
                                         <option></option>
                                         @foreach(\App\GeneralLedger::getGeneralLedgerCodesFor('P') as $gl)
                                             <option value="{{ $gl->ID }}" {{ $data->APAccount==$gl->ID?"selected":"" }}>[{{$gl->Code}}] {{$gl->Description}}</option>

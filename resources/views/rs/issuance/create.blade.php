@@ -72,7 +72,7 @@
                     <div class="form-group">
                         <label class="control-label ">ChargeTo</label>
                         <br class="input-lining"/>
-                        <select class="form-control department-select" name="ChargeTo">
+                        <select class="form-control department-select" name="ChargeTo" required>
                             <option></option>
                         </select>
                     </div>
@@ -88,7 +88,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label ">Approver</label>
-                        <select class="form-control approver-select" name="Approver">
+                        <select class="form-control approver-select" name="Approver" required>
                             <option></option>
                         </select>
                     </div>
@@ -130,7 +130,7 @@
                                     [{{ $product->Name }}] {{ $product->Description }}
                                 </td>
                                 <td>
-                                    <select class="form-control glcode-select" name="GLCode[]">
+                                    <select class="form-control glcode-select" name="GLCode[]" required>
                                         <option></option>
                                     </select>
                                 </td>
@@ -189,6 +189,18 @@
             var $chargeType = $(".charge-type-select").select2({
                 placeholder: 'Select Charge Type',
                 minimumResultsForSearch: -1
+            });
+            
+            //get chargetype id 
+            var cType = $('.charge-type-select').change(function () {
+                $(this).val();
+                console.log($(this).val());
+            });
+            
+            // get dept id
+            var cDept = $('.department-select').change(function () {
+                $(this).val();
+                console.log($(this).val());
             });
             
             var $capex = $(".capex-select").select2({
@@ -252,9 +264,10 @@
             $(".approver-select").select2({
                 placeholder: 'Select Approver'
             });
-
+            
             $(".glcode-select").select2({
-                placeholder: 'Select GL Code'
+                placeholder: 'Select GL Code',
+                minimumResultsForSearch: -1
             });
 
             $deptSelect.on('change', function () {

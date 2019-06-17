@@ -73,7 +73,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="control-label ">ChargeTo</label>
-                                <select class="form-control department-select" name="ChargeTo" id="ChargeTo">
+                                <select class="form-control department-select" name="ChargeTo" id="ChargeTo" required>
                                     <option></option>
                                     @foreach(\App\Department::all() as $department)
                                         <option value="{{ $department->ID }}">{{ $department->Name }}</option>
@@ -94,7 +94,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="GLCode" class="control-label">G/L Code</label>
-                                <select class="form-control glcode-select" name="GLCode">
+                                <select class="form-control glcode-select" name="GLCode" required>
                                     <option></option>
                                     {{--@foreach(\App\GeneralLedger::getInventoryGeneralLedgerCodes() as $gl)--}}
                                         {{--<option value="{{ $gl->ID }}">[{{ $gl->Code }}] {{ $gl->Description }}</option>--}}
@@ -152,7 +152,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="Remarks" class="control-label">Remarks</label>
-                                <textarea class="form-control flat" style="resize: none;" id="Remarks" rows="3" name="Remarks"></textarea>
+                                <textarea class="form-control flat" style="resize: none;" id="Remarks" rows="3" name="Remarks" required></textarea>
                             </div>
                         </div>
                     </div>
