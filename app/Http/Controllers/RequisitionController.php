@@ -694,16 +694,17 @@ class RequisitionController extends Controller
 
         $data = array();
         if($request->q) {
-            $glList = $glList->where(function($query) use ($request){
-                $query->where('Code','like','%'.$request->q.'%')
-                    ->orWhere('Description','like','%'.$request->q.'%');
-            })->get();
+            $glList = $glList->filter(function ($item) use ($request) {
+                return false !== stristr($item->Code, $request->q) || false !== stristr($item->Description, $request->q);
+            });
 
-            for($i=0;$i<count($glList);$i++) {
-                $entry['id'] = $glList[$i]->ID;
-                $entry['text'] = '['.$glList[$i]->Code.'] '.$glList[$i]->Description;
+            $glList = collect($glList);
+            
+            foreach($glList as $k=>$v) {
+                $v['id'] = $glList[$k]->ID;
+                $v['text'] = '['.$glList[$k]->Code.'] '.$glList[$k]->Description;
 
-                array_push($data, $entry);
+                array_push($data, $v);
             }
         } else {
             for($i=0;$i<count($glList);$i++) {
