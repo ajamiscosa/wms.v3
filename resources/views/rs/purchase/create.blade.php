@@ -152,7 +152,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="Remarks" class="control-label">Remarks</label>
-                                <textarea class="form-control flat" style="resize: none;" id="Remarks" rows="3" name="Remarks"></textarea>
+                                <textarea class="form-control flat" style="resize: none;" id="Remarks" rows="3" name="Remarks" required></textarea>
                             </div>
                         </div>
                     </div>

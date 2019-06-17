@@ -191,6 +191,18 @@
                 minimumResultsForSearch: -1
             });
             
+            //get chargetype id 
+            var cType = $('.charge-type-select').change(function () {
+                $(this).val();
+                console.log($(this).val());
+            });
+            
+            // get dept id
+            var cDept = $('.department-select').change(function () {
+                $(this).val();
+                console.log($(this).val());
+            });
+            
             var $capex = $(".capex-select").select2({
                 placeholder: 'Select CAPEX',
                 minimumResultsForSearch: -1
@@ -252,9 +264,10 @@
             $(".approver-select").select2({
                 placeholder: 'Select Approver'
             });
-
+            
             $(".glcode-select").select2({
-                placeholder: 'Select GL Code'
+                placeholder: 'Select GL Code',
+                minimumResultsForSearch: -1
             });
 
             $deptSelect.on('change', function () {
