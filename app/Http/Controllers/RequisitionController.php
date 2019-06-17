@@ -694,7 +694,7 @@ class RequisitionController extends Controller
 
         $data = array();
         if($request->q) {
-            $glList = $glList->filter(function ($item) use ($request) {
+            $glList = collect($glList)->filter(function ($item) use ($request) {
                 return false !== stristr($item->Code, $request->q) || false !== stristr($item->Description, $request->q);
             });
 
