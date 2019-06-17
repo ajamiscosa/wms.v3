@@ -154,9 +154,16 @@ class UnitOfMeasureController extends Controller
         return response()->json(['aaData'=>$data]);
     }
 
-    public function getSelectData() {
+    public function getSelectData(Request $request) {
         $data = array();
-        foreach(UnitOfMeasure::all() as $uom) {
+        $uomList = new UnitOfMeasure();
+        $uomList = $uomList
+            ->where('Name', 'like', '%'.$request->q.'%')
+            ->orWhere('Abbreviation','like', '%'.$request->q.'%')
+            ->get();
+        
+        foreach($uomList as $uom) {
+            $entry = array();
             $entry['id'] = $uom->ID;
             $entry['text'] = sprintf("[%s] %s", $uom->Abbreviation, $uom->Name);
 
