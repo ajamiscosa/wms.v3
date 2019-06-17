@@ -7,6 +7,7 @@
         \App\Classes\Breadcrumb::create('View')
     ]
 ])
+@section('title','View CAPEX')
 @section('styles')
 @endsection
 @php
@@ -56,12 +57,12 @@ $name = implode('-', $name);
                         {{ Carbon\Carbon::parse($data->StartDate)->format('F d, Y') }}
                     </p>
                     <hr>
-                    <strong><i class="fa fa-calendar-alt mr-1"></i> Job Notes</strong>
+                    <strong><i class="fa fa-sticky-note mr-1"></i> Job Notes</strong>
                     <p class="text-muted">
                         {{ $data->JobNote }}
                     </p>
                     <hr>
-                    <strong><i class="fa fa-calendar-alt mr-1"></i> Est. Expenses</strong>
+                    <strong><i class="fa fa-money-bill-alt mr-1"></i> Est. Expenses</strong>
                     <p class="text-muted">
                         {{ number_format($data->DistributionEstExpenses,2,'.',',') }}
                     </p>
