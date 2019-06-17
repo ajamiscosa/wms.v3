@@ -93,13 +93,9 @@
                         <tr role="row">
                             <th>Vendor</th>
                             <th>RR No.</th>
-                            <th>Item ID</th>
-                            <th>Description</th>
                             <th class="text-center">Transaction Date</th>
                             <th>PO Number</th>
                             <th>DR/Inv. No</th>
-                            <th class="text-right">Expected</th>
-                            <th class="text-right">Received</th>
                             <th>&nbsp;</th>
                         </tr>
                         </thead>
@@ -107,13 +103,9 @@
                         <tr>
                             <th>Vendor</th>
                             <th>RR No.</th>
-                            <th>Item ID</th>
-                            <th>Description</th>
                             <th class="text-center">Transaction Date</th>
                             <th>PO Number</th>
                             <th>DR/Inv. No</th>
-                            <th class="text-right">Expected</th>
-                            <th class="text-right">Received</th>
                             <th>&nbsp;</th>
                         </tr>
                         </tfoot>
@@ -121,7 +113,7 @@
                         @php
 
                             $receiveOrders = new \App\ReceiveOrder();
-
+                            $receiveOrders = $receiveOrders->groupBy(['OrderNumber']);
                             if(request()->has('v')) {
                                 $page = request()->v;
                                 if($page=="All") {
@@ -140,7 +132,7 @@
                                     's' => request('s')
                                 ]);
                             }
-
+                            // dd($receiveOrders);
                         @endphp
                         @if($receiveOrders->count()>0)
                             @foreach($receiveOrders as $ro)
@@ -148,17 +140,12 @@
                                 @php($supplier = $po->Supplier())
                                 @php($orderItem = $ro->OrderItem())
                                 @php($lineItem = $orderItem->LineItem())
-                                @php($product = $lineItem->Product())
                                 <tr role="row" class="{{ $loop->index % 2 ? "odd":"even" }} something-semantic">
                                     <td>{{ $supplier->Code }}</td>
                                     <td><a href="/receive-order/view/{{ $ro->OrderNumber }}">{{ $ro->OrderNumber }}</a></td>
-                                    <td>{{ $product->UniqueID }}</td>
-                                    <td>{{ $product->Description }}</td>
                                     <td class="text-center">{{ \Carbon\Carbon::parse($ro->Received)->format('m/d/Y') }}</td>
                                     <td>{{ $po->OrderNumber }}</td>
                                     <td>{{ $ro->ReferenceNumber }}</td>
-                                    <td class="text-right">{{ $lineItem->Quantity }}</td>
-                                    <td class="text-right">{{ $ro->Quantity }}</td>
                                     <td class="text-center">
                                         <a role="button" class="btn btn-default btn-sm mb-0 mt-0 downloadrrform" rel="{{ $ro->OrderNumber }}"><i class="fa fa-download"></i>&nbsp;RR Form</a>
                                         {{--<a href="/receive-order/{{ $ro->OrderNumber }}/download" target="_blank" class="btn btn-default btn-sm mb-0 mt-0"><i class="fa fa-download"></i>&nbsp;RR Form</a>--}}
