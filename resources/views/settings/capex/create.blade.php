@@ -14,7 +14,7 @@
 @endsection
 @section('content')
     <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-4 col-md-6 col-sm-12">
             <form method="post" action="/capex/store">
                 {{ csrf_field() }}
                 <div class="card card-danger card-outline flat"> <!--  collapsed-card-->
@@ -50,14 +50,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">Supervisor</label>
-                                    <select id="selPerPage" class="form-control" name="Supervisor" style="width: 100px;">
-                                        <option></option>
-                                        @foreach(App\User::all() as $user)
-                                            @if($user->isManager())
-                                                <option value="{{ $user->Person()->Name() }}">{{ $user->Person()->Name() }}</option>
-                                            @endif
-                                        @endforeach
-                                    </select>
+                                    <input type="text" class="form-control" name="Supervisor">
                                 </div>
                             </div>
                         </div>
@@ -96,13 +89,6 @@
 <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('js/select2.js') }}"></script>
 <script>
-
-    var perPage = $('#selPerPage').select2({
-        width: '100%',
-        placeholder: "Select Supervisor",
-        minimumResultsForSearch: -1
-    });
-
     $('#pckStart').datepicker({
         format: 'MM dd, yyyy',
         autoclose: true,

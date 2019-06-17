@@ -250,7 +250,7 @@
                                         dataType: 'json',
                                         success: function(x) {
                                             var source = $('#Source').val();
-                                            x.results.splice( $.inArray(source, x.results), 1 );
+                                            x.results.splice( $.inArray(source, x.results), 0 );
                                         }
                                     },
                                     matcher: matchCustom,
@@ -264,7 +264,7 @@
                                         dataType: 'json',
                                         success: function(x) {
                                             var source = $('#Source').val();
-                                            x.results.splice( $.inArray(source, x.results), 1 );
+                                            x.results.splice( $.inArray(source, x.results), 0 );
                                         }
                                     },
                                     matcher: matchCustom,minimumResultsForSearch: -1
@@ -277,7 +277,7 @@
                                         dataType: 'json',
                                         success: function(x) {
                                             var source = $('#Source').val();
-                                            x.results.splice( $.inArray(source, x.results), 1 );
+                                            x.results.splice( $.inArray(source, x.results), 0 );
                                         }
                                     }
                                 });
