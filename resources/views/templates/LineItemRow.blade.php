@@ -3,7 +3,7 @@
         <input type='hidden' value='{{ $data->ID }}' name='Product[]'>
         [{{ $data->UniqueID }}] {{ $data->Description }}</td>
     <td class='align-middle'>
-        <select class='form-control glcode-select' name='GLCode[]'>
+        <select class='form-control glcode-select' name='GLCode[]' required>
             <option>
             </option>
         </select>

@@ -52,7 +52,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="GLCode" class="control-label">Charge Type</label>
+                                <label for="ChargeType" class="control-label">Charge Type</label>
                                 <select required class="form-control charge-type-select" name="ChargeType">
                                     <option></option>
                                     <option value="S" selected>STOCK</option>
@@ -63,7 +63,7 @@
                         </div>
                         <div class="col-md-6" id="capexDiv">
                             <div class="form-group">
-                                <label for="GLCode" class="control-label" >CAPEX</label>
+                                <label for="CAPEX" class="control-label" >CAPEX</label>
                                 <select class="form-control capex-select" name="CAPEX">
                                     <option></option>
                                     @foreach(App\CAPEX::all() as $capex)
@@ -76,7 +76,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label ">Request Type</label>
+                                <label for="RequestType" class="control-label">Request Type</label>
                                 <select required class="form-control requestType-select" name="RequestType">
                                     <option></option>
                                     <option value="S">Service</option>
@@ -88,7 +88,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label ">Charge To</label>
+                                <label for="ChargeTo" class="control-label ">Charge To</label>
                                 <br class="input-lining"/>
                                 <select required class="form-control department-select" name="ChargeTo" id="ChargeTo">
                                     <option></option>
@@ -148,8 +148,7 @@
                                     <th class="text-right">&nbsp;</th>
                                 </tr>
                                 </thead>
-                                <tbody class="productTable">
-                                <tr></tr>
+                                <tbody>
                                 </tbody>
                             </table>
                         </div>
@@ -163,7 +162,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="Remarks" class="control-label">Remarks</label>
-                                        <textarea class="form-control flat" style="resize: none;" rows="3" name="Remarks"></textarea>
+                                        <textarea class="form-control flat" style="resize: none;" rows="3" name="Remarks" required></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -173,7 +172,7 @@
                 <div class="card-footer">
                     <div class="row float-right">
                         <div class="col-md-12">
-                            <button type="submit" class="btn flat btn-danger btn-sm">Save</button>
+                            <button id="btnSubmit" type="submit" class="btn flat btn-danger btn-sm">Save</button>
                             <a href="/purchase-order" class="btn btn-default btn-sm">Cancel</a>
                         </div>
                     </div>
@@ -418,18 +417,29 @@
             });
 
 
+            $(document).on('click','#btnSubmit', function(e) {
+                var reqTxt = $('.requestType-select').text().trim();
+                var depTxt = $('.department-select').text().trim();
+                var glcTxt = $('.glcode-select').text().trim();
+                console.log($('#roTable tbody').children().length/2);
+                console.log(reqTxt);
+                console.log(depTxt);
+                console.log(glcTxt);
+                    if(reqTxt && depTxt && glcTxt) {
+                        var tbodyCount = $('#roTable tbody').children().length/2;
+                        console.log(tbodyCount);
+                        if(tbodyCount == 0) {
+                            e.preventDefault();
+                            Swal.fire({
+                                type: 'error',
+                                title: 'Oops...',
+                                text: 'Please add Line Item!',
+                                footer: '<a href>Why do I have this issue?</a>'
+                            });
 
-
-
-
-
-
-
-
-
-
-
-
+                        }                    
+                    }
+            });
 
 
             var requestType = $requestType.val();
@@ -458,33 +468,6 @@
                     requestType = $requestType.val();
                 }
             });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
             var $datepicker = $('#DateRequired').datepicker({
