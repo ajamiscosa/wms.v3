@@ -203,4 +203,13 @@ class SupplierController extends Controller
         $supplier = Supplier::where('ID','=',$data[0])->first();
         return view('suppliers.product',['data'=>$supplier->Products()]);
     }
+
+    public function search(Request $request, $id) {
+        try {
+            Supplier::where('Code','=',$id)->firstOrFail();
+        } catch(\Exception $e) {
+            return response()->json(false);
+        }
+        return response()->json(true);
+    }
 }

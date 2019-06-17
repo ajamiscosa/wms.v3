@@ -46,9 +46,9 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <strong class="mt-0 pt-0"><i class="fa fa-braille mr-1"></i> Code</strong>
+                    <strong class="mt-0 pt-0"><i class="fa fa-braille mr-1"></i> Code</strong>&ensp;<small id="code-error" style="color: red;"></small>
                     <p class="text-muted">
-                        <input type="text" class="form-control" name="Code" required/>
+                        <input type="text" class="form-control" id="Code" name="Code" required/>
                     </p>
                     <strong><i class="fa fa-edit mr-1"></i> Name</strong>
                     <p class="text-muted">
@@ -248,6 +248,37 @@
             placeholder: 'Select Classification',
             minimumResultsForSearch: -1
         });
+
+
+        $('#Code').on('input', function() {
+            var code = $(this).val();
+            if(code.length > 0) {
+                $.get({
+                    url: "/vendor/check/"+$(this).val(),
+                    success: function(msg) {
+                        if(msg) {
+                            $('#Code').addClass('is-invalid');
+                            $('#code-error').html('<b>'+code+'</b> already exists in the database.');
+                        }
+                        else {
+                            $('#Code').removeClass('is-invalid');
+                            $('#code-error').text('');
+                        }
+                    }
+                });
+            }
+            else {
+                $('#Code').removeClass('is-invalid');
+                $('#code-error').text('');
+            }
+        });
+
+
+
+
+
+
+
 
         $('#file-upload').on('change',function(file) {
 //            var formData = new FormData();
