@@ -377,7 +377,7 @@ Route::post('/vendor/update/{supplier}', 'SupplierController@update');
 Route::post('/vendor/toggle/{supplier}', 'SupplierController@toggle');
 Route::get('/vendor/data', 'SupplierController@data');
 Route::get('/vendor/{supplier}/product','SupplierController@productlist');
-
+Route::get('/vendor/check/{id}', 'SupplierController@search');
 
 
 
