@@ -18,7 +18,7 @@
 @endphp
 @section('content')
     <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-4 col-md-6 col-sm-12">
             <form method="post" action="/capex/{{$data->ID}}/update">
                 {{ csrf_field() }}
                 <div class="card card-danger card-outline flat"> <!--  collapsed-card-->
@@ -54,14 +54,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">Supervisor</label>
-                                    <select id="selPerPage" class="form-control" name="Supervisor" style="width: 100px;">
-                                        <option></option>
-                                        @foreach(App\User::all() as $user)
-                                            @if($user->isManager())
-                                                <option value="{{ strtoupper($user->Person()->Name()) }}">{{ $user->Person()->Name() }}</option>
-                                            @endif
-                                        @endforeach
-                                    </select>
+                                    <input type="text" class="form-control" name="Supervisor" value="{{ $data->Supervisor }}">
                                 </div>
                             </div>
                         </div>
