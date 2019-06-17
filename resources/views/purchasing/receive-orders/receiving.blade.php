@@ -45,7 +45,7 @@
 @endsection
 @section('content')
     <div class="row">
-        <div class="col-lg-10" id="content">
+        <div class="col-md-9 col-lg-9 col-xl-9" id="content">
             <div class="card card-danger card-outline flat"> <!--  collapsed-card-->
 
                 <div class="card-header p-2">
@@ -207,7 +207,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-2">
+        <div class="col-md-3 col-lg-3 col-xl-3 ">
             <div class="card card-danger card-outline flat"> <!--  collapsed-card-->
 
                 <div class="card-header p-2">
@@ -215,7 +215,7 @@
                 </div><!-- /.card-header -->
 
                 <div class="card-body">
-                    <select style="width: 100%; overflow: auto; font-size: 18px; outline: none;" size="10" id="pendingOrderSelect">
+                    <select style="width: 100%; overflow: auto; font-size: 17px; outline: none;" size="10" id="pendingOrderSelect">
                         @foreach(\App\PurchaseOrder::all() as $po)
                             @if($po->Status == 'A' and $po->getRemainingDeliverableQuantity()>0)
                                 <option value="{{ $po->OrderNumber }}">{{ $po->OrderNumber }}</option>

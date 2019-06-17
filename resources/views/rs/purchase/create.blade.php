@@ -96,9 +96,9 @@
                                 <label for="GLCode" class="control-label">G/L Code</label>
                                 <select class="form-control glcode-select" name="GLCode" required>
                                     <option></option>
-                                    {{--@foreach(\App\GeneralLedger::getInventoryGeneralLedgerCodes() as $gl)--}}
-                                        {{--<option value="{{ $gl->ID }}">[{{ $gl->Code }}] {{ $gl->Description }}</option>--}}
-                                    {{--@endforeach--}}
+                                    {{-- @foreach(\App\GeneralLedger::getInventoryGeneralLedgerCodes() as $gl)
+                                        <option value="{{ $gl->ID }}">[{{ $gl->Code }}] {{ $gl->Description }}</option>
+                                    @endforeach --}}
                                 </select>
                             </div>
                         </div>
@@ -131,7 +131,7 @@
                                     <div class="col-md-12 pull-right">
                                         <div class="row">
                                             <div class="col-md-12 input-group" style="padding-left: 0px;">
-                                                <input style="width: 75%" class="form-control quantity-input text-right" required placeholder="Enter Quantity" min="0" name="Quantity[]" type="number" step="1.00">
+                                                <input style="width: 75%" class="form-control quantity-input text-right" required placeholder="Enter Quantity" min="0" name="Quantity[]" type="number" step=".01">
                                                 <span style="width: 25%;" class="uom">&nbsp;&nbsp;&nbsp;&nbsp;{{ $product->UOM()->Abbreviation }}</span>
                                             </div>
                                         </div>

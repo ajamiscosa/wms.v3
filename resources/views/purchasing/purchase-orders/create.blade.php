@@ -83,7 +83,7 @@
                             <div class="col-lg-6">
                                 <div class="row float-right" >
                                     <button id="btnSave" class="btn btn-flat btn-dark btn-fill float-right pr-3"><i class="fa fa-save pr-2"></i>Save</button>&nbsp;
-                                    <button id="btnSubmit" class="btn btn-flat btn-danger btn-fill float-right pr-3"><i class="fa fa-paper-plane pr-2"></i>Submit</button>
+                                    <button class="btn btn-flat btn-danger btn-fill float-right pr-3"><i class="fa fa-paper-plane pr-2"></i>Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -256,7 +256,7 @@
                                     <div class="form-group remarks">
                                         <div class="row">
                                             <label for="Remarks" class="control-label">Remarks</label>
-                                            <textarea id="Remarks" class="form-control flat" style="resize: none;" rows="3" name="Remarks" required></textarea>
+                                            <textarea id="Remarks" class="form-control flat" style="resize: none;" rows="3" name="Remarks" required ></textarea>
                                         </div>
 
                                         @php
@@ -405,7 +405,7 @@
             console.log('term:'+term);
             console.log('chargeType:'+chargeType);
 
-            if(apAccount!==undefined && term!==undefined && chargeType!==undefined) {
+            if(apAccount && term && chargeType) {
                 swal({
                     title: 'Submit {{ $data->OrderNumber }}?',
                     text: "Do you wish to submit {{ $data->OrderNumber }}?",

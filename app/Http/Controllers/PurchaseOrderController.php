@@ -233,18 +233,22 @@ class PurchaseOrderController extends Controller
             $lastReceipt = PurchaseOrder::orderByDesc('created_at')->first();
         }
     
-        $length = strlen($lastReceipt->OrderNumber);
+        if($lastReceipt) {
+            $length = strlen($lastReceipt->OrderNumber);
 
-        $prefix = Carbon::today()->format('my');
-        $currentMonth = substr($lastReceipt->OrderNumber,$length-7,4);
-        
-        if($prefix==$currentMonth) {
-            $current = substr($lastReceipt->OrderNumber, $length-3);
+            $prefix = Carbon::today()->format('my');
+            $currentMonth = substr($lastReceipt->OrderNumber,$length-7,4);
+            
+            if($prefix==$currentMonth) {
+                $current = substr($lastReceipt->OrderNumber, $length-3);
+            }
+            else {
+                $current = 0;
+            }
         }
         else {
             $current = 0;
         }
-
         // Step 3: Create PO
         foreach($data as $entry) {
             // entry = vendor.
