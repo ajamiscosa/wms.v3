@@ -55,8 +55,7 @@ class IssuanceReceiptController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $lastReceipt = IssuanceReceipt::orderByDesc('OrderNumber')->first();
+        $lastReceipt = IssuanceReceipt::orderByDesc('ID')->first();
         $length = strlen($lastReceipt->OrderNumber);
 
         $prefix = Carbon::today()->format('ym');

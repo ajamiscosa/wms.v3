@@ -651,53 +651,53 @@ Route::get('/seed/issuance', function() {
 });
 
 Route::get('/test123', function(){
-    // $po = new DTO();
-    // $po->OrderNumber = "POPHXX1903024";
+    $po = new DTO();
+    $po->OrderNumber = "POPHXX1903024";
 
-    // $lastReceipt = ReceiveOrder::orderByDesc('OrderNumber')->first();
-    // $length = strlen($lastReceipt->OrderNumber);
+    $lastReceipt = ReceiveOrder::orderByDesc('ID')->first();
+    $length = strlen($lastReceipt->OrderNumber);
 
-    // $prefix = Carbon::today()->format('ym');
-    // $currentMonth = substr($lastReceipt->OrderNumber,6,4);
-    // if($prefix==$currentMonth) {
-    //     $current = substr($lastReceipt->OrderNumber, $length-3);
-    //     $current++;
-    // }
-    // else {
-    //     $current = 0;
-    //     $current++;
-    // }
+    $prefix = Carbon::today()->format('ym');
+    $currentMonth = substr($lastReceipt->OrderNumber,6,4);
+    if($prefix==$currentMonth) {
+        $current = substr($lastReceipt->OrderNumber, $length-3);
+        $current++;
+    }
+    else {
+        $current = 0;
+        $current++;
+    }
 
     
-    // $rrNumber = sprintf("RR%s%s%s",
-    //     substr($po->OrderNumber,2,4),
-    //     Carbon::today()->format('ym'),
-    //     str_pad($current,3,'0',STR_PAD_LEFT)
-    // );
+    $rrNumber = sprintf("RR%s%s%s",
+        substr($po->OrderNumber,2,4),
+        Carbon::today()->format('ym'),
+        str_pad($current,3,'0',STR_PAD_LEFT)
+    );
 
-    // dd($rrNumber);
+    dd($rrNumber);
     
-    // $lastReceipt = IssuanceReceipt::orderByDesc('OrderNumber')->first();
-    // $length = strlen($lastReceipt->OrderNumber);
+    $lastReceipt = IssuanceReceipt::orderByDesc('OrderNumber')->first();
+    $length = strlen($lastReceipt->OrderNumber);
 
-    // $prefix = Carbon::today()->format('ym');
-    // $currentMonth = substr($lastReceipt->OrderNumber,2,4);
-    // if($prefix==$currentMonth) {
-    //     $current = substr($lastReceipt->OrderNumber, $length-3);
-    //     $current++;
-    // }
-    // else {
-    //     $current = 0;
-    //     $current++;
-    // }
+    $prefix = Carbon::today()->format('ym');
+    $currentMonth = substr($lastReceipt->OrderNumber,2,4);
+    if($prefix==$currentMonth) {
+        $current = substr($lastReceipt->OrderNumber, $length-3);
+        $current++;
+    }
+    else {
+        $current = 0;
+        $current++;
+    }
 
     
             
-    // $isNumber = sprintf("IS%s%s",
-    //     Carbon::today()->format('ym'),
-    //     str_pad($current,3,'0',STR_PAD_LEFT)
-    // );
+    $isNumber = sprintf("IS%s%s",
+        Carbon::today()->format('ym'),
+        str_pad($current,3,'0',STR_PAD_LEFT)
+    );
 
-    // dd($isNumber);
+    dd($isNumber);
 
 });
