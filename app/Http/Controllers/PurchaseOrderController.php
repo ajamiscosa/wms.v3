@@ -642,6 +642,7 @@ class PurchaseOrderController extends Controller
                     $entry['LineItemID'] = $lineItem->ID;
                     $entry['UniqueID'] = $product->UniqueID;
                     $entry['Product'] = sprintf('[%s] %s', $product->Name, $product->Description);
+                    $entry['Supplier'] = $quote->Supplier()->Name;
                     $entry['Quote'] = sprintf('%s %s', $quote->Currency()->Code, number_format($quote->Amount,2,'.',','));
                     $entry['QuoteID'] = $quote->ID;
                     $entry['Currency'] = $quote->Currency()->Code;

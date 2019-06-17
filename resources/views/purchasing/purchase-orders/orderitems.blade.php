@@ -47,6 +47,7 @@ Pending Order Items
                                         <th><input type="checkbox" id="checkAll" class="icheckbox_square-red" /></th>
                                         <th>Order Number</th>
                                         <th>Product</th>
+                                        <th>Supplier</th>
                                         <th>Date Filed</th>
                                         <th class="text-right">Quoted Amt.</th>
                                         <th class="text-right">Quantity</th>
@@ -58,6 +59,7 @@ Pending Order Items
                                         <th></th>
                                         <th>Order Number</th>
                                         <th>Product</th>
+                                        <th>Supplier</th>
                                         <th>Date Filed</th>
                                         <th class="text-right">Quoted Amt.</th>
                                         <th class="text-right">Quantity</th>
@@ -102,13 +104,14 @@ Pending Order Items
                     },
                     { data:"PRNumber" },
                     { data:"Product" },
+                    { data:"Supplier" },
                     { data:"RequiredBy" },
                     { data:"Quote", class: "quote-amount text-right" },
                     { data:"Quantity", class: "total-quantity text-right" },
                     { data:"TotalPrice", class: "total-price text-right" }
                 ],
                 columnDefs: [
-                    { orderable: false, targets: [0,4,5,6] },
+                    { orderable: false, targets: [0,5,6,7] },
                     {
                         render: function ( data, type, row ) {
                             return '<a class="alert-link" href="/purchase-request/view/'+data+'">'+data+'</a>';
