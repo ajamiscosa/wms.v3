@@ -14,9 +14,6 @@ $url = \Illuminate\Support\Facades\URL::current();
 $app_url = env('APP_URL');
 $edit_path = str_replace($app_url, "", $url);
 $edit_path = str_replace("view", "update", $edit_path);
-
-$name = explode(' ', $data->Name);
-$name = implode('-', $name);
 @endphp
 @section('content')
     <div class="row">

@@ -47,14 +47,11 @@ class CategoryController extends Controller
     {
         if($request->Name) {
             $category = new Category();
-            $category->Name = $request->Name;
+            $category->Identifier = $request->Name;
             $category->Description = $request->Description;
             $category->save();
         }
-
-        $name = explode(' ', $category->Name);
-        $name = implode('-',$name);
-        return redirect()->to('/category/view/'.$category->ID."-".$name);
+        return redirect()->to('category/view/'.$category->Identifier);
     }
 
     /**
