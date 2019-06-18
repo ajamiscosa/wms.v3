@@ -35,6 +35,8 @@ Route::get('/product-line/glselectdata', 'ProductLineController@glselectdata');
 Route::get('/product-line/view/{id}', 'ProductLineController@show');
 Route::get('/product-line/update/{id}', 'ProductLineController@edit');
 Route::delete('/product-line/delete/{id}', 'ProductLineController@destroy');
+Route::get('/product-line/check/{type}/{value}', 'ProductLineController@search');
+Route::post('/product-line/toggle/{id}', 'ProductLineController@toggle');
 
 Route::get('/product', 'ProductController@index');
 Route::get('/product/new', 'ProductController@create');

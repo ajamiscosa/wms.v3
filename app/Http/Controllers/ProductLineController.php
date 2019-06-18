@@ -37,6 +37,22 @@ class ProductLineController extends Controller
         return view('settings.productlines.create');
     }
 
+    public function search(Request $request, $type, $value)
+    {
+        try {
+            if($type=="name") {
+                ProductLine::where('Identifier','=',$value)->firstOrFail();
+            }
+            if($type=="code") {
+                ProductLine::where('Code','=',$value)->firstOrFail();
+            }
+        } catch(\Exception $e) {
+            return response()->json(false);
+        }
+        return response()->json(true);
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -47,14 +63,12 @@ class ProductLineController extends Controller
     {
         if($request->Name) {
             $productLine = new ProductLine();
-            $productLine->Name = $request->Name;
+            $productLine->Identifier = $request->Name;
+            $productLine->Code = $request->Code;
             $productLine->Description = $request->Description;
             $productLine->save();
         }
-
-        $name = explode(' ', $productLine->Name);
-        $name = implode('-',$name);
-        return redirect()->to('/product-line/view/'.$productLine->ID."-".$name);
+        return redirect()->to('/product-line/view/'.$productLine->Identifier);
     }
 
     /**
@@ -88,13 +102,14 @@ class ProductLineController extends Controller
      * @param  \App\ProductLine  $productLine
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $productLine)
+    public function update(Request $request, $id)
     {
-        $productLine = ProductLine::where('Identifier','=', $productLine)->first();
-        $productLine->Identifier = $request->Identifier;
-        $productLine->Description = $request->Description;
-        $productLine->save();
-        return redirect()->to('/product-line/view/'.$productLine->Identifier);
+         $productLine = ProductLine::where('ID','=', $id)->first();
+         $productLine->Identifier = $request->Name;
+         $productLine->Code = $request->Code;
+         $productLine->Description = $request->Description;
+         $productLine->save();
+         return view('settings.productlines.view', ['data'=>$productLine]);
     }
 
     /**
@@ -104,14 +119,12 @@ class ProductLineController extends Controller
      * @param  \App\ProductLine  $productLine
      * @return \Illuminate\Http\Response
      */
-    public function toggle(Request $request, $productLine)
+    public function toggle(Request $request, $id)
     {
-        $productLine = ProductLine::where('Identifier','=',$productLine)->first();
+        $productLine = ProductLine::where('ID','=',$id)->first();
         $productLine->Status = !$productLine->Status;
         $productLine->save();
-        $name = explode(' ', $productLine->Name);
-        $name = implode('-',$name);
-        return redirect()->to('/product-line/view/'.$productLine->ID."-".$name);
+        return redirect()->to('/product-line/view/'.$productLine->Identifier);
     }
 
     /**
