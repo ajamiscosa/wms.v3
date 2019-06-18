@@ -57,11 +57,11 @@
                 <div class="col-lg-12">
                     <div class="form-group">
                         <label class="control-label">First Name</label>
-                        <input type="text" class="form-control" name="FirstName">
+                        <input type="text" class="form-control" name="FirstName" required>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Last Name</label>
-                        <input type="text" class="form-control" name="LastName">
+                        <input type="text" class="form-control" name="LastName" required>
                     </div>
                 </div>
             </div>
@@ -69,7 +69,7 @@
                 <div class="col-lg-12">
                     <div class="form-group">
                         <label class="control-label">Username</label>
-                        <input type="text" class="form-control" name="Username">
+                        <input type="text" class="form-control" name="Username" required>
                     </div>
                 </div>
             </div>
@@ -77,7 +77,7 @@
                 <div class="col-lg-12">
                     <div class="form-group">
                         <label class="control-label">Password</label>
-                        <input type="password" class="form-control" name="Password">
+                        <input type="password" class="form-control" name="Password" required>
                     </div>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                 <div class="col-lg-12">
                     <div class="form-group ">
                         <label class="control-label">Repeat Password</label>
-                        <input type="password" class="form-control" name="RePassword">
+                        <input type="password" class="form-control" name="RePassword" required>
                     </div>
                 </div>
             </div>
@@ -93,7 +93,7 @@
                 <div class="col-lg-12">
                     <div class="form-group">
                         <label class="control-label">Role</label>
-                        <select class="form-control role-select select2-container" multiple name="Role[]">
+                        <select class="form-control role-select select2-container" multiple name="Role[]" required>
                             <option></option>
                             @foreach(\App\Role::all() as $role)
                                 <option value="{{ $role->ID }}">{{ \App\Classes\Helper::camelSplit($role->Name) }}</option>
@@ -105,8 +105,21 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="form-group">
+                        <label class="control-label">Department</label>
+                        <select class="form-control dept-select" name="Department">
+                            <option></option>
+                            @foreach(\App\Department::all() as $dept)
+                                <option value="{{ $dept->ID }}">{{ $dept->Name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
                         <label class="control-label">Position</label>
-                        <input type="text" class="form-control" name="Position">
+                        <input type="text" class="form-control" name="Position" required>
                     </div>
                 </div>
             </div>
@@ -114,7 +127,7 @@
                 <div class="col-lg-12">
                     <div class="form-group">
                         <label class="control-label">Gender</label>
-                        <select class="form-control gender-select select2-container" name="Gender">
+                        <select class="form-control gender-select select2-container" name="Gender" required>
                             <option></option>
                             <option value="M">Male</option>
                             <option value="F">Female</option>
@@ -126,7 +139,7 @@
                 <div class="col-lg-12">
                     <div class="form-group">
                         <label class="control-label">Email Address</label>
-                        <input type="text" class="form-control" name="Email">
+                        <input type="text" class="form-control" name="Email" required>
                     </div>
                 </div>
             </div>
@@ -134,7 +147,7 @@
                 <div class="col-lg-12">
                     <div class="form-group">
                         <label class="control-label">Date of Birth</label>
-                        <input type="text" class="form-control datepicker" data-date-format="MM dd, yyyy" id="Birthday" name="Birthday" value="{{ \Carbon\Carbon::create(1980,01,01)->format('F d, Y') }}">
+                        <input  required type="text" class="form-control datepicker" data-date-format="MM dd, yyyy" id="Birthday" name="Birthday" value="{{ \Carbon\Carbon::create(1980,01,01)->format('F d, Y') }}">
                     </div>
                 </div>
             </div>
@@ -142,7 +155,7 @@
                 <div class="col-lg-12">
                     <div class="form-group">
                         <label class="control-label">Contact Number</label>
-                        <input type="text" class="form-control" name="ContactNumber">
+                        <input type="text" class="form-control" name="ContactNumber" required>
                     </div>
                 </div>
             </div>
@@ -197,6 +210,11 @@
             });
             var $genderSelect = $('.gender-select');
             $genderSelect.select2({
+                placeholder: 'Select Gender',
+                minimumResultsForSearch: -1
+            });
+            var $deptSelect = $('.dept-select');
+            $deptSelect.select2({
                 placeholder: 'Select Gender',
                 minimumResultsForSearch: -1
             });
