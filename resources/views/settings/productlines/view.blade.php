@@ -57,23 +57,22 @@ $name = implode('-', $name);
                                                 <p class="text-muted">
                                                     {{ $data->Identifier }}
                                                 </p>
-                                            <small id="code-error-name" style="color: red;"></small>
                                             </div>
+                                            <small id="code-error-name" style="color: red;"></small>
                                             <hr>
                                             <strong><i class="fa fa-code mr-1"></i> Code</strong>
                                             <div id="cEdit">
                                                 <p class="text-muted">
                                                     {{ $data->Code }}
                                                 </p>
-                                            <small id="code-error" style="color: red;"></small>
-                                            </div>                                        
+                                            </div> 
+                                            <small id="code-error" style="color: red;"></small>                                       
                                             <hr>
                                             <strong><i class="fa fa-book mr-1"></i> Description</strong>
                                             <div id="editDesc">
                                                 <p class="text-muted">
                                                     {{ $data->Description }}
                                                 </p>
-                                            <small id="code-error-name" style="color: red;"></small>
                                             </div>
                                         </div>
                                     </div>
@@ -128,8 +127,8 @@ $name = implode('-', $name);
     var trimCodeBefore = $.trim(codeBefore);
     var trimDescBefore = $.trim(descBefore);
 
-    var nameHTML = $('div#editName').html();
-    var codeHTML = $('div#editCode').html();
+    var nameHTML = $('div#nEdit').html();
+    var codeHTML = $('div#cEdit').html();
     var descHTML = $('div#editDesc').html();
 
     $('#btnEdit').on('click', function(e) {
@@ -217,7 +216,10 @@ $name = implode('-', $name);
     $('#btnCancel').on('click', function(e){
         e.preventDefault();
         
-        $(':input#editName').replaceWith(nameHTML);
+        $('#code-error-name').text('');
+        $('#code-error').text('');
+
+        $('div#nEdit #editName').replaceWith(nameHTML);
         $('input#editCode').replaceWith(codeHTML);
         $('input#editDesc').replaceWith(descHTML);
 
