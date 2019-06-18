@@ -26,7 +26,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">Job ID</label>
-                                    <input type="text" class="form-control" name="JobID">
+                                    <input type="text" class="form-control" name="JobID" required>
                                 </div>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">Job Description</label>
-                                    <textarea style="resize: none;" rows="3" class="form-control flat" name="JobDescription"></textarea>
+                                    <textarea style="resize: none;" rows="3" class="form-control flat" name="JobDescription" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -42,7 +42,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">Start Date</label>
-                                    <input type='text' class='form-control datepicker' data-date-format='MM dd, yyyy' id='pckStart' name='StartDate'>
+                                    <input type='text' class='form-control datepicker' data-date-format='MM dd, yyyy' id='pckStart' name='StartDate' required>
                                 </div>
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">Supervisor</label>
-                                    <input type="text" class="form-control" name="Supervisor">
+                                    <input type="text" class="form-control" name="Supervisor" required>
                                 </div>
                             </div>
                         </div>
@@ -58,7 +58,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">Job Note</label>
-                                    <textarea style="resize: none;" rows="3" class="form-control flat" name="JobNote"></textarea>
+                                    <textarea style="resize: none;" rows="3" class="form-control flat" name="JobNote" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">Est. Expenses</label>
-                                    <input type="number" step="0.01" class="form-control" name="DistributionEstExpenses">
+                                    <input type="number" step="0.01" class="form-control" name="DistributionEstExpenses" required>
                                 </div>
                             </div>
                         </div>
