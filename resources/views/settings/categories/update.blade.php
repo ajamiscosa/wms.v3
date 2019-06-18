@@ -47,7 +47,7 @@
                         <div class="row float-right">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-flat btn-danger btn-sm">Save</button>
-                                <a href="/category" class="btn btn-flat btn-default btn-sm">Cancel</a>
+                                <a href="/category/view/{{$data->Identifier}}" class="btn btn-flat btn-default btn-sm">Cancel</a>
                             </div>
                         </div>
                     </div>

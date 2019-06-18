@@ -24,13 +24,13 @@
                             <div class="col-md-8">
                                 <div class="form-group ">
                                     <label class="control-label">Name</label>
-                                    <input type="text" class="form-control" name="Name">
+                                    <input type="text" class="form-control" name="Name" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group ">
                                     <label class="control-label">Abbreviation</label>
-                                    <input type="text" class="form-control" name="Abbreviation">
+                                    <input type="text" class="form-control" name="Abbreviation" required>
                                 </div>
                             </div>
                         </div>

@@ -24,7 +24,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">Name</label>
-                                    <input type="text" class="form-control" name="Name">
+                                    <input type="text" class="form-control" name="Name" required>
                                 </div>
                             </div>
                         </div>
@@ -32,7 +32,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">Description</label>
-                                    <textarea style="resize: none;" rows="3" class="form-control flat" name="Description"></textarea>
+                                    <textarea style="resize: none;" rows="3" class="form-control flat" name="Description" required></textarea>
                                 </div>
                             </div>
                         </div>

@@ -15,7 +15,7 @@ $app_url = env('APP_URL');
 $edit_path = str_replace($app_url, "", $url);
 $edit_path = str_replace("view", "update", $edit_path);
 
-$name = explode(' ', $data->Name);
+$name = explode(' ', $data->Identifier);
 $name = implode('-', $name);
 @endphp
 @section('content')
@@ -23,39 +23,71 @@ $name = implode('-', $name);
         <div class="col-lg-4 col-md-12">
             <div class="card card-danger card-outline flat"> <!--  collapsed-card-->
                 <div class="card-header card-header-text">
-                    <h3 class="card-title" style="padding-top: 0; margin-top: 0;"><strong>Product Line: </strong>[{{ $data->Identifier }}] {{ $data->Description }}
+                    <h3 class="card-title" style="padding-top: 0; margin-top: 0;"><strong>Product Line: </strong>[{{ $data->Identifier }}] <small><i>{{ $data->Description }}</i></small> 
                         @if(!$data->Status)
                             <span class="badge badge-danger text-center align-middle flat" style="font-size: 11px;">DISABLED</span>
                         @endif
                     </h3>
                 </div>
-                <div class="card-body" style="padding-bottom: 0px;">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <form action="/category/toggle/{{$data->ID}}-{{$name}}" method="post">
-                                {{ csrf_field() }}
-                            @if($data->Status)
-                                <a href="{{ $edit_path }}" class="btn btn-flat btn-fill btn-danger btn-sm">Edit</a>
-                                <button type="submit" class="btn btn-flat btn-fill btn-default btn-sm">Disable</button>
-                            @else
-                                <button type="submit" class="btn btn-flat btn-fill btn-success btn-sm">Enable</button>
-                            @endif
+                <form action="/product-line/toggle/{{$data->ID}}" method="post">
+                    <div class="card-body" style="padding-bottom: 0px;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                    {{ csrf_field() }}
+                                @if($data->Status)
+                                    <button type="submit" id="btnEdit" class="btn btn-flat btn-fill btn-danger btn-sm">Edit</button>
+                                    <button type="submit" id="btnDisable" class="btn btn-flat btn-fill btn-default btn-sm">Disable</button>
+                                @else
+                                    <button type="submit" id="btnEnable" class="btn btn-flat btn-fill btn-success btn-sm">Enable</button>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                    <div id="pEdit" class="card-body" style="padding-top: 4px;">
+                        <div class="container">
+                            <form action="/product-line/update/{{$data->ID}}" method="post">
+                                    {{ csrf_field() }}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <hr>
+                                            <strong><i class="fa fa-braille mr-1"></i> Identifier</strong>
+                                            <div id="nEdit">
+                                                <p class="text-muted">
+                                                    {{ $data->Identifier }}
+                                                </p>
+                                            </div>
+                                            <small id="code-error-name" style="color: red;"></small>
+                                            <hr>
+                                            <strong><i class="fa fa-code mr-1"></i> Code</strong>
+                                            <div id="cEdit">
+                                                <p class="text-muted">
+                                                    {{ $data->Code }}
+                                                </p>
+                                            </div> 
+                                            <small id="code-error" style="color: red;"></small>                                       
+                                            <hr>
+                                            <strong><i class="fa fa-book mr-1"></i> Description</strong>
+                                            <div id="editDesc">
+                                                <p class="text-muted">
+                                                    {{ $data->Description }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="submit" style="display:none" id="btnSave" class="btn btn-flat btn-fill btn-danger btn-sm">Save</button>
+                                        <button type="submit" style="display:none" id="btnCancel" class="btn btn-flat btn-fill btn-default btn-sm">Cancel</button>
+                                    </div>
+                                </div>
+
                             </form>
                         </div>
                     </div>
-                </div>
-                <div class="card-body" style="padding-top: 4px;">
-                    <hr>
-                    <strong><i class="fa fa-braille mr-1"></i> Identifier</strong>
-                    <p class="text-muted">
-                        {{ $data->Identifier }}
-                    </p>
-                    <hr>
-                    <strong><i class="fa fa-book mr-1"></i> Description</strong>
-                    <p class="text-muted">
-                        {{ $data->Description }}
-                    </p>
-                </div>
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-md-12">
@@ -84,5 +116,125 @@ $name = implode('-', $name);
     </div>
 @endsection
 @section('scripts')
+<script>
+    //$("#pEdit p.text-muted").replaceWith( "<input type='number' id='editName'>" );
+
+    var nameBefore = $('div#nEdit').text();
+    var codeBefore = $('div#cEdit').text();
+    var descBefore = $('div#editDesc').text();
+
+    var trimNameBefore = $.trim(nameBefore);
+    var trimCodeBefore = $.trim(codeBefore);
+    var trimDescBefore = $.trim(descBefore);
+
+    var nameHTML = $('div#nEdit').html();
+    var codeHTML = $('div#cEdit').html();
+    var descHTML = $('div#editDesc').html();
+
+    $('#btnEdit').on('click', function(e) {
+        e.preventDefault();
+
+        $("div#nEdit p").replaceWith("<input id='editName' type='text' name='Name'  class='form-control'  maxlength='2' required>" );
+        $('div#cEdit p').replaceWith("<input id='editCode' type='text' name='Code' class='form-control'  maxlength='2' required>" );
+        $('div#editDesc p').replaceWith("<input id='editDesc' type='text' name='Description' class='form-control' >" );
+        
+        $('input#editName').val(trimNameBefore);
+        $('input#editCode').val(trimCodeBefore);
+        $('input#editDesc').val(trimDescBefore);
+
+        $('#btnEdit').css('visibility','hidden');
+        $('#btnDisable').css('visibility','hidden');
+
+        $('#btnSave').css('display','inline-block');
+        $('#btnCancel').css('display','inline');
+    });
+
+    
+    var nameExists = false;
+    var codeExists = false;
+        
+    $(document).on('input',':input#editName', function(){
+        var code = $('#editName').val();
+        console.log(code);
+        if(code.length == 2) {
+            $.get({
+                url: "/product-line/check/name/"+code,
+                success: function(msg) {
+                    if(msg) {
+                        $('#editName').addClass('is-invalid');
+                        $('#code-error-name').html('<b>'+code+'</b> already exists in the database.');
+                        nameExists = true;
+                    }
+                    else {
+                        $('#editName').removeClass('is-invalid');
+                        $('#code-error-name').text('');
+                        nameExists = false;
+                    }
+                }
+            });
+        }
+        else {
+            $('#editName').removeClass('is-invalid');
+            $('#code-error-name').text('');
+        }
+    });
+        
+    $(document).on('input',':input#editCode', function(){
+        var code = $(this).val();
+        if(code.length == 2) {
+            $.get({
+                url: "/product-line/check/code/"+code,
+                success: function(msg) {
+                    if(msg) {
+                        $('#editCode').addClass('is-invalid');
+                        $('#code-error').html('<b>'+code+'</b> already exists in the database.');
+                        codeExists = true;
+                    }
+                    else {
+                        $('#editCode').removeClass('is-invalid');
+                        $('#code-error').text('');
+                        codeExists = false;
+                    }
+                }
+            });
+        }
+        else {
+            $('#editCode').removeClass('is-invalid');
+            $('#code-error').text('');
+        }
+    });
+
+        
+    $('#btnSave').on('click', function(e){
+        if(nameExists || codeExists) {
+            e.preventDefault();
+        }
+    });
+
+    
+
+    $('#btnCancel').on('click', function(e){
+        e.preventDefault();
+        
+        $('#code-error-name').text('');
+        $('#code-error').text('');
+
+        $('div#nEdit #editName').replaceWith(nameHTML);
+        $('input#editCode').replaceWith(codeHTML);
+        $('input#editDesc').replaceWith(descHTML);
+
+        $('input#editName').val(trimNameBefore);
+        $('input#editCode').val(trimCodeBefore);
+        $('input#editDesc').val(trimDescBefore);
+
+        $('#btnEdit').css('visibility','visible');
+        $('#btnDisable').css('visibility','visible');
+
+        $('#btnSave').css('display','none');
+        $('#btnCancel').css('display','none');
+    });
+
+
+</script>
 
 @endsection
