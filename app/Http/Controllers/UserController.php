@@ -137,6 +137,7 @@ class UserController extends Controller
         $person->save();
         $temp = json_decode('['.implode(',',$request->Role).']',true);
         $approvers = json_encode($temp);
+        $user->Department = $request->Department;
         $user->Roles = $approvers;
         $user->save();
 

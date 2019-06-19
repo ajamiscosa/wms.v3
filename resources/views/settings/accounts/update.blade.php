@@ -74,6 +74,19 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
+                                <label class="control-label">Department</label>
+                                <select class="form-control dept-select" name="Department">
+                                    <option></option>
+                                    @foreach(\App\Department::all() as $dept)
+                                        <option value="{{ $dept->ID }}">{{ $dept->Name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
                                 <label class="control-label">Gender</label>
                                 <select class="form-control gender-select select2-container" name="Gender">
                                     <option></option>
