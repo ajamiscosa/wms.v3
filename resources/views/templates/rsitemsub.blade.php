@@ -1,6 +1,5 @@
 @php
 @endphp
-
 <div class="row">
     <div class="col-lg-6 col-md-12">
         <div class="card card-danger card-outline flat"> <!--  collapsed-card-->
@@ -23,7 +22,7 @@
                                     <td><a href="/issuance-request/view/{{ $lineItem->OrderNumber }}">{{ $lineItem->OrderNumber }}</a></td>
                                     <td>{{ $lineItem->Requisition()->Requester()->Name() }}</td>
                                     <td>{{ $lineItem->Requisition()->Purpose }}</td>
-                                    <td>{{ $lineItem->getRemainingReceivableQuantity() }} {{ $lineItem->Product()->UOM()->Abbreviation }}</td>
+                                    <td>{{ $lineItem->getRemainingReceivableQuantity() }} {{ $data->UOM()->Abbreviation }}</td>
                                 </tr>
                                 @php($count++)
                             @endif
@@ -55,9 +54,33 @@
                         <th>Quantity</th>
                         <th>Unit of Measure</th>
                     </tr>
-                    <tr>
-                        <td colspan="4">No Available Data</td>
-                    </tr>
+                    @php($count=0)
+                    @if(count($data->getOrderItems())>0)
+                        @foreach($data->getOrderItems() as $orderItem)
+                            @if($orderItem->PurchaseOrder!=0)
+                                @php($po = $orderItem->PurchaseOrder())
+                                @php($lineItem = $orderItem->LineItem())
+                                @if($po->Status=='A' && $data->getIncomingQuantity()>0)
+                                    <tr>
+                                        <td><a href="/purchase-order/view/{{ $po->OrderNumber }}">{{ $po->OrderNumber }}</a></td>
+                                        <td>{{ $po->Quantity }}</td>
+                                        <td>{{ $lineItem->Quantity }}</td>
+                                        <td>{{ $data->getIncomingQuantity() }} {{ $data->UOM()->Abbreviation }}</td>
+                                    </tr>
+                                    @php($count++)
+                                @endif
+                            @endif
+                        @endforeach
+                        @if($count==0)
+                            <tr>
+                                <td colspan="4">No Available Data</td>
+                            </tr>
+                        @endif
+                    @else
+                        <tr>
+                            <td colspan="4">No Available Data</td>
+                        </tr>
+                    @endif
                 </table>
             </div>
         </div>

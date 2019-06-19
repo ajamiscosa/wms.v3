@@ -228,11 +228,40 @@ class Product extends Model
         $lineItems = $lineItem->where('Product','=', $this->ID)->get();
         foreach($lineItems as $lineItem) {
             if(count($lineItems)>0 and $lineItem->isOrderItem() and $lineItem->Ordered) {
-                $counter += $lineItem->getRemainingDeliverableQuantity();
+                $orderItem = $lineItem->OrderItem();
+                $purchaseOrder = $orderItem->PurchaseOrder();
+
+                if($purchaseOrder->Status=='A') {
+                    $counter += $lineItem->getRemainingDeliverableQuantity();
+                }
             }
         }
 
         return $counter;
+    }
+
+    public function getPurchaseOrders() {
+        $data = array();
+        
+        $lineItem = new LineItem();
+        $lineItems = $lineItem->where('Product','=', $this->ID)->get();
+        foreach($lineItems as $lineItem) {
+            if(count($lineItems)>0 and $lineItem->isOrderItem() and $lineItem->Ordered) {
+                $orderItem = $lineItem->OrderItem();
+                $purchaseOrder = $orderItem->PurchaseOrder();
+
+                if($purchaseOrder->Status=='A') {
+                    array_push($data, $lineItem->OrderItem());
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    public function getOrderItems() {
+        $orderItems = $this->hasManyThrough('App\OrderItem','App\LineItem','Product','LineItem')->get();
+        return $orderItems;
     }
 
     public function getAvailableQuantity() {
