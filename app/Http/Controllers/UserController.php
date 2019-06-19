@@ -73,6 +73,7 @@ class UserController extends Controller
         $user->Username = $request->Username;
         $user->Password = $request->Password;
         $user->Person = $person->ID;
+        $user->Department = $request->Department;
         $user->Status = 1;
         $roleArray = json_decode('['.implode(',',$request->Role).']',true);
         $user->Roles = json_encode($roleArray);
