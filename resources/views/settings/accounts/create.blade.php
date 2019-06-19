@@ -108,7 +108,7 @@
                 <div class="col-lg-12">
                     <div class="form-group">
                         <label class="control-label">Department</label>
-                        <select class="form-control dept-select" name="Department">
+                        <select class="form-control dept-select" name="Department" required>
                             <option></option>
                             @foreach(\App\Department::all() as $dept)
                                 @if($dept->Status == 1)
