@@ -96,7 +96,9 @@
                         <select class="form-control role-select select2-container" multiple name="Role[]" required>
                             <option></option>
                             @foreach(\App\Role::all() as $role)
+                                @if($role->Status == 1)
                                 <option value="{{ $role->ID }}">{{ \App\Classes\Helper::camelSplit($role->Name) }}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
@@ -109,7 +111,9 @@
                         <select class="form-control dept-select" name="Department">
                             <option></option>
                             @foreach(\App\Department::all() as $dept)
+                                @if($dept->Status == 1)
                                 <option value="{{ $dept->ID }}">{{ $dept->Name }}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
