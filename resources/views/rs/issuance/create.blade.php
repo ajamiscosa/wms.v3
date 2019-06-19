@@ -68,17 +68,6 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label ">ChargeTo</label>
-                        <br class="input-lining"/>
-                        <select class="form-control department-select" name="ChargeTo" required>
-                            <option></option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
                 {{--<div class="col-md-6">--}}
                     {{--<div class="form-group">--}}
                         {{--<label class="control-label ">Date Required</label>--}}
@@ -86,14 +75,49 @@
                     {{--</div>--}}
                 {{--</div>--}}
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label ">Approver</label>
-                        <select class="form-control approver-select" name="Approver" required>
-                            <option></option>
-                        </select>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label ">Department</label>
+                                <div class="form-group">
+                                    {{ auth()->user()->Department()->Name }}
+                                    <input type="hidden" id="userDept" value="{{auth()->user()->Department()->ID}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label ">Approver</label>
+                                <select class="form-control approver1-select" name="Approver1" required>
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div></div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label ">Charged To Department</label>
+                                <br class="input-lining"/>
+                                <select class="form-control department-select" name="ChargeTo" required>
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label ">Charged Department Approver</label>
+                                <select class="form-control approver2-select" name="Approver2" required>
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
@@ -261,7 +285,18 @@
                 placeholder: 'Select Department'
             });
 
-            $(".approver-select").select2({
+            var currentUserDept = $('#userDept').val();
+            $(".approver1-select").select2({
+                ajax: {
+                    url: '/rs/approver-data/'+currentUserDept,
+                    dataType: 'json'
+                    // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+                },
+                matcher: matchCustom,
+                placeholder: 'Select Approver'
+            });
+
+            $(".approver2-select").select2({
                 placeholder: 'Select Approver'
             });
             
@@ -272,7 +307,7 @@
 
             $deptSelect.on('change', function () {
                 var $glCode = $('.glcode-select').val("");
-                var $approverSelect = $('.approver-select').val("");
+                var $approverSelect = $('.approver2-select').val("");
 
                 var chargeType = $chargeType.val();
 

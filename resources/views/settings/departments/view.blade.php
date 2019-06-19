@@ -68,31 +68,8 @@ $name = implode('-', $name);
                 </p>
                 <strong><i class="fa fa-user-friends mr-1"></i> Parent Department</strong>
                 <p class="text-muted">
-                    {{ $data->ParentDepartment()->Name }}
+                    {{ $data->ParentDepartment()->Name??"None" }}
                 </p>
-            </div>
-            <div class="card-footer">
-                <div class="row">
-                    <div class="col-md-12">
-                        <p style="font-size: 8pt;">
-                            <i>
-                                @if($data->created_at == $data->updated_at)
-                                    @if($data->updated_at == \Carbon\Carbon::today())
-                                        Created: Today @ {{ $data->created_at->format('h:i:s A') }} by {{\App\User::find($data->created_by)->first()->Username }}
-                                    @else
-                                        Created: {{ $data->created_at->toFormattedDateString() }} by {{ \App\User::find($data->created_by)->first()->Username }};
-                                    @endif
-                                @else
-                                    @if($data->updated_at->diffInDays(\Carbon\Carbon::now())>1)
-                                        Last Updated: {{ $data->updated_at->toFormattedDateString() }} by {{ \App\User::find($data->updated_by)->first()->Username }}
-                                    @else
-                                        Last Updated: Today @ {{ $data->updated_at->format('h:i:s A') }} by {{\App\User::find($data->updated_by)->first()->Username }}
-                                    @endif
-                                @endif
-                            </i>
-                        </p>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

@@ -78,7 +78,11 @@
                                 <div class="form-group">
                                     <label class="control-label">Parent Department</label>
                                     <select class="parent-select form-control select2-container" name="ParentDepartment" style="width: 100%;">
-                                        <option value="{{ $data->Parent }}">{{ $data->ParentDepartment()->Name }}</option>
+                                        @if($data->Parent)
+                                            <option value="{{ $data->Parent }}">{{ $data->ParentDepartment()->Name }}</option>
+                                        @else
+                                            <option value="-1">None</option>
+                                        @endif
                                     </select>
                                 </div>
                             </div>

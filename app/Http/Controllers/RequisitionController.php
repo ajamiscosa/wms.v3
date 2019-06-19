@@ -275,8 +275,9 @@ class RequisitionController extends Controller
             $issuance->Department = $authUser->Department()->ID;
 
             if($request->Type=='IR'){
-                $issuance->Approver1 = $authUser->Department()->Manager()->ID;
-                $issuance->Approver2 = $request->Approver;
+                // $issuance->Approver1 = $authUser->Department()->Manager()->ID;
+                $issuance->Approver1 = $request->Approver1;
+                $issuance->Approver2 = $request->Approver2;
 //                $issuance->Approver1 = $request->Approver;
 //                $issuance->Approver2 = $chargeToDept->Manager()->ID;
                 $issuance->ChargeTo = $chargeToDept->ID;
