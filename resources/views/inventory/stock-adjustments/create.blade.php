@@ -132,6 +132,7 @@
                         success: function(data) {
                             $('#Initial').val(data.Quantity);
                             $('.uom').val(data.UOM);
+                            $( "#Adjustment" ).attr( "step", data.UOMType===1?0.001:1 );
                         }
                     });
                 }

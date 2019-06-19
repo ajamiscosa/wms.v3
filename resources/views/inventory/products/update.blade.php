@@ -80,7 +80,7 @@ $edit_path = str_replace("view", "update", $edit_path);
                                     <select class="uom-select form-control" name="UOM" data-size="3" data-style="btn select-with-transition" title="- Select Base UOM -" {{ $data->UOM==0?"":"readonly" }} required>
                                         <option></option>
                                         @foreach(\App\UnitOfMeasure::Active() as $uom)
-                                            <option value="{{ $uom->ID }}" {{ $uom->ID==$data->UOM?"selected":"" }}>{{ $uom->Name }} ({{ $uom->Abbreviation }})</option>
+                                            <option value="{{ $uom->ID }}" data-uomtype="{{$uom->Type}}" {{ $uom->ID==$data->UOM?"selected":"" }}>{{ $uom->Name }} ({{ $uom->Abbreviation }})</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -90,13 +90,13 @@ $edit_path = str_replace("view", "update", $edit_path);
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="control-label">Minimum Quantity (Re-order Point)</label>
-                                    <input class="form-control text-right" name="ReorderPoint" type="number" step="0.01" value="{{ $data->MinimumQuantity }}" readonly>
+                                    <input class="form-control text-right" name="ReorderPoint" type="number" step="1" value="{{ $data->MinimumQuantity }}" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="control-label">Maximum Quantity</label>
-                                    <input class="form-control text-right" name="ReorderQuantity" type="number" step="0.01" value="{{ $data->MaximumQuantity }}" readonly>
+                                    <input class="form-control text-right" name="ReorderQuantity" type="number" step="1" value="{{ $data->MaximumQuantity }}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -104,13 +104,13 @@ $edit_path = str_replace("view", "update", $edit_path);
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="control-label">Safety Stocks Quantity</label>
-                                    <input class="form-control text-right" name="MinimumQuantity" type="number" step="0.01" value="{{ $data->SafetyStockQuantity }}" readonly>
+                                    <input class="form-control text-right" name="MinimumQuantity" type="number" step="1" value="{{ $data->SafetyStockQuantity }}" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="control-label">Critical Quantity</label>
-                                    <input class="form-control text-right" name="CriticalQuantity" type="number" step="0.01" value="{{ $data->CriticalQuantity }}" readonly>
+                                    <input class="form-control text-right" name="CriticalQuantity" type="number" step="1" value="{{ $data->CriticalQuantity }}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -144,10 +144,17 @@ $edit_path = str_replace("view", "update", $edit_path);
                 minimumResultsForSearch: -1,
                 disabled: true
             });
+            
             var $uomSelect = $('.uom-select');
             $uomSelect.select2({
-                placeholder: 'Select UOM',
-                disabled: $uomSelect.val()==0?false:true
+                placeholder: 'Select UOM'
+            });
+
+            $uomSelect.on('change', function () {
+                var selected = $(this).find('option:selected');
+                var extra = selected.data('uomtype'); 
+                
+                $( ".numeric-input" ).attr( "step", extra===1?0.001:1 );
             });
 
             var $invGLSelect = $('.invgl-select');

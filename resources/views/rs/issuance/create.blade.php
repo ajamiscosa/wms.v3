@@ -79,8 +79,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label ">Department</label>
-                                <div class="form-group">
-                                    {{ auth()->user()->Department()->Name }}
+                                <div class="form-group" style="border: 1px solid #AAA;">
+                                    <span style="line-height: 36px;">&nbsp;&nbsp;{{ auth()->user()->Department()->Name }}</span>
                                     <input type="hidden" id="userDept" value="{{auth()->user()->Department()->ID}}">
                                 </div>
                             </div>
@@ -162,7 +162,16 @@
                                     <div class="col-md-12 pull-right">
                                         <div class="row">
                                             <div class="col-md-12 input-group" style="padding-left: 0px;">
-                                                <input style="width: 75%;" class="form-control quantity-input text-right" required placeholder="Max: {!! $product->getAvailableQuantity() !!}" max="{!! $product->getAvailableQuantity() !!}" min="0" name="Quantity[]" type="number" step=".01">
+                                                <input 
+                                                    style="width: 75%;" class="form-control quantity-input text-right" 
+                                                    required 
+                                                    placeholder="Max: {!! $product->getAvailableQuantity() !!}" 
+                                                    max="{!! $product->getAvailableQuantity() !!}"
+                                                    min="0" 
+                                                    name="Quantity[]" 
+                                                    type="number" 
+                                                    step="{{ $product->UOM()->Type==1?"0.001":"1" }}"
+                                                >
                                                 <span style="width: 25%;" class="uom">&nbsp;&nbsp;&nbsp;{{ $product->UOM()->Abbreviation }}</span>
                                             </div>
                                         </div>

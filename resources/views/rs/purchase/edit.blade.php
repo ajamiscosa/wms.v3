@@ -191,7 +191,18 @@
                                         <div class="col-md-12 pull-right">
                                             <div class="row">
                                                 <div class="col-md-12 input-group" style="padding-left: 0px;">
-                                                    <input style="width: 75%;" class="form-control quantity-input text-right" required placeholder="Max: {!! $product->getAvailableQuantity() !!}" max="{!! $product->getAvailableQuantity() !!}" min="0" name="Quantity[]" type="number" step="1.00" value="{{ $lineItem->Quantity }}">
+                                                    <input 
+                                                        style="width: 75%;" 
+                                                        class="form-control quantity-input text-right" 
+                                                        required 
+                                                        placeholder="Max: {!! $product->getAvailableQuantity() !!}" 
+                                                        max="{!! $product->getAvailableQuantity() !!}" 
+                                                        min="0" 
+                                                        name="Quantity[]" 
+                                                        type="number" 
+                                                        step="{{ $product->UOM()->Type==1?"0.001":"1" }}"
+                                                        value="{{ $lineItem->Quantity }}"
+                                                    >
                                                     <span style="width: 25%;" class="uom">&nbsp;&nbsp;&nbsp;{{ $product->UOM()->Abbreviation }}</span>
                                                 </div>
                                             </div>

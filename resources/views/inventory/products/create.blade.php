@@ -110,7 +110,7 @@
                                     <select required class="uom-select form-control" name="UOM">
                                         <option></option>
                                         @foreach(\App\UnitOfMeasure::where('Status','=',1)->get() as $uom)
-                                            <option value="{{ $uom->ID }}">{{ $uom->Name }} ({{ $uom->Abbreviation }})</option>
+                                            <option value="{{ $uom->ID }}" data-uomtype="{{$uom->Type}}" >{{ $uom->Name }} ({{ $uom->Abbreviation }})</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -121,13 +121,13 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="control-label">Minimum Quantity (Re-order Point)</label>
-                                    <input required class="form-control text-right" name="MinimumQuantity" type="number" step="0.01" min="0">
+                                    <input required class="form-control text-right numeric-input" name="MinimumQuantity" type="number" step="1" min="0">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="control-label">Maximum Quantity</label>
-                                    <input required class="form-control text-right" name="MaximumQuantity" type="number" step="0.01" min="0">
+                                    <input required class="form-control text-right numeric-input" name="MaximumQuantity" type="number" step="1" min="0">
                                 </div>
                             </div>
                         </div>
@@ -135,13 +135,13 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="control-label">Safety Stocks Quantity</label>
-                                    <input required class="form-control text-right" name="SafetyStockQuantity" type="number" step="0.01" min="0">
+                                    <input required class="form-control text-right numeric-input" name="SafetyStockQuantity" type="number" step="1" min="0">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="control-label">Critical Quantity</label>
-                                    <input required class="form-control text-right" name="CriticalQuantity" type="number" step="0.01" min="0">
+                                    <input required class="form-control text-right numeric-input" name="CriticalQuantity" type="number" step="1" min="0">
                                 </div>
                             </div>
                         </div>
@@ -252,6 +252,13 @@
             var $uomSelect = $('.uom-select');
             $uomSelect.select2({
                 placeholder: 'Select UOM'
+            });
+
+            $uomSelect.on('change', function () {
+                var selected = $(this).find('option:selected');
+                var extra = selected.data('uomtype'); 
+                
+                $( ".numeric-input" ).attr( "step", extra===1?0.001:1 );
             });
 
             var $invGLSelect = $('.invgl-select');

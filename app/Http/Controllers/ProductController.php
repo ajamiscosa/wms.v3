@@ -210,6 +210,7 @@ class ProductController extends Controller
         if($product){
             $data['UOM'] = $product->UOM()->Abbreviation;
             $data['Quantity'] = $product->Quantity;
+            $data['UOMType'] = $product->UOM()->Type;
         }
 
         return response()->json($data);

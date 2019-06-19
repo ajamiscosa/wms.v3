@@ -114,7 +114,7 @@
                             <td>
                                 <div class="input-group my-colorpicker2 colorpicker-element float-right">
                                     @if($lineItem->getRemainingDeliverableQuantity()>0)
-                                    <input class="form-control text-right middle-dis" step="0.001" type="number" name="Quantity[]" max="{{$lineItem->getRemainingDeliverableQuantity()}}" style="max-width: 100px;" required/>
+                                    <input class="form-control text-right middle-dis" step="{{ $product->UOM()->Type==1?"0.001":"1" }}" type="number" name="Quantity[]" max="{{$lineItem->getRemainingDeliverableQuantity()}}" style="max-width: 100px;" required/>
                                     <div class="input-group-append middle-dis xwrapper">
                                         <span class="middle-dis ml-3">/ {{ round($lineItem->getRemainingDeliverableQuantity(), 2) }} {{ $product->UOM()->Abbreviation }}</span>
                                     </div>

@@ -12,7 +12,16 @@
         <div class='col-md-12 float-right'>
             <div class='row'>
                 <div class='col-md-12 input-group' style='padding-left: 0px;'>
-                    <input style='width: 75%' class='form-control quantity-input text-right' required placeholder='Enter Quantity' min='0' name='Quantity[]' type='number' step='1.00'>
+                    <input 
+                        style='width: 75%' 
+                        class='form-control quantity-input text-right' 
+                        required 
+                        placeholder='Enter Quantity' 
+                        min='0' 
+                        name='Quantity[]' 
+                        type='number' 
+                        step="{{ $data->UOM()->Type==1?"0.001":"1" }}"
+                    >
                     <span style='width: 25%;' class='uom'>&nbsp;&nbsp;&nbsp;&nbsp;{{ $data->UOM()->Abbreviation }}</span>
                 </div>
             </div>
