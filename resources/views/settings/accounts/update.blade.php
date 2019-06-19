@@ -78,7 +78,11 @@
                                 <select class="form-control dept-select" name="Department">
                                     <option></option>
                                     @foreach(\App\Department::all() as $dept)
+                                        @if($data->Department == $dept->ID)
+                                        <option value="{{ $dept->ID }}" selected>{{ $dept->Name }}</option>
+                                        @else
                                         <option value="{{ $dept->ID }}">{{ $dept->Name }}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -177,6 +181,12 @@
             var $genderSelect = $('.gender-select');
             $genderSelect.select2({
                 placeholder: 'Select Gender',
+                minimumResultsForSearch: -1
+            });
+            
+            var $deptSelect = $('.dept-select');
+            $deptSelect.select2({
+                placeholder: 'Select Department',
                 minimumResultsForSearch: -1
             });
         });

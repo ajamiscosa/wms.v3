@@ -217,9 +217,10 @@
                 placeholder: 'Select Gender',
                 minimumResultsForSearch: -1
             });
+            
             var $deptSelect = $('.dept-select');
             $deptSelect.select2({
-                placeholder: 'Select Gender',
+                placeholder: 'Select Department',
                 minimumResultsForSearch: -1
             });
         });

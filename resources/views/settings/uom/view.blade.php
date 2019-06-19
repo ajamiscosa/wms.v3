@@ -21,7 +21,7 @@ $name = implode('-', $name);
 @endphp
 @section('content')
     <div class="row">
-        <div class="col-lg-4 col-md-12">
+        <div class="col-lg-3 col-md-12">
             <div class="card card-danger card-outline flat"> <!--  collapsed-card-->
                 <div class="card-header card-header-text">
                     <h3 class="card-title" style="padding-top: 0; margin-top: 0;"><strong>Unit of Measurement: </strong>{{ $data->Name }}
@@ -48,16 +48,22 @@ $name = implode('-', $name);
                 <div class="card-body">
                     <hr class="pb-0 mt-0">
                     <div class="row mb-0 pb-0">
-                        <div class="col-lg-8 col-md-8">
+                        <div class="col-lg-12">
                             <strong><i class="fa fa-edit mr-1"></i> Name</strong>
                             <p class="text-muted">
                                 {{ $data->Name }}
                             </p>
                         </div>
-                        <div class="col-lg-4 col-md-4">
+                        <div class="col-lg-12">
                             <strong><i class="fa fa-code mr-1"></i> Abbreviation</strong>
                             <p class="text-muted">
                                 {{ $data->Abbreviation }}
+                            </p>
+                        </div>
+                        <div class="col-lg-12">
+                            <strong><i class="fa fa-percent mr-1"></i> Allowed Decimal</strong>
+                            <p class="text-muted">
+                                {{ $data->Type==1?"Yes":"No" }}
                             </p>
                         </div>
                     </div>

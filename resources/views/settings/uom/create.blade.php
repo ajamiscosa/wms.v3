@@ -9,6 +9,7 @@
 ])
 @section('title','New Unit of Measure')
 @section('styles')
+<link rel="stylesheet" href="{{ asset('css/select2.css') }}">
 @endsection
 @section('content')
     <div class="row">
@@ -21,16 +22,26 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <div class="form-group ">
                                     <label class="control-label">Name</label>
                                     <input type="text" class="form-control" name="Name" required>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group ">
-                                    <label class="control-label">Abbreviation</label>
+                                    <label class="control-label">Code</label>
                                     <input type="text" class="form-control" name="Abbreviation" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group ">
+                                    <label class="control-label">Allow Decimal</label>
+                                    <select class="form-control decimal-select" name="Type" required>
+                                        <option></option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -49,6 +60,7 @@
     </div>
 @endsection
 @section('scripts')
+    <script src="{{ asset('js/select2.min.js') }}"></script>
     <script>
         $(function () {
             var addFormGroup = function (event) {
@@ -73,6 +85,11 @@
                 $content.remove();
             };
 
+
+            $('.decimal-select').select2({
+                placeholder: '- Select -',
+                minimumResultsForSearch: -1
+            });
 
             $(document).on('click', '.btn-add', addFormGroup);
             $(document).on('click', '.btn-remove', removeFormGroup);
