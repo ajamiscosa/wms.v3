@@ -94,7 +94,7 @@
                                 </a>
                             </div>
                             
-                            @if(auth()->user()->isGeneralManager())
+                            @if($data->Status == 'A')
                                 <div class="col-lg-6 col-md-12 pr-0">
                                     <a class="btn btn-simple btn-sm btn-flat float-right" id="downloadPO" rel="{{ $data->OrderNumber }}">Download Purchase Order Form</a>
                                 </div>
