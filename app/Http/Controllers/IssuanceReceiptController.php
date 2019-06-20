@@ -56,13 +56,19 @@ class IssuanceReceiptController extends Controller
     public function store(Request $request)
     {
         $lastReceipt = IssuanceReceipt::orderByDesc('ID')->first();
-        $length = strlen($lastReceipt->OrderNumber);
+        if($lastReceipt) {
+            $length = strlen($lastReceipt->OrderNumber);
 
-        $prefix = Carbon::today()->format('ym');
-        $currentMonth = substr($lastReceipt->OrderNumber,2,4);
-        if($prefix==$currentMonth) {
-            $current = substr($lastReceipt->OrderNumber, $length-3);
-            $current++;
+            $prefix = Carbon::today()->format('ym');
+            $currentMonth = substr($lastReceipt->OrderNumber,2,4);
+            if($prefix==$currentMonth) {
+                $current = substr($lastReceipt->OrderNumber, $length-3);
+                $current++;
+            }
+            else {
+                $current = 0;
+                $current++;
+            }
         }
         else {
             $current = 0;
