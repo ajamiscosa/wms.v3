@@ -61,7 +61,7 @@
            <!-- DONUT CHART -->
             <div class="card card-danger">
               <div class="card-header">
-                <h3 class="card-title">Donut Chart</h3>
+                <h3 class="card-title">PO Creation</h3>
 
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fas fa-minus"></i>
@@ -452,7 +452,7 @@
     var results = $.getValues("/limitproduct"); // array
     console.log(results);
 
-    var fdata = [700,500,400,600,300,50];
+    var fdata = [5,12,20];
     
     //-------------
     //- DONUT CHART -
@@ -461,17 +461,14 @@
     var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
     var donutData        = {
       labels: [
-          'Chrome', 
-          'IE',
-          'FireFox', 
-          'Safari', 
-          'Opera', 
-          'Navigator', 
+          'Draft', 
+          'Pending Approval',
+          'Approved',  
       ],
       datasets: [
         {
           data: fdata,
-          backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+          backgroundColor : ['#f56954', '#f39c12','#00a65a'],
         }
       ]
     }
@@ -489,7 +486,7 @@
 
 
      var areaChartData = {
-      labels  : ['Lead','Scandium','IT'],
+      //labels  : ['Lead'],
       datasets: [
         {
           label               : 'Purchase Request',
@@ -500,18 +497,18 @@
           pointStrokeColor    : 'rgba(0,166,90,1)',
           pointHighlightFill  : '#fff',
           pointHighlightStroke: 'rgba(0,166,90,1)',
-          data                : results[0]
+          data                : [12,2]
         },
         {
           label               : 'Purchase Orders',
           backgroundColor     : 'rgba(60,141,188,0.9)',
           borderColor         : 'rgba(60,141,188,0.8)',
-          pointRadius          : false,
+          pointRadius         : false,
           pointColor          : '#3b8bba',
           pointStrokeColor    : 'rgba(60,141,188,1)',
           pointHighlightFill  : '#fff',
           pointHighlightStroke: 'rgba(60,141,188,1)',
-          data                : results
+          data                : [18,4]
         },
         {
           label               : 'Deliveries',
@@ -522,10 +519,12 @@
           pointStrokeColor    : '#c1c7d1',
           pointHighlightFill  : '#fff',
           pointHighlightStroke: 'rgba(220,220,220,1)',
-          data                : results
+          data                : [8,3]
         },
       ]
     }
+
+
 
     //-------------
     //- BAR CHART -
@@ -539,8 +538,8 @@
 
     var barChartOptions = {
       responsive              : true,
-      maintainAspectRatio     : true,
-      datasetFill             : true
+      maintainAspectRatio     : false,
+      datasetFill             : false
     }
 
     var barChart = new Chart(barChartCanvas, {
@@ -560,8 +559,14 @@
 
 
 
-    setTimeout(function() {
-         addData(barChart, '# of Votes 2017', ['#f56954','#eee','#333'], results);
-    }, 2000)
+    // setTimeout(function() {
+    //      addData(barChart, '# of Votes 2017', ['#f56954','#eee','#333'], results);
+    // }, 2000)
+    // 
+    // console.log(areaChartData);
+    // barChart.forEach(function(elem) {
+    //     elem.forEach(function(dataElem) {
+    //     })
+    // });
     </script>
 @endsection

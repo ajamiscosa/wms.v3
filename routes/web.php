@@ -669,15 +669,15 @@ Route::get('/limitproduct', function(){
     // dd($lead[0]->Department);
     // $scandiumDept;
     // $itDept;
-
-    $data = array($lead,$scandium,$it);
+    $data = array();
+    $data = array_push($data,[$lead,$scandium,$it]);
     // $data = (object)[$lead,$scandium,$it];
     // $data->Lead = $lead;
     // $data->Scandium = $scandium;
     // $data->IT = $it;
     // // return $product->toArray();
     // return dd(response()->json($data));
-    return $data;
+    return dd($data);
 });
 
 
