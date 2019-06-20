@@ -7,6 +7,7 @@
         \App\Classes\Breadcrumb::create('View')
     ]
 ])
+@section('title', "Product Line | $data->Identifier")
 @section('styles')
 @endsection
 @php
@@ -35,7 +36,7 @@ $name = implode('-', $name);
                             <div class="col-md-12">
                                     {{ csrf_field() }}
                                 @if($data->Status)
-                                    <button type="submit" id="btnEdit" class="btn btn-flat btn-fill btn-danger btn-sm">Edit</button>
+                                    <a href='/product-line/update/{{ $data->Code }}' class="btn btn-flat btn-fill btn-danger btn-sm">Edit</a>
                                     <button type="submit" id="btnDisable" class="btn btn-flat btn-fill btn-default btn-sm">Disable</button>
                                 @else
                                     <button type="submit" id="btnEnable" class="btn btn-flat btn-fill btn-success btn-sm">Enable</button>
@@ -44,71 +45,48 @@ $name = implode('-', $name);
                         </div>
                     </div>
                 </form>
-                    <div id="pEdit" class="card-body" style="padding-top: 4px;">
-                        <div class="container">
-                            <form action="/product-line/update/{{$data->ID}}" method="post">
-                                    {{ csrf_field() }}
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <hr>
-                                            <strong><i class="fa fa-braille mr-1"></i> Identifier</strong>
-                                            <div id="nEdit">
-                                                <p class="text-muted">
-                                                    {{ $data->Identifier }}
-                                                </p>
-                                            </div>
-                                            <small id="code-error-name" style="color: red;"></small>
-                                            <hr>
-                                            <strong><i class="fa fa-code mr-1"></i> Code</strong>
-                                            <div id="cEdit">
-                                                <p class="text-muted">
-                                                    {{ $data->Code }}
-                                                </p>
-                                            </div> 
-                                            <small id="code-error" style="color: red;"></small>                                       
-                                            <hr>
-                                            <strong><i class="fa fa-book mr-1"></i> Description</strong>
-                                            <div id="editDesc">
-                                                <p class="text-muted">
-                                                    {{ $data->Description }}
-                                                </p>
-                                            </div>
+                <div id="pEdit" class="card-body" style="padding-top: 4px;">
+                    <div class="container">
+                        <form action="/product-line/update/{{$data->ID}}" method="post">
+                                {{ csrf_field() }}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <hr>
+                                        <strong><i class="fa fa-code mr-1"></i> Code</strong>
+                                        <div id="cEdit">
+                                            <p class="text-muted">
+                                                {{ $data->Code }}
+                                            </p>
+                                        </div> 
+                                        <small id="code-error" style="color: red;"></small>                                       
+                                        <hr>
+                                        <strong><i class="fa fa-braille mr-1"></i> Identifier</strong>
+                                        <div id="nEdit">
+                                            <p class="text-muted">
+                                                {{ $data->Identifier }}
+                                            </p>
+                                        </div>
+                                        <small id="code-error-name" style="color: red;"></small>
+                                        <hr>
+                                        <strong><i class="fa fa-book mr-1"></i> Description</strong>
+                                        <div id="editDesc">
+                                            <p class="text-muted">
+                                                {{ $data->Description }}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <button type="submit" style="display:none" id="btnSave" class="btn btn-flat btn-fill btn-danger btn-sm">Save</button>
-                                        <button type="submit" style="display:none" id="btnCancel" class="btn btn-flat btn-fill btn-default btn-sm">Cancel</button>
-                                    </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="submit" style="display:none" id="btnSave" class="btn btn-flat btn-fill btn-danger btn-sm">Save</button>
+                                    <button type="submit" style="display:none" id="btnCancel" class="btn btn-flat btn-fill btn-default btn-sm">Cancel</button>
                                 </div>
+                            </div>
 
-                            </form>
-                        </div>
-                    </div>
-                <div class="card-footer">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p style="font-size: 8pt;">
-                                <i>
-                                    @if($data->created_at == $data->updated_at)
-                                        @if($data->updated_at == \Carbon\Carbon::today())
-                                            Created: Today @ {{ $data->created_at->format('h:i:s A') }} by {{\App\User::find($data->created_by)->first()->Username }}
-                                        @else
-                                            Created: {{ $data->created_at->toFormattedDateString() }} by {{ \App\User::find($data->created_by)->first()->Username }};
-                                        @endif
-                                    @else
-                                        @if($data->updated_at->diffInDays(\Carbon\Carbon::now())>1)
-                                            Last Updated: {{ $data->updated_at->toFormattedDateString() }} by {{ \App\User::find($data->updated_by)->first()->Username }}
-                                        @else
-                                            Last Updated: Today @ {{ $data->updated_at->format('h:i:s A') }} by {{\App\User::find($data->updated_by)->first()->Username }}
-                                        @endif
-                                    @endif
-                                </i>
-                            </p>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

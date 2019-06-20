@@ -22,18 +22,18 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="control-label">Name</label>
-                                    <input type="text" class="form-control" id="prodName" name="Name" maxlength="2" required />  
-                                    <small id="code-error-name" style="color: red;"></small>
+                                    <label class="control-label">Code</label>
+                                    <input type="number" class="form-control" name="Code" id="prodCode" maxlength="2" required />  
+                                    <small id="code-error" style="color: red;"></small>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="control-label">Code</label>
-                                    <input type="number" class="form-control" name="Code" id="prodCode" maxlength="2" required />  
-                                    <small id="code-error" style="color: red;"></small>
+                                    <label class="control-label">Name</label>
+                                    <input type="text" class="form-control" id="prodName" name="Name" maxlength="2" required />  
+                                    <small id="code-error-name" style="color: red;"></small>
                                 </div>
                             </div>
                         </div>

@@ -91,7 +91,7 @@ class ProductLineController extends Controller
      */
     public function edit($productLine)
     {
-        $productLine = ProductLine::where('Identifier','=', $productLine)->first();
+        $productLine = ProductLine::where('Code','=', $productLine)->first();
         return view('settings.productlines.update', ['data'=>$productLine]);
     }
 

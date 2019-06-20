@@ -228,9 +228,9 @@
                                                     <div class="col-lg-6 col-sm-12 pr-0 pt-0 pl-0 pb-0">
                                                         <table width="100%">
                                                             <tr>
-                                                                <th style="width: 30%" class="text-right">GL Code</th>
-                                                                <th class="text-right">Quantity</th>
-                                                                <th class="text-right" style="white-space: nowrap;">Sub-total</th>
+                                                                <th class="text-right">Available</th>
+                                                                <th class="text-right">Reserved</th>
+                                                                <th class="text-right" style="white-space: nowrap;">Incoming</th>
                                                             </tr>
                                                             <tr>               
                                                                 <td class="text-right">{{ sprintf('%d %s',($product->getAvailableQuantity()), $uom) }}</td>

@@ -7,6 +7,7 @@
         \App\Classes\Breadcrumb::create('Update')
     ]
 ])
+@section('title', "Update Product Line | $data->Identifier")
 @section('styles')
 @endsection
 @php
@@ -17,7 +18,7 @@
 @endphp
 @section('content')
     <div class="row">
-        <div class="col-lg-6 col-lg-offset-3 col-md-4 col-md-offset-6">
+        <div class="col-lg-3 col-lg-offset-3 col-md-4 col-md-offset-6">
             <form action="{{$edit_path}}" method="post">
                 {{ csrf_field() }}
                 <div class="card card-danger card-outline flat"> <!--  collapsed-card-->
@@ -28,8 +29,18 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
+                                    <label class="control-label">Code</label>
+                                        <input type="number" class="form-control" name="Code" id="prodCode" maxlength="2" value="{{ $data->Code }}" required />  
+                                    <small id="code-error" style="color: red;"></small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
                                     <label class="control-label">Identifier</label>
-                                    <input type="text" class="form-control" name="Identifier" value="{{ $data->Identifier }}">
+                                    <input type="text" class="form-control" id="prodName" name="Name" maxlength="2" value="{{ $data->Identifier }}" required />  
+                                    <small id="code-error-name" style="color: red;"></small>
                                 </div>
                             </div>
                         </div>
@@ -37,7 +48,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">Description</label>
-                                    <textarea rows="4" class="form-control flat" style="resize: none;" name="Description">{{ $data->Description }}</textarea>
+                                    <textarea style="resize: none;" rows="3" class="form-control flat" name="Description" required>{{ $data->Description }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -46,11 +57,12 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-flat btn-danger btn-sm">Save</button>
-                                <a href="/warehouse" class="btn btn-flat btn-default btn-sm">Cancel</a>
+                            <a href="/product-line/view/{{$data->Identifier}}" class="btn btn-flat btn-default btn-sm">Cancel</a>
                             </div>
                         </div>
                     </div>
                 </div>
+                
             </form>
         </div>
     </div>

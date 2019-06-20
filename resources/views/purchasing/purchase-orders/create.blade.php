@@ -179,6 +179,7 @@
                             <table id="poTable" class="table table-striped table-no-bordered dataTable dtr-inline" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
                                 <thead>
                                 <tr role="row">
+                                    <th>&nbsp;</th>
                                     <th style="width: 25%;">Item</th>
                                     <th style="width: 15%" class="text-right">Approved Quote</th>
                                     <th style="width: 30%">GL Code</th>
@@ -194,9 +195,14 @@
                                         $product = $lineItem->Product();
                                         $name = explode(' ', $product->Name);
                                         $name = implode('-', $name);
-
+                                        $uom = $product->UOM()!=null?$product->UOM()->Abbreviation:"";
                                     @endphp
                                     <tr>
+                                        <td>
+                                            <a class="alert-link toggle-buttonshit" data-toggle="collapse" data-target="#demo{{$loop->index}}" id="toggle-menu">
+                                                <i class="nav-icon fa fa-angle-right details"></i>
+                                            </a>
+                                        </td>
                                         <td class="align-middle">
                                             <a href="/product/view/{{ $product->UniqueID }}">
                                                 {{ $product->Description }}
@@ -217,6 +223,27 @@
                                         <td class="text-right align-middle">{{ $quote->Currency()->Code }} {{ number_format(($quote->Amount*$lineItem->Quantity),2,'.',',') }}</td>
                                     </tr>
                                     <tr id="demo{{$loop->index}}" class="collapse">
+                                        <td colspan="100%">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-sm-12 pr-0 pt-0 pl-0 pb-0">
+                                                    <table width="100%">
+                                                        <tr>
+                                                            <th class="text-right">Available</th>
+                                                            <th class="text-right">Reserved</th>
+                                                            <th class="text-right" style="white-space: nowrap;">Incoming</th>
+                                                        </tr>
+                                                        <tr>               
+                                                            <td class="text-right">{{ sprintf('%d %s',($product->getAvailableQuantity()), $uom) }}</td>
+                                                            <td class="text-right">{{ sprintf('%d %s',($product->getReservedQuantity()), $uom) }}</td>
+                                                            <td class="text-right">{{ sprintf('%d %s',($product->getIncomingQuantity()), $uom) }}</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </td>
+                                            {{-- @include('templates.rsitemsub',['data'=>$product]) --}}
+                                    </tr>
+                                    {{-- <tr id="demo{{$loop->index}}" class="collapse">
                                         <td colspan="100%">
                                             <!-- WIP: -->
                                             @if(count($product->ValidQuotes())>0)
@@ -242,7 +269,7 @@
                                                 </div>
                                             @endif
                                         </td>
-                                    </tr>
+                                    </tr> --}}
                                 @endforeach
                                 </tbody>
                             </table>
@@ -348,6 +375,10 @@
 
         $('#datemask').inputmask('MM dd, yyyy', { 'placeholder': 'MM dd, yyyy' });
 
+
+        $('.toggle-buttonshit').on('click', function(){
+            $(this).find('.fa').toggleClass('fa-angle-down fa-angle-right');
+        });
 
         $('#btnSave').on('click', function(e){
 
