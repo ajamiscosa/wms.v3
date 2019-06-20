@@ -96,7 +96,15 @@
                             
                             @if($data->Status == 'A')
                                 <div class="col-lg-6 col-md-12 pr-0">
-                                    <a class="btn btn-simple btn-sm btn-flat float-right" id="downloadPO" rel="{{ $data->OrderNumber }}">Download Purchase Order Form</a>
+                                    {{-- <a class="btn btn-simple btn-sm btn-flat float-right" id="downloadPO" rel="{{ $data->OrderNumber }}">Download Purchase Order Form</a> --}}
+                                    <a 
+                                        class="btn btn-simple btn-sm btn-flat float-right" 
+                                        id="downloadPO" 
+                                        rel="{{ $data->OrderNumber }}"
+                                        href="/purchase-order/{{ $data->OrderNumber }}/download"
+                                        target="_new"
+                                    >Download Purchase Order Form
+                                    </a>
                                 </div>
                             @endif
                         </div>
@@ -461,47 +469,47 @@
 
     <script>
 
-        $(document).ready(function () {
-            $('#downloadPO').on('click', function(){
-                var rr = $(this).attr('rel');
-                $.ajax({
-                    url: "/purchase-order/"+rr+"/download",
-                    cache: false,
-                    success: function(content){
-//                        var win = window.open("", "Title",
-//                            "toolbar=no," +
-//                            "location=no," +
-//                            "directories=no," +
-//                            "status=no," +
-//                            "menubar=no," +
-//                            "scrollbars=yes," +
-//                            "resizable=yes," +
-//                            "width=765," +
-//                            "height=990,");
-//                        win.document.body.innerHTML = content;
-                        var win = PopupCenter("", "Print Preview", 850,768);
-                        win.document.body.innerHTML = content;
-//
-                        var $content = win.document.querySelector('#capture');
+//         $(document).ready(function () {
+//             $('#downloadPO').on('click', function(){
+//                 var rr = $(this).attr('rel');
+//                 $.ajax({
+//                     url: "/purchase-order/"+rr+"/download",
+//                     cache: false,
+//                     success: function(content){
+// //                        var win = window.open("", "Title",
+// //                            "toolbar=no," +
+// //                            "location=no," +
+// //                            "directories=no," +
+// //                            "status=no," +
+// //                            "menubar=no," +
+// //                            "scrollbars=yes," +
+// //                            "resizable=yes," +
+// //                            "width=765," +
+// //                            "height=990,");
+// //                        win.document.body.innerHTML = content;
+//                         var win = PopupCenter("", "Print Preview", 850,768);
+//                         win.document.body.innerHTML = content;
+// //
+//                         var $content = win.document.querySelector('#capture #capture2');
 
-                        html2canvas($content,{
-                            onrendered: function (canvas) {
-                                win.document.body.innerHTML = "<html><head><title>"+rr+"</title><link rel='stylesheet' href='{{asset('css/custom.css')}}'/><link rel='stylesheet' href='{{asset('css/fontawesome-all.min.css')}}'/></head><a role='button' onclick='window.print(); return false;' class='float'><i class='fa fa-print my-float'></i></a></html>";
-                                win.document.body.appendChild(canvas);
-//                                var imgData = canvas.toDataURL(
-//                                    'image/png');
-//                                var doc = new jsPDF('p', 'in', [8.5, 11]);
-//                                doc.addImage(imgData, 'PNG', 0, 0);
-//                                doc.save(rr+'.pdf');
-                            }
-                        });
+//                         html2canvas($content,{
+//                             onrendered: function (canvas) {
+//                                 win.document.body.innerHTML = "<html><head><title>"+rr+"</title><link rel='stylesheet' href='{{asset('css/custom.css')}}'/><link rel='stylesheet' href='{{asset('css/fontawesome-all.min.css')}}'/></head><a role='button' onclick='window.print(); return false;' class='float'><i class='fa fa-print my-float'></i></a></html>";
+//                                 win.document.body.appendChild(canvas);
+// //                                var imgData = canvas.toDataURL(
+// //                                    'image/png');
+// //                                var doc = new jsPDF('p', 'in', [8.5, 11]);
+// //                                doc.addImage(imgData, 'PNG', 0, 0);
+// //                                doc.save(rr+'.pdf');
+//                             }
+//                         });
 
-                    }
-                });
-            });
+//                     }
+//                 });
+//             });
 
 
-        });
+//         });
 
 
         $('.toggle-buttonshit').on('click', function(){
