@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use App\ReceiveOrder;
 use App\Classes\DTO\DTO;
 use App\PurchaseOrder;
+use App\LineItem;
 
 /*
 |--------------------------------------------------------------------------
@@ -651,6 +652,36 @@ Route::get('/seed/issuance', function() {
         }
     }
 });
+
+
+
+Route::get('/limitproduct', function(){
+
+    $lead = \App\User::where('Department', '=', 6)->get();
+    $scandium = \App\User::where('Department', '=', 3)->get();
+    $it = \App\User::where('Department', '=', 16)->get();
+
+    $lead = count(\App\User::where('Department', '=', 6)->get());
+    $scandium = count(\App\User::where('Department', '=', 3)->get());
+    $it = count(\App\User::where('Department', '=', 16)->get());
+
+    // $lead = $lead->Department();
+    // dd($lead[0]->Department);
+    // $scandiumDept;
+    // $itDept;
+
+    $data = array($lead,$scandium,$it);
+    // $data = (object)[$lead,$scandium,$it];
+    // $data->Lead = $lead;
+    // $data->Scandium = $scandium;
+    // $data->IT = $it;
+    // // return $product->toArray();
+    // return dd(response()->json($data));
+    return $data;
+});
+
+
+
 
 Route::get('/test123', function(){
     $po = new DTO();
