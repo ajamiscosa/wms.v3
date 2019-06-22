@@ -91,7 +91,7 @@
                             <th>Job ID</th>
                             <th class="text-right">Amount</th>
                             <th class="text-right">Accounts Payable Account</th>
-                            <th>Ship Via</th>
+                            <th>PR Number</th>
                             <th>Displayed Terms</th>
                             <th>Days</th>
                             <th>&nbsp;</th>
@@ -112,7 +112,7 @@
                             <th>Job ID</th>
                             <th class="text-right">Amount</th>
                             <th class="text-right">Accounts Payable Account</th>
-                            <th>Ship Via</th>
+                            <th>PR Number</th>
                             <th>Displayed Terms</th>
                             <th>Days</th>
                             <th>&nbsp;</th>
