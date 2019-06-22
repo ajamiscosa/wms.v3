@@ -29,6 +29,16 @@
         input[type='text'].datepicker {
             height: 38px;
         }
+        input::-webkit-input-placeholder {
+            font-size: 0.8em;
+            line-height: 3;
+            text-align: right;
+        }
+
+        span#select2-glcd-container {
+            font-size: 0.9em;
+        }
+
     </style>
 @endsection
 @section('content')
@@ -133,7 +143,64 @@
             </div>
             <br/>
             <br/>
-            <div class="row" id="mydiv">
+
+
+            <div class="table-responsive-md">
+                <table class="table">
+                        <thead>
+                            <tr>
+                            <th scope="col">Item</th>
+                            <th scope="col">GL Code</th>
+                            <th scope="col">
+                                <label class="float-right">
+                                Quantity
+                                </label>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($data as $item)
+                            @php
+                                $product = \App\Product::where('ID','=',$item)->first();
+                            @endphp
+                                <tr>
+                                    <th scope="row" class="w-25">
+                                        <input type="hidden" value="{{ $product->ID }}" name="Product[]">
+                                        [{{ $product->Name }}] {{ $product->Description }}
+                                    </th>
+                                    
+                                    <td scope="col" class="w-auto">
+                                        <select id="glcd" style="width:100%; font-size: 0.9em" class="form-control glcode-select" name="GLCode[]" required>
+                                            <option></option>
+                                        </select>
+                                    </td>
+                                    <td scope="col" class="w-auto">
+                                        <span class="float-right" style="margin:10px; font-size: 0.6em;">
+                                            {{ $product->UOM()->Abbreviation }}
+                                        </span>
+                                        <input 
+                                            style="width: 100px;" class="form-control float-right" 
+                                            placeholder="Max: {!! $product->getAvailableQuantity() !!}" 
+                                            max="{!! $product->getAvailableQuantity() !!}"
+                                            min="0" 
+                                            name="Quantity[]" 
+                                            type="number" 
+                                            step="{{ $product->UOM()->Type==1?"0.001":"1" }}"
+                                            required>
+                                    </td>
+                                </tr>
+                        @endforeach
+                        </tbody>
+                </table>
+            </div>
+
+
+
+
+
+
+
+            {{-- <div class="row" id="mydiv">
                 <div class="col-lg-12">
                     <table id="roTable" class="table table-no-bordered table-hover dataTable dtr-inline" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
                         <thead>
@@ -182,7 +249,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div> --}}
             <hr class="pt-0 mt-0">
             <div class="row">
                 <div class="col-md-6">
@@ -310,6 +377,7 @@
             });
             
             $(".glcode-select").select2({
+                dropdownAutoWidth : true,
                 placeholder: 'Select GL Code',
                 minimumResultsForSearch: -1
             });

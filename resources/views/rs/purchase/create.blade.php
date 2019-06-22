@@ -28,6 +28,11 @@
         input[type='text'].datepicker {
             height: 38px;
         }
+        input::-webkit-input-placeholder {
+            font-size: 0.8em;
+            line-height: 3;
+            text-align: right;
+        }
     </style>
 @endsection
 @section('content')
@@ -107,50 +112,45 @@
             </div>
             <br/>
             <br/>
-            <div class="row" id="mydiv">
-                <div class="col-lg-12">
-                    <table id="roTable" class="table table-no-bordered dataTable dtr-inline" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
-                        <thead>
-                        <tr role="row">
-                            <th>Item</th>
-                            <th style="width: 20%;" class="text-center">Quantity</th>
+
+            <div class="table-responsive-md">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="w-50" scope="col">#</th>
+                            <th class="w-50" scope="col">
+                                <label class="float-right">First</label>
+                            </th>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <tbody class="productTable">
-                        @foreach($data as $item)
-                            @php
-                                $product = \App\Product::where('ID','=',$item)->first();
-                            @endphp
-                            <tr>
-                                <td class="align-middle">
-                                    <input type="hidden" value="{{ $product->ID }}" name="Product[]">
-                                    [{{ $product->UniqueID }}] {{ $product->Description }}
-                                </td>
-                                <td class="text-center align-middle">
-                                    <div class="col-md-12 pull-right">
-                                        <div class="row">
-                                            <div class="col-md-12 input-group" style="padding-left: 0px;">
-                                                <input 
-                                                    style="width: 75%" 
-                                                    class="form-control quantity-input text-right" 
-                                                    required 
-                                                    placeholder="Enter Quantity" 
-                                                    min="0" 
-                                                    name="Quantity[]" 
-                                                    type="number" 
-                                                    step="{{ $product->UOM()->Type==1?"0.001":"1" }}"
-                                                >
-                                                <span style="width: 25%;" class="uom">&nbsp;&nbsp;&nbsp;&nbsp;{{ $product->UOM()->Abbreviation }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                    </thead>
+                    <tbody>
+                    @foreach($data as $item)
+                        @php
+                            $product = \App\Product::where('ID','=',$item)->first();
+                        @endphp
+                        <tr>
+                            <th class="w-50" scope="row">    
+                                <input type="hidden" value="{{ $product->ID }}" name="Product[]">
+                                [{{ $product->UniqueID }}] {{ $product->Description }}
+                            </th>
+                            <td class="w-50" scope="col">
+                                <span class="float-right" style="margin-left:5px">
+                                    {{ $product->UOM()->Abbreviation }}
+                                </span>
+                                <input 
+                                    style="width:125px" 
+                                    class="form-control float-right"
+                                    placeholder="Enter Quantity" 
+                                    min="0" 
+                                    name="Quantity[]" 
+                                    type="number" 
+                                    step="{{ $product->UOM()->Type==1?"0.001":"1" }}"
+                                    required>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
             </div>
             <div class="row">&nbsp;</div>
             <div class="row">&nbsp;</div>

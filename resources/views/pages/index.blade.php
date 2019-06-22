@@ -63,11 +63,11 @@
               <div class="card-header">
                 <h3 class="card-title">PO Creation</h3>
 
-                <div class="card-tools">
+                {{-- <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fas fa-minus"></i>
                   </button>
                   <button type="button" class="btn btn-tool" data-widget="remove"><i class="fas fa-times"></i></button>
-                </div>
+                </div> --}}
               </div>
               <div class="card-body">
                 <canvas id="donutChart" style="height:230px"></canvas>
@@ -83,11 +83,11 @@
                 <div class="card-header">
                     <h3 class="card-title">Monthly Purchase Status June</h3>
 
-                    <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-widget="remove"><i class="fas fa-times"></i></button>
-                    </div>
+                    {{-- <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-widget="remove"><i class="fas fa-times"></i></button>
+                    </div> --}}
                 </div>
                 <div class="card-body">
                     <div class="chart">
