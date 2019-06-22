@@ -52,7 +52,7 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="control-label">Vendor</label>
-                                    <select class="supplier-select form-control" name="Supplier" data-size="3" data-style="btn select-with-transition" data-live-search="true" title="- Select Vendor -">
+                                    <select required class="supplier-select form-control" name="Supplier" data-size="3" data-style="btn select-with-transition" data-live-search="true" title="- Select Vendor -">
                                         <option></option>
                                     </select>
                                 </div>
