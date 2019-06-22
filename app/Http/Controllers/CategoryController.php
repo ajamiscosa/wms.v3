@@ -143,4 +143,14 @@ class CategoryController extends Controller
 
         return response()->json(['results'=>$data]);
     }
+
+    
+    public function search(Request $request, $name) {
+        try {
+            Category::where('Identifier','=',$name)->firstOrFail();
+        } catch(\Exception $e) {
+            return response()->json(false);
+        }
+        return response()->json(true);
+    }
 }

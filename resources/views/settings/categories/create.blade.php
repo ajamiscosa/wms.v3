@@ -23,8 +23,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="control-label">Name</label>
-                                    <input type="text" class="form-control" name="Name" required>
+                                    <label class="control-label">Name</label>&ensp;<small id="name-error" style="color: red;"></small>
+                                    <input type="text" class="form-control" name="Name" id="Name" required>
                                 </div>
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-flat btn-danger btn-sm">Save</button>
+                                <button type="submit" class="btn btn-flat btn-danger btn-sm" id="btnSave">Save</button>
                                 <a href="/category" class="btn btn-flat btn-default btn-sm">Cancel</a>
                             </div>
                         </div>
@@ -51,5 +51,31 @@
     </div>
 @endsection
 @section('scripts')
-
+<script>
+    
+    $('#Name').on('input', function() {
+            var code = $(this).val();
+            if(code.length > 0) {
+                $.get({
+                    url: "/category/check/"+$(this).val(),
+                    success: function(msg) {
+                        if(msg) {
+                            $('#Name').addClass('is-invalid');
+                            $('#name-error').html('<b>'+code+'</b> already exists in the database.');
+                            $('#btnSave').attr('disabled','disabled');
+                        }
+                        else {
+                            $('#Name').removeClass('is-invalid');
+                            $('#Name-error').text('');
+                            $('#btnSave').removeAttr('disabled');
+                        }
+                    }
+                });
+            }
+            else {
+                $('#Name').removeClass('is-invalid');
+                $('#Name-error').text('');
+            }
+        });
+</script>
 @endsection

@@ -299,6 +299,7 @@ Route::post('/category/toggle/{category}', 'CategoryController@toggle');
 Route::get('/category/data', 'CategoryController@data');
 Route::get('/category/view/{category}', 'CategoryController@show');
 Route::get('/category/select-data', 'CategoryController@getSelectData');
+Route::get('/category/check/{name}', 'CategoryController@search');
 
 Route::get('/currency', 'CurrencyController@index');
 // Route::get('/currency/new', 'CurrencyController@create');
