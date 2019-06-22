@@ -75,7 +75,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-flat btn-danger btn-sm">Save</button>
-                                <a href="/CAPEX" class="btn btn-flat btn-default btn-sm">Cancel</a>
+                                <a href="/capex" class="btn btn-flat btn-default btn-sm">Cancel</a>
                             </div>
                         </div>
                     </div>
