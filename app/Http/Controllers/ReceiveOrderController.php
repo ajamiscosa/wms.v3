@@ -69,13 +69,19 @@ class ReceiveOrderController extends Controller
 
 
         $lastReceipt = ReceiveOrder::orderByDesc('ID')->first();
-        $length = strlen($lastReceipt->OrderNumber);
-            
-        $prefix = Carbon::today()->format('ym');
-        $currentMonth = substr($lastReceipt->OrderNumber,6,4);
-        if($prefix==$currentMonth) {
-            $current = substr($lastReceipt->OrderNumber, $length-3);
-            $current++;
+        if($lastReceipt) {
+            $length = strlen($lastReceipt->OrderNumber);
+                
+            $prefix = Carbon::today()->format('ym');
+            $currentMonth = substr($lastReceipt->OrderNumber,6,4);
+            if($prefix==$currentMonth) {
+                $current = substr($lastReceipt->OrderNumber, $length-3);
+                $current++;
+            }
+            else {
+                $current = 0;
+                $current++;
+            }
         }
         else {
             $current = 0;

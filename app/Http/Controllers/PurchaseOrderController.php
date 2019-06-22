@@ -522,6 +522,7 @@ class PurchaseOrderController extends Controller
         }
         foreach($orders as $order)
         {
+            // dd($order->OrderItems()[0]->);
             $entry = array();
             $entry['OrderNumber'] = $order->OrderNumber;
             $entry['Supplier'] = $order->Supplier()->Name;

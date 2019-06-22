@@ -119,7 +119,7 @@
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-md-9">
-                            <button type="submit" class="btn btn-flat btn-fill btn-block btn-danger btn shadow">Save</button>
+                            <button type="submit" class="btn btn-flat btn-fill btn-block btn-danger btn shadow" id='btnSave'>Save</button>
                         </div>
                         <div class="col-md-3">
                             <a href="/vendor" class="btn btn-flat btn-fill btn-block btn-secondary shadow">Cancel</a>
@@ -242,7 +242,6 @@
             minimumResultsForSearch: -1
         });
 
-
         var $class = $('.classification-select');
         $class.select2({
             placeholder: 'Select Classification',
@@ -259,10 +258,12 @@
                         if(msg) {
                             $('#Code').addClass('is-invalid');
                             $('#code-error').html('<b>'+code+'</b> already exists in the database.');
+                            $('#btnSave').attr('disabled','disabled');
                         }
                         else {
                             $('#Code').removeClass('is-invalid');
                             $('#code-error').text('');
+                            $('#btnSave').removeAttr('disabled');
                         }
                     }
                 });

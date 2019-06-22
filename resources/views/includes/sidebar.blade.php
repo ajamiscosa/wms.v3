@@ -304,12 +304,12 @@
                                         <p>Item Movement Report</p>
                                     </a>
                                 </li>
-                                {{-- <li class="nav-item">
+                                <li class="nav-item">
                                     <a href="/reports/pr-status" class="nav-link flat" id="pr-status" data-parent="#reports">
                                         <i class="fa fa-angle-right nav-icon"></i>
-                                        <p>PR Status Report</p>
+                                        <p>PR Status Report (WIP)</p>
                                     </a>
-                                </li> --}}
+                                </li>
                                 <li class="nav-item">
                                     <a href="/reports/adjustments" class="nav-link flat" id="adjustments" data-parent="#reports">
                                         <i class="fa fa-angle-right nav-icon"></i>
