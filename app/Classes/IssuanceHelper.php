@@ -49,7 +49,7 @@ class IssuanceHelper {
             case '2': return 'Pending Plant Manager\'s Approval';
             case '3': return 'Pending General Manager\'s Approval';
             case 'A': return 'Approved';
-            case 'R': return 'Rejected';
+            case 'X': return 'Rejected';
             case 'Z': return 'Completed';
         }
 
