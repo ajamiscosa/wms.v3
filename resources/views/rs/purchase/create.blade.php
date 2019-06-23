@@ -95,7 +95,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <input type="hidden" name="GLCode" value="0">
+                    {{-- <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="GLCode" class="control-label">G/L Code</label>
@@ -103,11 +104,11 @@
                                     <option></option>
                                     {{-- @foreach(\App\GeneralLedger::getInventoryGeneralLedgerCodes() as $gl)
                                         <option value="{{ $gl->ID }}">[{{ $gl->Code }}] {{ $gl->Description }}</option>
-                                    @endforeach --}}
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <br/>
@@ -117,9 +118,9 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th class="w-50" scope="col">#</th>
+                            <th class="w-50" scope="col">Item</th>
                             <th class="w-50" scope="col">
-                                <label class="float-right">First</label>
+                                <label class="float-right">Quantity</label>
                             </th>
                         </tr>
                     </thead>
