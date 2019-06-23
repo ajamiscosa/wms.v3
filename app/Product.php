@@ -107,7 +107,23 @@ class Product extends Model
         return $this->hasOne('App\GeneralLedger','ID','IssuanceGL')->firstOrFail();
     }
 
-
+    public function getLastFiveAwardedQuotations() {
+        $data = array();
+        $counter = 0;
+        $orderItems = $this->hasManyThrough('App\OrderItem','App\LineItem','Product','LineItem')->get();
+        foreach($orderItems as $orderItem) {
+            if($orderItem->PurchaseOrder()) {
+                $po = $orderItem->PurchaseOrder();
+                if($po->Status=='A') { // filter only approved PO
+                    if($counter < 5) {
+                        array_push($data, $orderItem->SelectedQuote());
+                        $counter++;
+                    }
+                }
+            }
+        }
+        return $data;
+    }
 
     public function scopeAllActive($query) {
         return $query->where('Status','=',1)->get();
