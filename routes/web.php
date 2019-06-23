@@ -19,7 +19,6 @@ use App\LineItem;
 
 Route::get('/', 'PageController@index');
 Route::get('/login', 'PageController@login')->name('login');
-Route::post('/api/login', 'UserController@androidlogin');
 Route::post('/login', 'UserController@login');
 Route::get('/logout', 'PageController@logout');
 Route::get('/update-password','PageController@changepw');
@@ -495,11 +494,13 @@ Route::post('/deferred/restore', 'RequisitionController@restoreDeferredItem');
 
 
 
+//Android routes
+Route::post('/api/login', 'UserController@androidlogin');
+Route::get('/api/product/{product}','ProductController@androidGetProduct');
+Route::get('/api/supplier/{supplier}','SupplierController@androidGetSupplier');
+Route::get('/api/purchase-order/{supplier}','PurchaseOrderController@androidGetPO');
 
-
-
-
-
+// end of android routes
 
 Route::get('/testponumber', function(){
 

@@ -17,7 +17,7 @@ class SupplierController extends Controller
      */
     function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('androidGetSupplier');
     }
 
     /**
@@ -211,5 +211,18 @@ class SupplierController extends Controller
             return response()->json(false);
         }
         return response()->json(true);
+    }
+
+// android
+    public function androidGetSupplier($supplier) {
+        $supplier = Supplier::where('ID','=',$supplier)->first();
+
+        $data = array();
+        if($supplier){
+            $data['Name'] = $supplier->Name;
+            //$data['Description'] = $supplier->Description;
+        }
+
+        return response()->json($data);
     }
 }

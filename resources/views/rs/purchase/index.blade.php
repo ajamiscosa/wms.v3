@@ -7,6 +7,7 @@
     ]
 ])
 @section('styles')
+    <link rel="stylesheet" href="{{ asset('css/icheck.square-red.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.css') }}">
     <style>
         a {
@@ -40,6 +41,7 @@
                         array("table"=> [
                                 'Name' => 'pendingTable',
                                 'Classes'=> "",
+                                'Checkbox'=> true,
                                 'Headers'=>
                                 [
                                     ['Text'=>'Number', 'Sorting'=>false,'Classes'=>""],
@@ -56,6 +58,7 @@
                         array("table"=> [
                                 'Name' => 'approvedTable',
                                 'Classes'=> "",
+                                'Checkbox'=> false,
                                 'Headers'=>
                                 [
                                     ['Text'=>'Number', 'Sorting'=>false,'Classes'=>""],
@@ -72,6 +75,7 @@
                         array("table"=> [
                                 'Name' => 'cancelledTable',
                                 'Classes'=> "",
+                                'Checkbox'=> false,
                                 'Headers'=>
                                 [
                                     ['Text'=>'Number', 'Sorting'=>false,'Classes'=>""],
@@ -89,6 +93,7 @@
                             array("table"=> [
                                     'Name' => 'allIssuanceTable',
                                     'Classes'=> "",
+                                    'Checkbox'=> false,
                                     'Headers'=>
                                     [
                                         ['Text'=>'Number', 'Sorting'=>false,'Classes'=>""],
@@ -110,7 +115,7 @@
 @section('scripts')
     <script src="{{ asset('js/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('js/dataTables.bootstrap4.js') }}"></script>
-
+    <script src="{{ asset('js/icheck.min.js') }}"></script>                        
     <script>
         $('#allIssuanceTable').DataTable( {
             serverSide: false,
@@ -155,6 +160,10 @@
             ajax: '/purchase-request/data/P',
             dataSrc: 'data',
             columns: [
+                {
+                    class:          "checkbox",
+                    data:           null
+                },
                 { data:"OrderNumber" },
                 { data:"Date" },
                 { data:"Requester" },
@@ -162,6 +171,7 @@
                 { data:"Status" }
             ],
             columnDefs: [
+                { orderable: false, targets: [0] },
                 {
                     render: function ( data, type, row ) {
                         addon = '';
@@ -170,8 +180,13 @@
                         }
                         return '<a class="alert-link" href="/purchase-request/view/'+data+'">'+data+'</a> '+addon;
                     },
+                    targets: 1
+                },
+                {
+                    render: function ( data, type, row ) {
+                        return '<input type="checkbox" class="checkSingle icheckbox_square-red" value="test" name="SelectedItems[]"/>';
+                    },
                     targets: 0
-
                 }
             ],
             pagingType: "full_numbers",
@@ -181,6 +196,26 @@
                 search: "_INPUT_",
                 searchPlaceholder: "Search records",
                 infoFiltered: ""
+            },
+            initComplete: function(settings, json) {
+                var checkbox = $('input[type="checkbox"]').iCheck({
+                    checkboxClass: 'icheckbox_square-red'
+                });
+
+                var a = $("input[type='checkbox'].checkSingle");
+                var checkAll = $('#checkAll');
+                checkAll.on('ifClicked',function (e) {
+
+                    a.iCheck(checkAll.prop('checked')?'uncheck':'check');
+                });
+
+                $("input[type='checkbox'].checkSingle").on('ifChanged', function (e) {
+                    if(a.length == a.filter(":checked").length){
+                        $("#checkAll").iCheck('check');
+                    }else {
+                        $("#checkAll").iCheck('uncheck');
+                    }
+                });
             }
         } );
 

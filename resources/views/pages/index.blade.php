@@ -497,7 +497,7 @@
           pointStrokeColor    : 'rgba(0,166,90,1)',
           pointHighlightFill  : '#fff',
           pointHighlightStroke: 'rgba(0,166,90,1)',
-          data                : [12,2]
+          data                : results
         },
         {
           label               : 'Purchase Orders',

@@ -24,7 +24,7 @@ class ProductController extends Controller
      */
     function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('androidGetProduct');
     }
 
     /**
@@ -262,5 +262,19 @@ class ProductController extends Controller
 
     public function previewQrCode($product) {
         return BarcodeHelper::GenerateQrImageFromString($product,1);
+    }
+
+    // android 
+    public function androidGetProduct($product) {
+        $product = Product::where('UniqueID','=',$product)->first();
+
+        $data = array();
+        if($product){
+            $data['UOM'] = $product->UOM()->Abbreviation;
+            $data['Quantity'] = $product->Quantity;
+            $data['Description'] = $product->Description;
+        }
+
+        return response()->json($data);
     }
 }

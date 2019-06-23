@@ -7,6 +7,7 @@
                     array("table"=> [
                         'Name' => 'transactionsTable',
                         'Classes'=> "",
+                        'Checkbox'=> false,
                         'Headers'=>
                         [
                             ['Text'=>'Item',             'Classes'=>""],

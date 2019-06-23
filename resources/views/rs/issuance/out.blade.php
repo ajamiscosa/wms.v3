@@ -34,6 +34,7 @@
                             array("table"=> [
                                 'Name' => 'issuanceTable',
                                 'Classes'=> "",
+                                'Checkbox'=> false,
                                 'Headers'=>
                                 [
                                     ['Text'=>'Number',          'Sorting'=>false,'Classes'=>""],

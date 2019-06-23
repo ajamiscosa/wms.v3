@@ -4,6 +4,9 @@
             <table id="{{ $table['Name'] }}" class="table {{ $table['Classes'] }}" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
                 <thead>
                 <tr role="row">
+                    @if ($table['Checkbox'] == true)
+                        <th><input type="checkbox" id="checkAll" class="icheckbox_square-red" /></th>
+                    @endif
                     @foreach($table['Headers'] as $header)
                         <th class="{{ $header['Classes'] }}">{{ $header['Text'] }}</th>
                     @endforeach
@@ -11,6 +14,9 @@
                 </thead>
                 <tfoot>
                 <tr>
+                    @if ($table['Checkbox'] == true)
+                        <th></th>
+                    @endif
                     @foreach($table['Headers'] as $header)
                         <th class="{{ $header['Classes'] }}">{{ $header['Text'] }}</th>
                     @endforeach

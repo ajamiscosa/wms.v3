@@ -37,7 +37,7 @@ class PurchaseOrderController extends Controller
      */
     function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('androidGetPO');
     }
 
     /**
@@ -861,7 +861,17 @@ class PurchaseOrderController extends Controller
         }
     }
 
-
+    // android 
+    public function androidGetPO($supplier) {
+        $po = PurchaseOrder::where('Supplier','=',$supplier)->first();
+        
+        $data = array();
+        if($po){
+            $data['OrderNumber'] = $po->OrderNumber;
+        }
+        
+        return response()->json($data);
+    }
 
     /**
      * Display the specified resource.
