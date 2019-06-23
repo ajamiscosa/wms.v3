@@ -30,7 +30,8 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">Description</label>
-                                    <input type="text" class="form-control" name="Description" required value="{{ $data->Description }}"/>
+                                    <input id="tName" type="text" class="form-control" name="Description" required value="{{ $data->Description }}"/>                                        <small id="code-error" style="color: red;"></small>
+                                    <small id="code-error" style="color: red;"></small>
                                 </div>
                             </div>
                         </div>
@@ -46,7 +47,7 @@
                     <div class="card-footer">
                         <div class="row float-right">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-flat btn-danger btn-sm">Save</button>
+                                <button id="btnSubmit" type="submit" class="btn btn-flat btn-danger btn-sm">Save</button>
                                 <a href="/term" class="btn btn-flat btn-default btn-sm">Cancel</a>
                             </div>
                         </div>
@@ -57,5 +58,34 @@
     </div>
 @endsection
 @section('scripts')
-
+    <script>
+        $(document).on('input',':input#tName', function() {
+            var code = $(this).val();
+            if(code.length > 2) {
+            console.log(code);
+                $.get({
+                    url: "/t/update/"+code,
+                    success: function(msg) {
+                        if(msg) {
+                            $('#tName').addClass('is-invalid');
+                            $('#code-error').html('<b>'+code+'</b> already exists in the database.');
+                            $('#btnSubmit').attr('disabled','disabled');
+                            nameExists = true;
+                        }
+                        else {
+                            $('#tName').removeClass('is-invalid');
+                            $('#code-error').text('');
+                            $('#btnSubmit').removeAttr('disabled','disabled');
+                            nameExists = false;
+                        }
+                    }
+                });
+            }
+            else {
+                $('#tName').removeClass('is-invalid');
+                $('#btnSubmit').removeAttr('disabled','disabled');
+                $('#code-error').text('');
+            }
+        });
+    </script>
 @endsection

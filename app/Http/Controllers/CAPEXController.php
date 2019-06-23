@@ -9,6 +9,16 @@ use App\Classes\ReportHelper;
 
 class CAPEXController extends Controller
 {
+    public function search(Request $request, $value)
+    {
+        try {
+            $value = str_replace('-', '/', $value);
+            \App\CAPEX::where('JobID','=',$value)->firstOrFail();
+        } catch(\Exception $e) {
+            return response()->json(false);
+        }
+        return response()->json(true);
+    }
     /**
      * Instantiate a new controller instance.
      *

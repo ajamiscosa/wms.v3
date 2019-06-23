@@ -7,6 +7,16 @@ use Illuminate\Http\Request;
 
 class ShippingMethodController extends Controller
 {
+
+    public function search(Request $request, $value)
+    {
+        try {
+            ShippingMethod::where('Description','=',$value)->firstOrFail();
+        } catch(\Exception $e) {
+            return response()->json(false);
+        }
+        return response()->json(true);
+    }
     /**
      * Display a listing of the resource.
      *

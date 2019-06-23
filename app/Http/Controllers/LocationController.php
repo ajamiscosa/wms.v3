@@ -145,6 +145,16 @@ class LocationController extends Controller
     {
         return response()->json(['aaData'=>Location::all()]);
     }
+    
+    public function search(Request $request, $value)
+    {
+        try {
+            Location::where('Name','=',$value)->firstOrFail();
+        } catch(\Exception $e) {
+            return response()->json(false);
+        }
+        return response()->json(true);
+    }
 
 
     public function locationdata(Request $request, $product = null) {

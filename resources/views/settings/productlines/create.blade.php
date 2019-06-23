@@ -96,28 +96,22 @@
                     url: "/product-line/check/code/"+code,
                     success: function(msg) {
                         if(msg) {
-                            $('#prodName').addClass('is-invalid');
+                            $('#prodCode').addClass('is-invalid');
                             $('#code-error').html('<b>'+code+'</b> already exists in the database.');
-                            codeExists = true;
+                            $('#btnSubmit').attr('disabled','disabled');
                         }
                         else {
-                            $('#prodName').removeClass('is-invalid');
+                            $('#prodCode').removeClass('is-invalid');
                             $('#code-error').text('');
-                            codeExists = false;
+                            $('#btnSubmit').removeAttr('disabled','disabled');
                         }
                     }
                 });
             }
             else {
-                $('#prodName').removeClass('is-invalid');
+                $('#prodCode').removeClass('is-invalid');
+                $('#btnSubmit').removeAttr('disabled','disabled');
                 $('#code-error').text('');
-            }
-        });
-
-        
-        $('#btnSubmit').on('click', function(e){
-            if(nameExists || codeExists) {
-                e.preventDefault();
             }
         });
     </script>

@@ -24,7 +24,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">Description</label>
-                                    <textarea style="resize: none;" rows="3" class="form-control flat" name="Description" required></textarea>
+                                    <input style="resize: none;" class="form-control flat" name="Description" required>
                                 </div>
                             </div>
                         </div>

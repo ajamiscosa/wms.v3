@@ -26,7 +26,8 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">Job ID</label>
-                                    <input type="text" class="form-control" name="JobID" required>
+                                    <input id="cName" type="text" class="form-control" name="JobID" required>
+                                    <small id="code-error" style="color: red;"></small>
                                 </div>
                             </div>
                         </div>
@@ -74,7 +75,7 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-flat btn-danger btn-sm">Save</button>
+                                <button id="btnSubmit" type="submit" class="btn btn-flat btn-danger btn-sm">Save</button>
                                 <a href="/capex" class="btn btn-flat btn-default btn-sm">Cancel</a>
                             </div>
                         </div>
@@ -94,6 +95,33 @@
         autoclose: true,
         endDate: new Date()
     });
+    $(document).on('input',':input#cName', function() {
+            var code = $(this).val();
+            if(code.length > 2) {
+            console.log(code);
+            code = code.replace('/','-');
+                $.get({
+                    url: "/c/update/"+code,
+                    success: function(msg) {
+                        if(msg) {
+                            $('#cName').addClass('is-invalid');
+                            $('#code-error').html('<b>'+code+'</b> already exists in the database.');
+                            $('#btnSubmit').attr('disabled','disabled');
+                        }
+                        else {
+                            $('#cName').removeClass('is-invalid');
+                            $('#code-error').text('');
+                            $('#btnSubmit').removeAttr('disabled','disabled');
+                        }
+                    }
+                });
+            }
+            else {
+                $('#cName').removeClass('is-invalid');
+                $('#btnSubmit').removeAttr('disabled','disabled');
+                $('#code-error').text('');
+            }
+        });
 
 </script>
 @endsection

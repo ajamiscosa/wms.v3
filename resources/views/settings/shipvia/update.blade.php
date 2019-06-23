@@ -30,7 +30,14 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">Description</label>
-                                    <textarea rows="4" class="form-control flat" style="resize: none;" name="Description" required>{{ $data->Description }}</textarea>
+                                    <input 
+                                        type="text"
+                                        id="vName" 
+                                        class="form-control flat"
+                                        name="Description" 
+                                        value="{{ $data->Description }}" 
+                                        required>
+                                    <small id="code-error" style="color: red;"></small>
                                 </div>
                             </div>
                         </div>
@@ -38,7 +45,7 @@
                     <div class="card-footer">
                         <div class="row float-right">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-flat btn-danger btn-sm">Save</button>
+                                <button id="btnSave" type="submit" class="btn btn-flat btn-danger btn-sm">Save</button>
                                 <a href="/ship-via" class="btn btn-flat btn-default btn-sm">Cancel</a>
                             </div>
                         </div>
@@ -50,4 +57,35 @@
 @endsection
 @section('scripts')
 
+
+<script>
+    $('#vName').on('input', function() {
+            var code = $(this).val();
+            if(code.length > 2) {
+            console.log(code);
+                $.get({
+                    url: "/via/update/"+code,
+                    success: function(msg) {
+                        if(msg) {
+                            $('#vName').addClass('is-invalid');
+                            $('#code-error').html('<b>'+code+'</b> already exists in the database.');
+                            $('#btnSave').attr('disabled','disabled');
+                            nameExists = true;
+                        }
+                        else {
+                            $('#vName').removeClass('is-invalid');
+                            $('#code-error').text('');
+                            $('#btnSave').removeAttr('disabled','disabled');
+                            nameExists = false;
+                        }
+                    }
+                });
+            }
+            else {
+                $('#vName').removeClass('is-invalid');
+                $('#btnSave').removeAttr('disabled','disabled');
+                $('#code-error').text('');
+            }
+        });
+</script>
 @endsection

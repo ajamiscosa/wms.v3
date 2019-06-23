@@ -41,7 +41,8 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="control-label">Name</label>
-                                    <input type="text" class="form-control" name="Name" value="{{ $data->Name }}" {{$data->Legacy?"readonly":""}}>
+                                    <input id="dName" type="text" class="form-control" name="Name" value="{{ $data->Name }}" {{$data->Legacy?"readonly":""}}>
+                                    <small id="code-error" style="color: red;"></small>
                                 </div>
                             </div>
                         </div>
@@ -109,7 +110,7 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-flat btn-danger btn-sm">Save</button>
+                                <button id="btnSubmit"type="submit" class="btn btn-flat btn-danger btn-sm">Save</button>
                                 <a href="/department" class="btn btn-flat btn-default btn-sm">Cancel</a>
                             </div>
                         </div>
@@ -122,6 +123,37 @@
 @section('scripts')
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script>
+
+        
+        $(document).on('input',':input#dName', function() {
+            var code = $(this).val();
+            if(code.length > 2) {
+            console.log(code);
+                $.get({
+                    url: "/d/update/"+code,
+                    success: function(msg) {
+                        if(msg) {
+                            $('#dName').addClass('is-invalid');
+                            $('#code-error').html('<b>'+code+'</b> already exists in the database.');
+                            $('#btnSubmit').attr('disabled','disabled');
+                            nameExists = true;
+                        }
+                        else {
+                            $('#dName').removeClass('is-invalid');
+                            $('#code-error').text('');
+                            $('#btnSubmit').removeAttr('disabled','disabled');
+                            nameExists = false;
+                        }
+                    }
+                });
+            }
+            else {
+                $('#dName').removeClass('is-invalid');
+                $('#btnSubmit').removeAttr('disabled','disabled');
+                $('#code-error').text('');
+            }
+        });
+
         var $approverSelect = $('.approver-select');
         $approverSelect.select2({
             width: '100%',

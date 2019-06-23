@@ -11,6 +11,15 @@ use Illuminate\Support\Facades\DB;
 
 class DepartmentController extends Controller
 {
+    public function search(Request $request, $value)
+    {
+        try {
+            \App\Department::where('Name','=',$value)->firstOrFail();
+        } catch(\Exception $e) {
+            return response()->json(false);
+        }
+        return response()->json(true);
+    }
     /**
      * Instantiate a new controller instance.
      *

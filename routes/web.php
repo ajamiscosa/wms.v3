@@ -114,24 +114,24 @@ Route::get('/stock-transfer/product-data', 'StockTransferController@productdata'
 Route::get('/stock-transfer/location-data/{product}', 'StockTransferController@productlocationdata');
 Route::get('/stock-transfer/location-data', 'StockTransferController@locationdata');
 
-Route::get('/item-type', 'ItemTypeController@index');
-Route::get('/item-type/new', 'ItemTypeController@create');
-Route::post('/item-type/store', 'ItemTypeController@store');
-Route::get('/item-type/update/{type}', 'ItemTypeController@edit');
-Route::post('/item-type/update/{type}', 'ItemTypeController@update');
-Route::post('/item-type/{type}/void', 'ItemTypeController@void');
-Route::get('/item-type/data','ItemTypeController@data');
-Route::get('/item-type/view/{type}','ItemTypeController@show');
-Route::post('/item-type/toggle/{type}','ItemTypeController@toggle');
+//Route::get('/item-type', 'ItemTypeController@index');
+//Route::get('/item-type/new', 'ItemTypeController@create');
+//Route::post('/item-type/store', 'ItemTypeController@store');
+//Route::get('/item-type/update/{type}', 'ItemTypeController@edit');
+//Route::post('/item-type/update/{type}', 'ItemTypeController@update');
+//Route::post('/item-type/{type}/void', 'ItemTypeController@void');
+//Route::get('/item-type/data','ItemTypeController@data');
+//Route::get('/item-type/view/{type}','ItemTypeController@show');
+//Route::post('/item-type/toggle/{type}','ItemTypeController@toggle');
 
-Route::get('/damaged-stock-transfer', 'DamagedInventoryTransferController@index');
-Route::get('/damaged-stock-transfer/new', 'DamagedInventoryTransferController@create');
-Route::post('/damaged-stock-transfer/store', 'DamagedInventoryTransferController@store');
-Route::get('/damaged-stock-transfer/update/id', 'DamagedInventoryTransferController@edit');
-Route::post('/damaged-stock-transfer/update', 'DamagedInventoryTransferController@update');
-Route::post('/damaged-stock-transfer/void', 'DamagedInventoryTransferController@void');
+//Route::get('/damaged-stock-transfer', 'DamagedInventoryTransferController@index');
+//Route::get('/damaged-stock-transfer/new', 'DamagedInventoryTransferController@create');
+//Route::post('/damaged-stock-transfer/store', 'DamagedInventoryTransferController@store');
+//Route::get('/damaged-stock-transfer/update/id', 'DamagedInventoryTransferController@edit');
+//Route::post('/damaged-stock-transfer/update', 'DamagedInventoryTransferController@update');
+//Route::post('/damaged-stock-transfer/void', 'DamagedInventoryTransferController@void');
 
-Route::get('/purchase-order', 'PurchaseOrderController@index');
+Route::get('/purchase-order', 'PurchaseOrderController@index')->name('purchasing.purchase-orders.index');
 Route::post('/purchase-order/store', 'PurchaseOrderController@store');
 Route::get('/purchase-order/view/{id}', 'PurchaseOrderController@show');
 Route::get('/purchase-order/draft/{id}', 'PurchaseOrderController@create');
@@ -246,10 +246,10 @@ Route::get('/capex/export', 'CAPEXController@export');
 
 
 
-Route::get('/account', 'UserController@index');
-Route::get('/account/new', 'UserController@create');
+Route::get('/account', 'UserController@index')->name('settings.accounts.index');
+Route::get('/account/new', 'UserController@create')->name('settings.accounts.create');
 Route::post('/account/store', 'UserController@store');
-Route::get('/account/{user}/update', 'UserController@edit');
+Route::get('/account/{user}/update', 'UserController@edit')->name('settings.accounts.update');
 Route::post('/account/{user}/update', 'UserController@update');
 Route::post('/account/{user}/toggle', 'UserController@toggle');
 Route::get('/account/data', 'UserController@data');
@@ -413,7 +413,7 @@ Route::get('/deferred', 'RequisitionController@showDeferredForRestockingList');
 Route::get('/ship-via', 'ShippingMethodController@index');
 Route::get('/ship-via/new', 'ShippingMethodController@create');
 Route::post('/ship-via/store', 'ShippingMethodController@store');
-Route::get('/ship-via/update/{shipvia}', 'ShippingMethodController@edit');
+Route::get('/ship-via/update/{shipvia}', 'ShippingMethodController@edit')->name('settings.shipvia.update');
 Route::post('/ship-via/update/{shipvia}', 'ShippingMethodController@update');
 Route::post('/ship-via/disable', 'ShippingMethodController@disable');
 Route::post('/ship-via/toggle/{shipvia}', 'ShippingMethodController@toggle');
@@ -421,6 +421,20 @@ Route::get('/ship-via/data', 'ShippingMethodController@data');
 Route::get('/ship-via/view/{shipvia}', 'ShippingMethodController@show');
 Route::get('/ship-via/select-data', 'ShippingMethodController@getSelectData');
 
+
+/**AJAX - SETTINGS MENU - AJAX **/
+
+Route::get('/wl/update/{name}', 'LocationController@search');
+Route::get('/via/update/{name}', 'ShippingMethodController@search');
+Route::get('/t/update/{name}', 'TermController@search');
+
+Route::get('/d/update/{name}', 'DepartmentController@search');
+Route::get('/c/update/{name}', 'CAPEXController@search');
+Route::get('/u/update/{name}', 'UserController@search');
+Route::get('/r/update/{name}', 'RoleController@search');
+
+
+/**AJAX - SETTINGS MENU - AJAX **/
 
 
 

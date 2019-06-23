@@ -36,7 +36,7 @@ $name = implode('-', $name);
                             <div class="col-md-12">
                                     {{ csrf_field() }}
                                 @if($data->Status)
-                                    <a href='/product-line/update/{{ $data->Code }}' class="btn btn-flat btn-fill btn-danger btn-sm">Edit</a>
+                                    <button type="submit" id="btnEdit" class="btn btn-flat btn-fill btn-danger btn-sm">Edit</button>
                                     <button type="submit" id="btnDisable" class="btn btn-flat btn-fill btn-default btn-sm">Disable</button>
                                 @else
                                     <button type="submit" id="btnEnable" class="btn btn-flat btn-fill btn-success btn-sm">Enable</button>
@@ -97,12 +97,12 @@ $name = implode('-', $name);
 <script>
     //$("#pEdit p.text-muted").replaceWith( "<input type='number' id='editName'>" );
 
-    var nameBefore = $('div#nEdit').text();
     var codeBefore = $('div#cEdit').text();
+    var nameBefore = $('div#nEdit').text().trim();
     var descBefore = $('div#editDesc').text();
 
-    var trimNameBefore = $.trim(nameBefore);
     var trimCodeBefore = $.trim(codeBefore);
+    var trimNameBefore = $.trim(nameBefore);
     var trimDescBefore = $.trim(descBefore);
 
     var nameHTML = $('div#nEdit').html();
@@ -112,12 +112,12 @@ $name = implode('-', $name);
     $('#btnEdit').on('click', function(e) {
         e.preventDefault();
 
-        $("div#nEdit p").replaceWith("<input id='editName' type='text' name='Name'  class='form-control'  maxlength='2' required>" );
         $('div#cEdit p').replaceWith("<input id='editCode' type='text' name='Code' class='form-control'  maxlength='2' required>" );
+        $("div#nEdit p").replaceWith("<input id='editName' type='text' name='Name'  class='form-control'  maxlength='2' required>" );
         $('div#editDesc p').replaceWith("<input id='editDesc' type='text' name='Description' class='form-control' >" );
         
-        $('input#editName').val(trimNameBefore);
         $('input#editCode').val(trimCodeBefore);
+        $('input#editName').val(nameBefore);
         $('input#editDesc').val(trimDescBefore);
 
         $('#btnEdit').css('visibility','hidden');
@@ -141,11 +141,13 @@ $name = implode('-', $name);
                     if(msg) {
                         $('#editName').addClass('is-invalid');
                         $('#code-error-name').html('<b>'+code+'</b> already exists in the database.');
+                        $('#btnSave').attr('disabled','disabled');
                         nameExists = true;
                     }
                     else {
                         $('#editName').removeClass('is-invalid');
                         $('#code-error-name').text('');
+                        $('#btnSave').removeAttr('disabled','disabled');
                         nameExists = false;
                     }
                 }
@@ -153,6 +155,7 @@ $name = implode('-', $name);
         }
         else {
             $('#editName').removeClass('is-invalid');
+            $('#btnSave').removeAttr('disabled','disabled');
             $('#code-error-name').text('');
         }
     });
@@ -166,10 +169,12 @@ $name = implode('-', $name);
                     if(msg) {
                         $('#editCode').addClass('is-invalid');
                         $('#code-error').html('<b>'+code+'</b> already exists in the database.');
+                        $('#btnSave').attr('disabled','disabled');
                         codeExists = true;
                     }
                     else {
                         $('#editCode').removeClass('is-invalid');
+                        $('#btnSave').removeAttr('disabled','disabled');
                         $('#code-error').text('');
                         codeExists = false;
                     }
@@ -178,6 +183,7 @@ $name = implode('-', $name);
         }
         else {
             $('#editCode').removeClass('is-invalid');
+            $('#btnSave').removeAttr('disabled','disabled');
             $('#code-error').text('');
         }
     });

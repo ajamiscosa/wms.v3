@@ -7,6 +7,15 @@ use Illuminate\Http\Request;
 
 class TermController extends Controller
 {
+    public function search(Request $request, $value)
+    {
+        try {
+            \App\Term::where('Description','=',$value)->firstOrFail();
+        } catch(\Exception $e) {
+            return response()->json(false);
+        }
+        return response()->json(true);
+    }
     /**
      * Instantiate a new controller instance.
      *

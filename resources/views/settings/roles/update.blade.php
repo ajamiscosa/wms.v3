@@ -33,7 +33,8 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label">Name</label>
-                        <input type="text" class="form-control" name="Name" value="{{ $data->Name }}">
+                        <input id="rName" type="text" class="form-control" name="Name" value="{{ $data->Name }}">
+                        <small id="code-error" style="color: red;"></small>
                     </div>
                 </div>
             </div>
@@ -81,7 +82,7 @@
         <div class="card-footer">
             <div class="row">
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-flat btn-danger btn-sm">Save</button>
+                    <button id="btnSubmit" type="submit" class="btn btn-flat btn-danger btn-sm">Save</button>
                     <a href="/role" class="btn btn-flat btn-default btn-sm">Cancel</a>
                 </div>
             </div>
@@ -92,6 +93,36 @@
 @section('scripts')
     <script src="{{ asset('js/icheck.min.js') }}"></script>
     <script>
+
+        $('#rName').on('input', function() {
+            var code = $(this).val();
+            if(code.length > 2) {
+            console.log(code);
+                $.get({
+                    url: "/r/update/"+code,
+                    success: function(msg) {
+                        if(msg) {
+                            $('#rName').addClass('is-invalid');
+                            $('#code-error').html('<b>'+code+'</b> already exists in the database.');
+                            $('#btnSubmit').attr('disabled','disabled');
+                            nameExists = true;
+                        }
+                        else {
+                            $('#rName').removeClass('is-invalid');
+                            $('#code-error').text('');
+                            $('#btnSubmit').removeAttr('disabled','disabled');
+                            nameExists = false;
+                        }
+                    }
+                });
+            }
+            else {
+                $('#rName').removeClass('is-invalid');
+                $('#btnSubmit').removeAttr('disabled','disabled');
+                $('#code-error').text('');
+            }
+        });
+
         $(function () {
             $('input[type="checkbox"]').iCheck({
                 checkboxClass: 'icheckbox_square-red'

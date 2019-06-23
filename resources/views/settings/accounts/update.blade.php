@@ -46,7 +46,8 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label class="control-label">Username</label>
-                                <input type="text" class="form-control" name="Username" value="{{ $data->Username }}">
+                                <input id="uName" type="text" class="form-control" name="Username" value="{{ $data->Username }}">
+                                <small id="code-error" style="color: red;"></small>
                             </div>
                         </div>
                     </div>
@@ -128,7 +129,7 @@
                 <div class="card-footer">
                     <div class="row float-right">
                         <div class="col-lg-12">
-                            <button type="submit" class="btn btn-flat btn-danger btn-sm">Save</button>
+                            <button id="btnSubmit" type="submit" class="btn btn-flat btn-danger btn-sm">Save</button>
                             <a href="/account" class="btn btn-flat btn-default btn-sm">Cancel</a>
                         </div>
                     </div>
@@ -141,6 +142,36 @@
     <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script>
+
+        $('#uName').on('input', function() {
+            var code = $(this).val();
+            if(code.length > 2) {
+            console.log(code);
+                $.get({
+                    url: "/u/update/"+code,
+                    success: function(msg) {
+                        if(msg) {
+                            $('#uName').addClass('is-invalid');
+                            $('#code-error').html('<b>'+code+'</b> already exists in the database.');
+                            $('#btnSave').attr('disabled','disabled');
+                            nameExists = true;
+                        }
+                        else {
+                            $('#uName').removeClass('is-invalid');
+                            $('#code-error').text('');
+                            $('#btnSave').removeAttr('disabled','disabled');
+                            nameExists = false;
+                        }
+                    }
+                });
+            }
+            else {
+                $('#uName').removeClass('is-invalid');
+                $('#btnSave').removeAttr('disabled','disabled');
+                $('#code-error').text('');
+            }
+        });
+
         $(function () {
             var count = 1;
             var addFormGroup = function (event) {

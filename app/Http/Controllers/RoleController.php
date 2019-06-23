@@ -7,6 +7,16 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+    
+    public function search(Request $request, $value)
+    {
+        try {
+            \App\Role::where('Name','=',$value)->firstOrFail();
+        } catch(\Exception $e) {
+            return response()->json(false);
+        }
+        return response()->json(true);
+    }
     /**
      * Instantiate a new controller instance.
      *
