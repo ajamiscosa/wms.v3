@@ -25,7 +25,8 @@
                             <div class="col-md-6">
                                 <div class="form-group ">
                                     <label class="control-label">Name</label>
-                                    <input type="text" class="form-control" name="Name" required>
+                                    <input id="UomName" type="text" class="form-control" name="Name" required>
+                                    <small id="code-error" style="color: red;"></small>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -49,7 +50,7 @@
                     <div class="card-footer">
                         <div class="row float-right">
                             <div class="col-md-12">
-                                <button type="submit" class="btn flat btn-danger btn-sm">Save</button>
+                                <button id="btnSubmit" type="submit" class="btn flat btn-danger btn-sm">Save</button>
                                 <a href="/uom" class="btn flat btn-default btn-sm">Cancel</a>
                             </div>
                         </div>
@@ -62,6 +63,37 @@
 @section('scripts')
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script>
+
+        $('#UomName').on('input', function() {
+            var code = $(this).val();
+            if(code.length > 2) {
+            console.log(code);
+                $.get({
+                    url: "/uom/ajax/"+code,
+                    success: function(msg) {
+                        if(msg) {
+                            $('#UomName').addClass('is-invalid');
+                            $('#code-error').html('<b>'+code+'</b> already exists in the database.');
+                            $('#btnSubmit').attr('disabled','disabled');
+                            nameExists = true;
+                        }
+                        else {
+                            $('#UomName').removeClass('is-invalid');
+                            $('#code-error').text('');
+                            $('#btnSubmit').removeAttr('disabled','disabled');
+                            nameExists = false;
+                        }
+                    }
+                });
+            }
+            else {
+                $('#UomName').removeClass('is-invalid');
+                $('#btnSubmit').removeAttr('disabled','disabled');
+                $('#code-error').text('');
+            }
+        });
+
+
         $(function () {
             var addFormGroup = function (event) {
                 event.preventDefault();

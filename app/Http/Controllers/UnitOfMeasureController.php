@@ -9,6 +9,15 @@ use SebastianBergmann\CodeCoverage\Report\Xml\Unit;
 
 class UnitOfMeasureController extends Controller
 {
+    public function search(Request $request, $value)
+    {
+        try {
+            \App\UnitOfMeasure::where('Name','=',$value)->firstOrFail();
+        } catch(\Exception $e) {
+            return response()->json(false);
+        }
+        return response()->json(true);
+    }
     /**
      * Instantiate a new controller instance.
      *

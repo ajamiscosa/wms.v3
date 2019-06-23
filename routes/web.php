@@ -432,6 +432,7 @@ Route::get('/d/update/{name}', 'DepartmentController@search');
 Route::get('/c/update/{name}', 'CAPEXController@search');
 Route::get('/u/update/{name}', 'UserController@search');
 Route::get('/r/update/{name}', 'RoleController@search');
+Route::get('/uom/ajax/{name}', 'UnitOfMeasureController@search');
 
 
 /**AJAX - SETTINGS MENU - AJAX **/
