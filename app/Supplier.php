@@ -79,7 +79,7 @@ class Supplier extends Model
         return $this->belongsTo('App\SupplierType','SupplierType','ID')->first();
     }
 
-    public function PaymenTerm()
+    public function PaymentTerm()
     {
         return $this->belongsTo('App\Term','Term','ID')->first();
     }
