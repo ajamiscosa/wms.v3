@@ -52,6 +52,7 @@
     </style>
 @endsection
 @section('content')
+    <input type="hidden" id="OrderNumber" value="{{ $data->OrderNumber }}">
     <form method="post" action="/purchase-order/{{$data->OrderNumber}}/approve" id="poForm">
         {{ csrf_field() }}
         <div class="row">
@@ -77,6 +78,8 @@
                                             <span class="badge flat badge-success" style="margin-top: 5px; padding-top: 0; vertical-align: middle; height: 18px; line-height: 18px; text-align: center;">Approved</span>
                                         @elseif($data->Status=='D')
                                             <span class="badge flat badge-danger" style="margin-top: 5px; padding-top: 0; vertical-align: middle; height: 18px; line-height: 18px; text-align: center;">Draft</span>
+                                        @elseif($data->Status=='X')
+                                            <span class="badge flat badge-dark" style="margin-top: 5px; padding-top: 0; vertical-align: middle; height: 18px; line-height: 18px; text-align: center;">Rejected</span>
                                         @else
                                             <span class="badge flat badge-danger" style="margin-top: 5px; padding-top: 0; vertical-align: middle; height: 18px; line-height: 18px; text-align: center;">Voided</span>
                                         @endif
@@ -283,6 +286,7 @@
                                 </table>
                             </div>
                         </div>
+                        @if($data->Status != 'X')
                         <hr>
                         <div class="row">
                             <div class="col-lg-12" style="display: inline-flex;">
@@ -396,6 +400,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                         <hr class="mb-2"/>
                         <div class="row">
                             <div class="col-md-6">
@@ -553,6 +558,43 @@
                         e.preventDefault();
                     }
                 });
+            });
+
+            $('#btnRejectPO').on('click', function(e){
+                var orderNumber = $('#OrderNumber').val();
+                var remark = $('#Remarks').val();
+                if(remark.length>0) {
+                    
+                    e.preventDefault();
+                    var x = swal({
+                        title: 'Reject Order Number '+orderNumber+'?',
+                        text: "Do you wish to reject "+orderNumber+"?",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#DC3545',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No'
+                    },function(x){
+                        if(x) {
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                }
+                            });
+                            $.post("/purchase-order/"+orderNumber+"/reject")
+                                .done(function(){
+                                    window.location = window.location.pathname;
+                                }
+                            );
+                        } else {
+                            e.preventDefault();
+                        }
+                    });
+                }
+                else {
+                    $("#poForm").get(0).reportValidity();
+                }
             });
         })
 

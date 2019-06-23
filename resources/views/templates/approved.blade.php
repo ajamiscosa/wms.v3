@@ -3,7 +3,14 @@
         <img src="{{ asset('/img/approved.png') }}" style="height: 100%; width: 100%; object-fit: contain;"/>
     @else
         @if($isApprover and ($status==$expected))
-            <button id="btnApprovePO{{$status}}" style="height: 100%;">Approve</button>
+        <div class="row">
+            <div class="col-lg-8 pr-1">
+                <button class="btn btn-block btn-flat btn-success" id="btnApprovePO{{$status}}" style="height: 100%;">Approve</button>
+            </div>
+            <div class="col-lg-4 pl-1">
+                <input type="button" class="btn btn-block btn-flat btn-dark" id="btnRejectPO" style="height: 100%;" value="Reject"/>
+            </div>
+        </div>
         @endif
     @endif
 </div>

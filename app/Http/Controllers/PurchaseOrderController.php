@@ -722,6 +722,29 @@ class PurchaseOrderController extends Controller
     }
 
 
+    public function reject(Request $request, $purchaseOrder) {
+        $po = PurchaseOrder::where('OrderNumber','=',$purchaseOrder)->first();
+        $po->Status = 'X';
+
+        $remarks = json_decode($po->Remarks, true);
+        $remark = array('userid'=>auth()->user()->ID, 'message'=>$request->Remarks, 'time'=>Carbon::now()->toDateTimeString());
+        array_push($remarks['data'], $remark);
+        $po->Remarks = json_encode($remarks);
+        
+        $po->save();
+
+        $log = new StatusLog();
+        $log->OrderNumber = $po->OrderNumber;
+        $log->TransactionType = 'PO';
+        $log->LogType = 'X';
+        $log->save();
+
+
+        //TODO: Send email
+
+        return redirect()->back();
+    }
+
     public function void($po)
     {
         $po = PurchaseOrder::where('OrderNumber','=',$po)->first();

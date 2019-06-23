@@ -140,6 +140,7 @@ Route::get('/purchase-order/update/{id}', 'PurchaseOrderController@edit');
 Route::post('/purchase-order/{purchaseOrder}/update', 'PurchaseOrderController@update');
 Route::post('/purchase-order/{purchaseOrder}/submit', 'PurchaseOrderController@submit');
 Route::post('/purchase-order/{purchaseOrder}/approve', 'PurchaseOrderController@approve');
+Route::post('/purchase-order/{purchaseOrder}/reject', 'PurchaseOrderController@reject');
 
 Route::get('/purchase-order/data/{status}', 'PurchaseOrderController@getPurchaseOrderData');
 Route::post('/purchase-order/{id}/toggle', 'PurchaseOrderController@toggle');
