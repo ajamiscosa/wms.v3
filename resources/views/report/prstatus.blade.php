@@ -35,7 +35,7 @@
 @section('content')
     <div class="card card-danger card-outline flat">
         <div class="card-header card-header-text">
-            <div class="col-lg-6 col-md-12"><h3 class="card-title"><strong>Issuance Logs</strong></h3></div>
+            <div class="col-lg-6 col-md-12"><h3 class="card-title"><strong>Purchase Request Status</strong></h3></div>
         </div>
         <div class="card-body pt-2">
             <div class="material-datatables">
@@ -150,53 +150,71 @@
                         @endphp
                         @if($pr->count()>0)
                             @foreach($pr as $request)
-                                @php
-
-                                @endphp
-                                <tr role="row" class="{{ $loop->index % 2 ? "odd":"even" }}">
+                                <tr>
                                     <td>{{ $request->OrderNumber }}</td>
                                     <td>{{ $request->Department()->Name }}</td>
                                     <td>{{ \Carbon\Carbon::parse($request->Date)->format('m/d/Y') }}</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                @foreach($request->OrderItems() as $orderItem)
-                                    @foreach($orderItem->getReceivingReceipts() as $rr)
+                                @forelse($request->LineItems() as $lineItem)
+                                    @if($lineItem)
                                         @php
-                                            $lineItem = $orderItem->LineItem();
+                                            // $lineItem = $orderItem->LineItem();
                                             $product = $lineItem->Product();
-                                            $purchaseOrder = $rr->PurchaseOrder();
-                                            $quote = $orderItem->SelectedQuote();
-                                            $supplier = $quote->Supplier();
                                         @endphp
-                                        <tr>
-                                            <td colspan="3">
-                                            </td>
-                                            <td>{{ $product->UniqueID }}</td>
-                                            <td>{{ $product->getGeneralLedger()->Code }}</td>
-                                            <td class="text-right">{{ $rr->Quantity }}</td>
-                                            <td>{{ $product->UOM()->Abbreviation }}</td>
-                                            <td>{{ $product->Description }}</td>
-                                            <td>{{ $purchaseOrder->OrderNumber }}</td>
-                                            <td>{{ $purchaseOrder->OrderDate->format('m/d/Y') }}</td>
-                                            <td class="text-center">{{ $supplier->Code }}</td>
-                                            <td class="text-right">{{ $quote->Amount }}</td>
-                                            <td class="text-center">{{ $purchaseOrder->Total }}</td>
-                                            <td>{{ $rr->OrderNumber }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($rr->Received)->format('m/d/Y') }}</td>
-                                        </tr>
-                                    @endforeach
-                                @endforeach
+                                        <td>{{ $product->UniqueID }}</td>
+                                        <td>{{ $product->getGeneralLedger()->Code }}</td>
+                                        <td class="text-right">{{ $lineItem->Quantity }}</td>
+                                        <td>{{ $product->UOM()->Abbreviation }}</td>
+                                        <td>{{ $product->Description }}</td>
+
+                                        @forelse($request->OrderItems() as $orderItem)
+                                            @if($orderItem)
+                                                @if($po = $orderItem->PurchaseOrder())
+                                                    @if($po->Status != 'D')
+                                                        <td>{{ $po->OrderNumber }}</td>
+                                                        <td>{{ $po->OrderDate->format('m/d/Y') }}</td>
+                                                        <td>{{ $po->Supplier()->Name }}</td>
+                                                        <td class="text-right">{{ $orderItem->SelectedQuote()->Amount }}</td>
+                                                        <td class="text-right">{{ $po->Total }}</td>
+                                                        @forelse($orderItem->getReceivingReceipts() as $rr)
+                                                            @php
+                                                                $purchaseOrder = $rr->PurchaseOrder();
+                                                                $quote = $orderItem->SelectedQuote();
+                                                                $supplier = $quote->Supplier();
+                                                            @endphp
+                                                            
+                                                            @if ($loop->first)
+                                                                <td>{{ $rr->OrderNumber }}</td>
+                                                                <td>{{ \Carbon\Carbon::parse($rr->Received)->format('m/d/Y') }}</td>
+                                                            </tr>
+                                                            @else
+                                                            <tr>
+                                                                <td colspan="13"></td>
+                                                                <td>{{ $rr->OrderNumber }}</td>
+                                                                <td>{{ \Carbon\Carbon::parse($rr->Received)->format('m/d/Y') }}</td>
+                                                            </tr>
+                                                            @endif
+                                                        @empty
+                                                            <td colspan="2"></td>
+                                                        @endforelse
+                                                    @else
+                                                        <td colspan="7"></td>
+                                                    @endif
+                                                @else
+                                                    <td colspan="7"></td>
+                                                @endif
+                                            @else
+                                            <td colspan="7"></td>
+                                            @endif
+                                        @empty
+                                            <td colspan="7"></td>
+                                        @endforelse
+                                    @else
+                                    <td colspan="12"></td>
+                                    @endif
+                                @empty
+                                    <td colspan="12"></td>
+                                @endforelse
+                                </tr>
                             @endforeach
                         @else
                             <tr>

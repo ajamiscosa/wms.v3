@@ -28,6 +28,16 @@ class OrderItem extends Model
         'PurchaseOrder', 'Requisition', 'LineItem', 'Quote'
     ];
 
+    public function hasLineItem() { 
+        try {
+            $this->LineItem();
+        }
+        catch(\Exception $e){ 
+            return false;
+        }
+        return true;
+    }
+
     public function LineItem() {
         return $this->hasOne('App\LineItem','ID','LineItem')->firstOrFail();
     }
