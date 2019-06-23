@@ -267,7 +267,7 @@ class Product extends Model
                 $purchaseOrder = $orderItem->PurchaseOrder();
 
                 if($purchaseOrder->Status=='A') {
-                    array_push($data, $lineItem->OrderItem());
+                    array_push($data, $purchaseOrder);
                 }
             }
         }

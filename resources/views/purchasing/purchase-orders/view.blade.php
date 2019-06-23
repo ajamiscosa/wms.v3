@@ -250,6 +250,34 @@
                                                             </tr>
                                                         </table>
                                                     </div>
+                                                    <div class="col-lg-6 col-sm-12 pr-0 pt-0 pl-1 pb-0">
+                                                        <table width="100%">
+                                                            <tr>
+                                                                <th class="text-center">Last Date of Purchase</th>
+                                                            </tr>
+                                                            <tr>
+                                                                @php
+                                                                    $lastPO = null;
+                                                                    $poList = $product->getPurchaseOrders();
+                                                                    if(count($poList)>0) {
+                                                                        for($i=0;$i<count($poList);$i++) {
+                                                                            if($i-1>=0) {
+                                                                                $lastPO = $poList[$i-1];
+                                                                            }
+                                                                            else {
+                                                                                $lastPO = null;
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                @endphp
+                                                                @if($lastPO)
+                                                                    <td class="text-center">{{ $lastPO->OrderDate->format('F d, Y')??"N/A" }}</td>
+                                                                @else
+                                                                    <td class="text-center">N/A</td>
+                                                                @endif
+                                                            </tr>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </td>
                                                 {{-- @include('templates.rsitemsub',['data'=>$product]) --}}
