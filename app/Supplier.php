@@ -79,14 +79,14 @@ class Supplier extends Model
         return $this->belongsTo('App\SupplierType','SupplierType','ID')->first();
     }
 
-    public function PaymenTerm()
+    public function PaymentTerm()
     {
         return $this->belongsTo('App\Term','Term','ID')->first();
     }
 
-    public function ShippingMethod()
+    public function APAccount()
     {
-        return $this->belongsTo('App\ShippingMethod','ShippingMethod','ID')->first();
+        return $this->belongsTo('App\GeneralLedger','APAccount','ID')->first();
     }
 
 

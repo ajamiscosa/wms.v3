@@ -185,13 +185,13 @@ class RequisitionController extends Controller
             if($table=='issuanceList') {
                 for($i=0;$i<count($data);$i++) {
                     $product = $product->where('ID','=',$data[$i])->first();
-//                    if($product->getAvailableQuantity()==0) {
-//                        return response()->json([
-//                            'code'=>0,
-//                            'title'=>'Oops...',
-//                            'message'=>'One or more of your selected items is currently out of stock and cannot be issued.!'
-//                        ]);
-//                    }
+                   if($product->getAvailableQuantity()==0) {
+                       return response()->json([
+                           'code'=>0,
+                           'title'=>'Oops...',
+                           'message'=>'One or more of your selected items is currently out of stock and cannot be issued.!'
+                       ]);
+                   }
                 }
             }
 

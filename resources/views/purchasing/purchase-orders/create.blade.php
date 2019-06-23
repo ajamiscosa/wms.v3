@@ -118,17 +118,14 @@
                             </div>
                         </div>
                     </div>
+                    @php($supplier = $data->Supplier())
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <strong><i class="fa fa-money-check-alt mr-1"></i> AP G/L Account</strong>
+                                <strong><i class="fa fa-clipboard-list mr-1"></i> Payment Term</strong>
                                 <p class="text-muted">
-                                    <select class="ap-select form-control flat" name="APAccount" required>
-                                        <option></option>
-                                        @foreach(\App\GeneralLedger::getGeneralLedgerCodesFor('P') as $gl)
-                                            <option value="{{ $gl->ID }}" {{ $data->APAccount==$gl->ID?"selected":"" }}>[{{$gl->Code}}] {{$gl->Description}}</option>
-                                        @endforeach
-                                    </select>
+                                    <span>{{ $supplier->PaymentTerm()->Description }}</span>
+                                    <input type="hidden" id="PaymentTerm" name="PaymentTerm" value="{{ $supplier->PaymentTerm()->ID }}">
                                 </p>
                             </div>
                         </div>
@@ -146,16 +143,15 @@
                             </div>
                         </div>
                     </div>
-                    @php($supplier = $data->Supplier())
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <strong><i class="fa fa-clipboard-list mr-1"></i> Payment Term</strong>
+                                <strong><i class="fa fa-money-check-alt mr-1"></i> AP G/L Account</strong>
                                 <p class="text-muted">
-                                    <select class="term-select form-control flat" name="PaymentTerm">
+                                    <select class="ap-select form-control flat" name="APAccount" required>
                                         <option></option>
-                                        @foreach(\App\Term::all() as $term)
-                                            <option value="{{ $term->ID }}" {{ $supplier->Term==$term->ID?"selected":"" }}>{{ $term->Description }}</option>
+                                        @foreach(\App\GeneralLedger::getGeneralLedgerCodesFor('P') as $gl)
+                                            <option value="{{ $gl->ID }}" {{ $data->APAccount==$gl->ID?"selected":"" }}>[{{$gl->Code}}] {{$gl->Description}}</option>
                                         @endforeach
                                     </select>
                                 </p>
@@ -302,29 +298,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p style="font-size: 8pt;">
-                                <i>
-                                    @if($data->created_at == $data->updated_at)
-                                        @if($data->updated_at == \Carbon\Carbon::today())
-                                            Created: Today @ {{ $data->created_at->format('h:i:s A') }} by {{\App\User::find($data->created_by)->first()->Username }}
-                                        @else
-                                            Created: {{ $data->created_at->toFormattedDateString() }} by {{ \App\User::find($data->created_by)->first()->Username }};
-                                        @endif
-                                    @else
-                                        @if($data->updated_at->diffInDays(\Carbon\Carbon::now())>1)
-                                            Last Updated: {{ $data->updated_at->toFormattedDateString() }} by {{ \App\User::find($data->updated_by)->first()->Username }}
-                                        @else
-                                            Last Updated: Today @ {{ $data->updated_at->format('h:i:s A') }} by {{\App\User::find($data->updated_by)->first()->Username }}
-                                        @endif
-                                    @endif
-                                </i>
-                            </p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-12">
@@ -384,7 +357,7 @@
 
             var apAccount = $('.ap-select').val();
             var priority = $('.priority-select').val();
-            var term = $('.term-select').val();
+            var term = $('#PaymentTerm').val();
             var chargeType = $('.chargeType-select').val();
             var productLine = $('.productLine-select').val();
             var remarks = $('#Remarks').val();
