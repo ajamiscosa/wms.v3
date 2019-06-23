@@ -17,7 +17,10 @@ $product = $lineItem->Product();
 <div class="card card-danger card-outline flat"> <!--  collapsed-card-->
     <div class="card-header">
         <div class="middle-center"><i class="far fa-file-alt pt-1"></i>&nbsp;&nbsp;<strong>Available Quotations</strong></div>
+        @if(auth()->user()->isPurchasingManager())
+        
         <a href="#" class="btn btn-flat btn-danger btn-sm float-right" id="btn{{ $lineItem->OrderNumber }}-{{ $lineItem->ID }}">Approve Quotation</a>
+        @endif
     </div>
     <div class="card-body">
         <table class="table table-secondary table-bordered table-responsive-lg">
