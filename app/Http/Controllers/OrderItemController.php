@@ -49,7 +49,7 @@ class OrderItemController extends Controller
         $lineItem->Quoted = true;
         $lineItem->save();
 
-        return redirect()->to('/order-item');
+        return redirect()->to('/pending-quote');
     }
 
     /**

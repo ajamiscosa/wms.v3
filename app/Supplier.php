@@ -84,9 +84,9 @@ class Supplier extends Model
         return $this->belongsTo('App\Term','Term','ID')->first();
     }
 
-    public function ShippingMethod()
+    public function APAccount()
     {
-        return $this->belongsTo('App\ShippingMethod','ShippingMethod','ID')->first();
+        return $this->belongsTo('App\GeneralLedger','APAccount','ID')->first();
     }
 
 

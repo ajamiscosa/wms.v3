@@ -97,9 +97,9 @@
                 <hr>
                 <div class="row mb-0 pb-0">
                     <div class="col-lg-6 col-md-6">
-                        <strong><i class="far fa-calendar-alt mr-1"></i> Ship Via</strong>
+                        <strong><i class="far fa-calendar-alt mr-1"></i> AP Account</strong>
                         <p class="text-muted mb-0 pb-0">
-                            {{ $data->ShippingMethod()->Description }}
+                            {{ $data->APAccount()->Code??"" }}
                         </p>
                     </div>
                     <div class="col-lg-6 col-md-6">
