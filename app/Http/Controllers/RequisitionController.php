@@ -179,13 +179,14 @@ class RequisitionController extends Controller
         $data = session()->pull($table);
         session()->put($table, $data);
 
+
         if(count($data)>0) {
             $product = new Product();
 
             if($table=='issuanceList') {
-                for($i=0;$i<count($data);$i++) {
-                    $product = $product->where('ID','=',$data[$i])->first();
-                   if($product->getAvailableQuantity()==0) {
+                foreach($data as $entry) {
+                    $product = $product->where('ID','=',$entry)->first();
+                    if($product->getAvailableQuantity()==0) {
                        return response()->json([
                            'code'=>0,
                            'title'=>'Oops...',
