@@ -117,6 +117,7 @@ class DepartmentController extends Controller
         $data = explode('-', $department, 2);
         $department = Department::where('ID','=', $data[0])->first();
         $department->Name = $request->Name;
+        $department->Manager = $request->Manager;
         $department->Approvers = $approvers;
         $department->Parent = $request->ParentDepartment;
         $department->GL = $request->GL;
