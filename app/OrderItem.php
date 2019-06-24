@@ -51,7 +51,7 @@ class OrderItem extends Model
     }
 
     public function PurchaseOrder() {
-        return $this->hasOne('App\PurchaseOrder','ID','PurchaseOrder')->firstOrFail();
+        return $this->hasOne('App\PurchaseOrder','ID','PurchaseOrder')->first();
     }
 
     public function getReceivingReceipts() {
