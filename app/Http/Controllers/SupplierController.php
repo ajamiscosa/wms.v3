@@ -55,7 +55,7 @@ class SupplierController extends Controller
         $supplier->SupplierType = $request->SupplierType;
         $supplier->Currency = $request->Currency;
         $supplier->DeliveryLeadTime = $request->DeliveryLeadTime;
-        $supplier->ShippingMethod = $request->ShipVia;
+        // $supplier->ShippingMethod = $request->ShipVia;
         $supplier->Term = $request->Term;
         $supplier->Contact = $request->Contact;
         $supplier->AddressLine1 = $request->AddressLine1;
@@ -84,6 +84,7 @@ class SupplierController extends Controller
      */
     public function show($supplier) {
         $supplier = Supplier::where('Code','=',$supplier)->first();
+        // dd($supplier->PaymentTerm()->Description);
         return view('suppliers.view', ['data'=>$supplier]);
     }
 

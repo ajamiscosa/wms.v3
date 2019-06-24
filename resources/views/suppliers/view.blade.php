@@ -28,7 +28,6 @@
 
     $name = explode(' ', $data->Name);
     $name = implode('-', $name);
-
 @endphp
 @section('content')
 
@@ -90,7 +89,7 @@
                     <div class="col-lg-6 col-md-6">
                         <strong><i class="fa fa-calendar-alt mr-1"></i> Term and Credit</strong>
                         <p class="text-muted mb-0 pb-0">
-                            {{ $data->PaymenTerm()->Description }}
+                            {{ $data->PaymentTerm()->Description }}
                         </p>
                     </div>
                 </div>
