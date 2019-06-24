@@ -112,7 +112,7 @@
                         @endif
                     @endif
                     <!-- For Plant Manager -->
-                    @if(auth()->user()->isPlantManager() and $data->isFullyQuoted())
+                    @if(auth()->user()->isPurchasingManager() and $data->isFullyQuoted())
                         @if($data->Status=='2')
                             <a class="btn btn-sm flat btn-simple" id="btnApprove3" style="color: #000;">
                                 <span class="fa fa-check"></span>
@@ -223,7 +223,7 @@
                     <table id="poTable" class="table table-striped table-no-bordered dataTable dtr-inline" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
                         <thead>
                         <tr role="row">
-                            @if(\Illuminate\Support\Facades\Auth::user()->isPlantManager())
+                            @if(\Illuminate\Support\Facades\Auth::user()->isPurchasingManager())
                                 <th></th>
                             @endif
                             <th style="width: 40%;">Item</th>
@@ -242,7 +242,7 @@
 
                             @endphp
                             <tr>
-                                @if(\Illuminate\Support\Facades\Auth::user()->isPlantManager())
+                                @if(\Illuminate\Support\Facades\Auth::user()->isPurchasingManager())
                                     <td class="align-middle"><a class="alert-link" data-toggle="collapse" data-target="#demo{{$loop->index}}" id="toggle-menu"><i class="nav-icon fa fa-expand details"></i></a></td>
                                 @endif
                                 <td class="align-middle">
