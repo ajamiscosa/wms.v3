@@ -82,7 +82,7 @@
                                         <p>New Requisition</p>
                                     </a>
                                 </li>
-                                @if(auth()->user()->isAuthorized('PurchaseRequests','A'))
+                                @if(auth()->user()->isAuthorized('PurchaseRequests','V'))
                                     <li class="nav-item">
                                         <a href="/special-request" class="nav-link flat" id="special-request" data-parent="#requisition">
                                             <i class="fa fa-angle-right nav-icon"></i>
@@ -101,7 +101,7 @@
                                         </a>
                                     </li>
                                 @endif
-                                @if(auth()->user()->isAuthorized('PurchaseRequests','A'))
+                                @if(auth()->user()->isAuthorized('PurchaseRequests','V'))
                                     <li class="nav-item">
                                         <a href="/purchase-request" class="nav-link flat" id="purchase-request" data-parent="#requisition">
                                             <i class="fa fa-angle-right nav-icon"></i>
