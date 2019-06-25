@@ -229,7 +229,7 @@
                                                     }
                                                 @endphp
                                             </td>
-                                            <td class="align-middle">[{{ $lineItem->GeneralLedger()->Code }}] {{ $lineItem->GeneralLedger()->Description }}</td>
+                                            <td class="align-middle">[{{ $lineItem->Product()->getGeneralLedger()->Code }}] {{ $lineItem->Product()->getGeneralLedger()->Description }}</td>
                                             <td class="text-right align-middle">{{ round($lineItem->Quantity, 2) }} {{ $product->UOM()->Abbreviation }}</td>
                                             <td class="text-right align-middle">{{ $quote->Currency()->Code }} {{ number_format(($quote->Amount*$lineItem->Quantity),2,'.',',') }}</td>
                                         </tr>
