@@ -841,7 +841,7 @@ class RequisitionController extends Controller
         $product->Name = $request->Name;
         $product->Description = $request->Description;
         $product->Category = $request->Category;
-        $product->ProductLine = $request->ProductLine;
+        $product->ProductLine = ProductLine::FindProductLineByCode($request->ProductLine);
         $product->Series = $product->getNextItemSeriesNumber();
         $product->Quantity = 0;
         $product->UOM = $request->UOM;
