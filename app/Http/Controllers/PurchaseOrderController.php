@@ -704,6 +704,9 @@ class PurchaseOrderController extends Controller
         } 
         if($user->isGeneralManager()) {
             $po->Status = 'A';
+            $po->PurchasingManager = Carbon::today();
+            $po->OperationsManager = Carbon::today();
+            $po->PlantManager = Carbon::today();
             $po->GeneralManager = Carbon::today();
 
             $log = new StatusLog();

@@ -1,5 +1,5 @@
 <div class="row d-flex flex-column" style="width: 100%; display: table-cell; vertical-align: center; text-align: left; height: 40px;">
-    @if($date!==null)
+    @if($date!==null or $status=='A')
         <img src="{{ asset('/img/approved.png') }}" style="height: 100%; width: 100%; object-fit: contain;"/>
     @else
         @if(($isApprover and ($status==$expected)) or (auth()->user()->isGeneralManager()))
@@ -15,7 +15,7 @@
     @endif
 </div>
 <div class="row" style="display: block; vertical-align: middle; text-align: center;">
-    @if($date!==null)
+    @if($date!==null or $status=='A')
         {{  $date->format('F d, Y') }}
     @else
         Pending Approval
