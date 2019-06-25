@@ -175,7 +175,7 @@ class RequisitionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function canCreateRequest(Request $request, $table) {
+    public function canCreateRequest(Request $request, $table, $id) {
         $data = session()->pull($table);
         session()->put($table, $data);
 
@@ -186,13 +186,15 @@ class RequisitionController extends Controller
             if($table=='issuanceList') {
                 foreach($data as $entry) {
                     $product = $product->where('ID','=',$entry)->first();
-                    if($product->getAvailableQuantity()==0) {
-                       return response()->json([
-                           'code'=>0,
-                           'title'=>'Oops...',
-                           'message'=>'One or more of your selected items is currently out of stock and cannot be issued.!'
-                       ]);
-                   }
+                    if($id=="ir") {
+                        if($product->getAvailableQuantity()==0) {
+                            return response()->json([
+                                'code'=>0,
+                                'title'=>'Oops...',
+                                'message'=>'One or more of your selected items is currently out of stock and cannot be issued.!'
+                            ]);
+                        }
+                    }
                 }
             }
 

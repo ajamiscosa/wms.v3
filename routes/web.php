@@ -488,7 +488,7 @@ Route::post('/rs/{table}/addArrayToList', 'RequisitionController@addArrayToRequi
 Route::post('/rs/{table}/removeFromList', 'RequisitionController@removeFromRequisitionList');
 Route::get('/rs/{table}/raw','RequisitionController@getRequisitionListAsArray');
 Route::get('/rs/{table}/count','RequisitionController@getRequisitionListCount');
-Route::post('/rs/{table}/check', 'RequisitionController@canCreateRequest');
+Route::post('/rs/{table}/check/{id}', 'RequisitionController@canCreateRequest');
 
 
 
