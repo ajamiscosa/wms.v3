@@ -2,7 +2,7 @@
     @if($date!==null)
         <img src="{{ asset('/img/approved.png') }}" style="height: 100%; width: 100%; object-fit: contain;"/>
     @else
-        @if($isApprover and ($status==$expected))
+        @if(($isApprover and ($status==$expected)) or (auth()->user()->isGeneralManager()))
         <div class="row">
             <div class="col-lg-8 pr-1">
                 <button class="btn btn-block btn-flat btn-success" id="btnApprovePO{{$status}}" style="height: 100%;">Approve</button>

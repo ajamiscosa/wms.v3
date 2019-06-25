@@ -681,7 +681,8 @@ class PurchaseOrderController extends Controller
             $log->TransactionType = 'PO';
             $log->LogType = '1';
             $log->save();
-        } else if($user->isOperationsDirector()) {
+        } 
+        if($user->isOperationsDirector()) {
             $po->Status = '2';
             $po->OperationsManager = Carbon::today();
 
@@ -690,7 +691,8 @@ class PurchaseOrderController extends Controller
             $log->TransactionType = 'PO';
             $log->LogType = '2';
             $log->save();
-        } else if($user->isPlantManager()) {
+        } 
+        if($user->isPlantManager()) {
             $po->Status = '3';
             $po->PlantManager = Carbon::today();
 
@@ -699,7 +701,8 @@ class PurchaseOrderController extends Controller
             $log->TransactionType = 'PO';
             $log->LogType = '3';
             $log->save();
-        } else if($user->isGeneralManager()) {
+        } 
+        if($user->isGeneralManager()) {
             $po->Status = 'A';
             $po->GeneralManager = Carbon::today();
 

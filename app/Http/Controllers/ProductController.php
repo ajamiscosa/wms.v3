@@ -61,6 +61,8 @@ class ProductController extends Controller
         $inventoryGL = GeneralLedger::FindIdByCode($request->InventoryGL);
         $issuanceGL = GeneralLedger::FindIdByCode($request->IssuanceGL);
 
+
+
         $product = new Product();
         $product->Location = $request->Location;
         $product->Name = strtoupper($request->Name);
@@ -77,6 +79,8 @@ class ProductController extends Controller
         $product->MinimumQuantity = $request->MinimumQuantity;
         $product->CriticalQuantity = $request->CriticalQuantity;
         $product->UniqueID = $product->generateUniqueID();
+
+        dd($product);
         $product->save();
 
         return redirect()->to('/product/view/'.$product->UniqueID);

@@ -105,7 +105,7 @@
                                             [{{ $product->UniqueID }}] {{ $product->Description }}
                                         </a>
                                     </td>
-                                    <td class=" pt-0 pb-0 mt-0 mb-0 align-middle">[{{ $lineItem->GeneralLedger()->Code }}] {{ $lineItem->GeneralLedger()->Description }}</td>
+                                    <td class=" pt-0 pb-0 mt-0 mb-0 align-middle">[{{ $lineItem->Product()->getGeneralLedger()->Code }}] {{ $lineItem->Product()->getGeneralLedger()->Description }}</td>
                                     <td>
                                         <div class="input-group my-colorpicker2 colorpicker-element float-right">
                                             @if($lineItem->getRemainingDeliverableQuantity()>0)
