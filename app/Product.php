@@ -192,7 +192,7 @@ class Product extends Model
 
         $prefix = sprintf('%s-%s%s',$desc,$category,$line);
         try{
-            $lastMatch = $this->where('UniqueID','like','\''.$prefix.'%\'')->get()->last();
+            $lastMatch = $this->where('UniqueID','like','%'.$prefix.'%')->get()->last();
             $lastCount = $lastMatch->Series;
             $lastCount++;
         }catch(\Exception $exception) {
