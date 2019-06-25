@@ -246,9 +246,10 @@ class Product extends Model
             if(count($lineItems)>0 and $lineItem->isOrderItem() and $lineItem->Ordered) {
                 $orderItem = $lineItem->OrderItem();
                 $purchaseOrder = $orderItem->PurchaseOrder();
-
-                if($purchaseOrder->Status=='A') {
-                    $counter += $lineItem->getRemainingDeliverableQuantity();
+                if($purchaseOrder){
+                    if($purchaseOrder->Status=='A') {
+                        $counter += $lineItem->getRemainingDeliverableQuantity();
+                    }
                 }
             }
         }
