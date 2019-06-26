@@ -200,7 +200,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Date Filed</label><br/>
-                                <span>{{ $data->Date->format("M. d, Y | h:i A") }}</span>
+                                <span>{{ $data->Date->format("M. d, Y") }}</span>
                             </div>
                         </div>
                     </div>

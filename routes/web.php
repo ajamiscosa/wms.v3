@@ -751,3 +751,9 @@ Route::get('/test123', function(){
     dd($isNumber);
 
 });
+
+Route::get('/test/mail', function() {
+
+    $mailHelper = new \App\Classes\MailHelper();
+    $mailHelper->sendMail('mail.test', [], 'ajamiscosa@gmail.com', 'Application Status');
+});
