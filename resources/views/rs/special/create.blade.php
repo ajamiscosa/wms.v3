@@ -101,7 +101,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="GLCode" class="control-label">G/L Code</label>
-                                <select required class="form-control glcode-select" name="GLCode">
+                                <select required class="form-control glcode-select" name="InventoryGL">
                                     <option></option>
                                     {{--@foreach(\App\GeneralLedger::getInventoryGeneralLedgerCodes() as $gl)--}}
                                     {{--<option value="{{ $gl->ID }}">[{{ $gl->Code }}] {{ $gl->Description }}</option>--}}

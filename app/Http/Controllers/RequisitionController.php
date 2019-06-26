@@ -309,11 +309,22 @@ class RequisitionController extends Controller
             $issuance->save();
 
             for($i=0;$i<count($request->Product);$i++) {
+                $product = Product::find($request->Product[$i]);
+                if($product->InventoryGL == 0) {
+                    $product->InventoryGL = $request->InventoryGL;
+                }
+
                 $lineItem = new LineItem();
                 $lineItem->OrderNumber = $issuance->OrderNumber;
-                $lineItem->Product = $request->Product[$i];
+                $lineItem->Product = $product->ID;
                 $lineItem->Quantity = $request->Quantity[$i];
                 $lineItem->GLCode = is_array($request->GLCode)?$request->GLCode[$i]:$request->GLCode;
+
+                if($product->IssuanceGL == 0) {
+                    $product->IssuanceGL = $lineItem->GLCode;
+                    $product->save();
+                }
+
                 $lineItem->save();
             }
 

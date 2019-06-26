@@ -203,13 +203,16 @@ class Product extends Model
     }
 
     public function getNextServiceSeriesNumber() {
-        $prefix = sprintf("SERV-%s", Carbon::today()->format("my"));
+        $lastCount = 0;
+        $prefix = sprintf("SER-%s", Carbon::today()->format("my"));
         try{
-            $lastMatch = $this->where('UniqueID','LIKE',$prefix."%")->orderByDesc('UniqueID')->firstOrFail();
-            $lastCount = $lastMatch->Series;
+            $lastMatch = $this->where('UniqueID','LIKE',$prefix."%")->orderByDesc('UniqueID')->first();
+            if($lastMatch) {
+                $lastCount = $lastMatch->Series;
+            }
             $lastCount++;
         }catch(ModelNotFoundException $exception) {
-            $lastCount = 0;
+            $lastCount = 1;
         }
 
         return $lastCount;

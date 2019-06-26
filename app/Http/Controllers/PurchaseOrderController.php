@@ -547,9 +547,9 @@ class PurchaseOrderController extends Controller
 
         $pr = $rs->where([
             ['Status', '!=', 'A'],
+            ['Status', '!=', 'V'],
             ['Type', '=', 'PR']
         ])->get();
-
 
         foreach ($pr as $request) {
             $entry = array();
