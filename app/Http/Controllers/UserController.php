@@ -232,11 +232,17 @@ class UserController extends Controller
 
             if($account) {
                 if($account->Password == $pass) {
-                    Auth::login($account);
+                    if($account->Status==1) {
+                        Auth::login($account);
+                        return redirect()->to('/');
+                    }
+                    else {
+                        $validator->errors()->add('Username', 'User is currently disabled');
+                        return redirect()->back()->withErrors($validator);
+                    }
                     // if(session('link')) {
                     //     return redirect(session('link'));
                     // }
-                    return redirect()->to('/');
                 }
                 else {
                     $validator->errors()->add('Password', 'Password is Incorrect');

@@ -40,5 +40,15 @@ class ProductLine extends Model
         }
         return 0;
     }
+
+    public static function FindProductLineByCode($code) { 
+        $pl = new ProductLine();
+        try {
+            $pl = $pl->where('Code','=',$code)->firstOrFail();
+            return $pl->ID;
+        } catch(\Exception $exception) {
+
+        }
+    }
 }
 

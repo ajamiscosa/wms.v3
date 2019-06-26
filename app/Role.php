@@ -37,7 +37,7 @@ class Role extends Model
         $role = $role->where('Name','=',$name)->first();
 
         $user = new User();
-        $users = $user->all();
+        $users = $user->where('Status','!=',0)->get();
 
         foreach($users as $user){
             if(in_array($role->ID, json_decode($user->Roles))) {

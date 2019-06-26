@@ -52,6 +52,7 @@
     </style>
 @endsection
 @section('content')
+    <input type="hidden" id="OrderNumber" value="{{ $data->OrderNumber }}">
     <form method="post" action="/purchase-order/{{$data->OrderNumber}}/approve" id="poForm">
         {{ csrf_field() }}
         <div class="row">
@@ -77,6 +78,8 @@
                                             <span class="badge flat badge-success" style="margin-top: 5px; padding-top: 0; vertical-align: middle; height: 18px; line-height: 18px; text-align: center;">Approved</span>
                                         @elseif($data->Status=='D')
                                             <span class="badge flat badge-danger" style="margin-top: 5px; padding-top: 0; vertical-align: middle; height: 18px; line-height: 18px; text-align: center;">Draft</span>
+                                        @elseif($data->Status=='X')
+                                            <span class="badge flat badge-dark" style="margin-top: 5px; padding-top: 0; vertical-align: middle; height: 18px; line-height: 18px; text-align: center;">Rejected</span>
                                         @else
                                             <span class="badge flat badge-danger" style="margin-top: 5px; padding-top: 0; vertical-align: middle; height: 18px; line-height: 18px; text-align: center;">Voided</span>
                                         @endif
@@ -226,7 +229,7 @@
                                                     }
                                                 @endphp
                                             </td>
-                                            <td class="align-middle">[{{ $lineItem->GeneralLedger()->Code }}] {{ $lineItem->GeneralLedger()->Description }}</td>
+                                            <td class="align-middle">[{{ $lineItem->Product()->getGeneralLedger()->Code }}] {{ $lineItem->Product()->getGeneralLedger()->Description }}</td>
                                             <td class="text-right align-middle">{{ round($lineItem->Quantity, 2) }} {{ $product->UOM()->Abbreviation }}</td>
                                             <td class="text-right align-middle">{{ $quote->Currency()->Code }} {{ number_format(($quote->Amount*$lineItem->Quantity),2,'.',',') }}</td>
                                         </tr>
@@ -244,6 +247,34 @@
                                                                 <td class="text-right">{{ sprintf('%d %s',($product->getAvailableQuantity()), $uom) }}</td>
                                                                 <td class="text-right">{{ sprintf('%d %s',($product->getReservedQuantity()), $uom) }}</td>
                                                                 <td class="text-right">{{ sprintf('%d %s',($product->getIncomingQuantity()), $uom) }}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <div class="col-lg-6 col-sm-12 pr-0 pt-0 pl-1 pb-0">
+                                                        <table width="100%">
+                                                            <tr>
+                                                                <th class="text-center">Last Date of Purchase</th>
+                                                            </tr>
+                                                            <tr>
+                                                                @php
+                                                                    $lastPO = null;
+                                                                    $poList = $product->getPurchaseOrders();
+                                                                    if(count($poList)>0) {
+                                                                        for($i=0;$i<count($poList);$i++) {
+                                                                            if($i-1>=0) {
+                                                                                $lastPO = $poList[$i-1];
+                                                                            }
+                                                                            else {
+                                                                                $lastPO = null;
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                @endphp
+                                                                @if($lastPO)
+                                                                    <td class="text-center">{{ $lastPO->OrderDate->format('F d, Y')??"N/A" }}</td>
+                                                                @else
+                                                                    <td class="text-center">N/A</td>
+                                                                @endif
                                                             </tr>
                                                         </table>
                                                     </div>
@@ -283,6 +314,7 @@
                                 </table>
                             </div>
                         </div>
+                        @if($data->Status != 'X')
                         <hr>
                         <div class="row">
                             <div class="col-lg-12" style="display: inline-flex;">
@@ -396,6 +428,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                         <hr class="mb-2"/>
                         <div class="row">
                             <div class="col-md-6">
@@ -553,6 +586,43 @@
                         e.preventDefault();
                     }
                 });
+            });
+
+            $('#btnRejectPO').on('click', function(e){
+                var orderNumber = $('#OrderNumber').val();
+                var remark = $('#Remarks').val();
+                if(remark.length>0) {
+                    
+                    e.preventDefault();
+                    var x = swal({
+                        title: 'Reject Order Number '+orderNumber+'?',
+                        text: "Do you wish to reject "+orderNumber+"?",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#DC3545',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No'
+                    },function(x){
+                        if(x) {
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                }
+                            });
+                            $.post("/purchase-order/"+orderNumber+"/reject")
+                                .done(function(){
+                                    window.location = window.location.pathname;
+                                }
+                            );
+                        } else {
+                            e.preventDefault();
+                        }
+                    });
+                }
+                else {
+                    $("#poForm").get(0).reportValidity();
+                }
             });
         })
 

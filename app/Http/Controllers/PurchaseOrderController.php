@@ -547,9 +547,9 @@ class PurchaseOrderController extends Controller
 
         $pr = $rs->where([
             ['Status', '!=', 'A'],
+            ['Status', '!=', 'V'],
             ['Type', '=', 'PR']
         ])->get();
-
 
         foreach ($pr as $request) {
             $entry = array();
@@ -681,7 +681,8 @@ class PurchaseOrderController extends Controller
             $log->TransactionType = 'PO';
             $log->LogType = '1';
             $log->save();
-        } else if($user->isOperationsDirector()) {
+        } 
+        if($user->isOperationsDirector()) {
             $po->Status = '2';
             $po->OperationsManager = Carbon::today();
 
@@ -690,7 +691,8 @@ class PurchaseOrderController extends Controller
             $log->TransactionType = 'PO';
             $log->LogType = '2';
             $log->save();
-        } else if($user->isPlantManager()) {
+        } 
+        if($user->isPlantManager()) {
             $po->Status = '3';
             $po->PlantManager = Carbon::today();
 
@@ -699,8 +701,12 @@ class PurchaseOrderController extends Controller
             $log->TransactionType = 'PO';
             $log->LogType = '3';
             $log->save();
-        } else if($user->isGeneralManager()) {
+        } 
+        if($user->isGeneralManager()) {
             $po->Status = 'A';
+            $po->PurchasingManager = Carbon::today();
+            $po->OperationsManager = Carbon::today();
+            $po->PlantManager = Carbon::today();
             $po->GeneralManager = Carbon::today();
 
             $log = new StatusLog();
@@ -721,6 +727,29 @@ class PurchaseOrderController extends Controller
         return redirect()->back();
     }
 
+
+    public function reject(Request $request, $purchaseOrder) {
+        $po = PurchaseOrder::where('OrderNumber','=',$purchaseOrder)->first();
+        $po->Status = 'X';
+
+        $remarks = json_decode($po->Remarks, true);
+        $remark = array('userid'=>auth()->user()->ID, 'message'=>$request->Remarks, 'time'=>Carbon::now()->toDateTimeString());
+        array_push($remarks['data'], $remark);
+        $po->Remarks = json_encode($remarks);
+        
+        $po->save();
+
+        $log = new StatusLog();
+        $log->OrderNumber = $po->OrderNumber;
+        $log->TransactionType = 'PO';
+        $log->LogType = 'X';
+        $log->save();
+
+
+        //TODO: Send email
+
+        return redirect()->back();
+    }
 
     public function void($po)
     {

@@ -36,6 +36,7 @@ class CreatePOTable extends Migration
             //3-Plant
             //A-Leadership
             //R-Partially Received
+            //X-Rejected
             //Z-Completed
             $table->softDeletes();
             $table->timestamps();

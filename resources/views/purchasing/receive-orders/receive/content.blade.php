@@ -83,7 +83,7 @@
                         <table id="poTable" class="table table-no-bordered dataTable dtr-inline" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
                             <thead>
                             <tr role="row">
-                                <th style="width: 50%;">Item</th>
+                                <th style="width: 30%;">Item</th>
                                 <th>G/L Code</th>
                                 <th>Quantity</th>
                             </tr>
@@ -105,7 +105,7 @@
                                             [{{ $product->UniqueID }}] {{ $product->Description }}
                                         </a>
                                     </td>
-                                    <td class=" pt-0 pb-0 mt-0 mb-0 align-middle">[{{ $lineItem->GeneralLedger()->Code }}] {{ $lineItem->GeneralLedger()->Description }}</td>
+                                    <td class=" pt-0 pb-0 mt-0 mb-0 align-middle">{{ $lineItem->Product()->getGeneralLedger()->Code }}</td>
                                     <td>
                                         <div class="input-group my-colorpicker2 colorpicker-element float-right">
                                             @if($lineItem->getRemainingDeliverableQuantity()>0)

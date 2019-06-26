@@ -107,7 +107,23 @@ class Product extends Model
         return $this->hasOne('App\GeneralLedger','ID','IssuanceGL')->firstOrFail();
     }
 
-
+    public function getLastFiveAwardedQuotations() {
+        $data = array();
+        $counter = 0;
+        $orderItems = $this->hasManyThrough('App\OrderItem','App\LineItem','Product','LineItem')->get();
+        foreach($orderItems as $orderItem) {
+            if($orderItem->PurchaseOrder()) {
+                $po = $orderItem->PurchaseOrder();
+                if($po->Status=='A') { // filter only approved PO
+                    if($counter < 5) {
+                        array_push($data, $orderItem->SelectedQuote());
+                        $counter++;
+                    }
+                }
+            }
+        }
+        return $data;
+    }
 
     public function scopeAllActive($query) {
         return $query->where('Status','=',1)->get();
@@ -176,7 +192,7 @@ class Product extends Model
 
         $prefix = sprintf('%s-%s%s',$desc,$category,$line);
         try{
-            $lastMatch = $this->where('UniqueID','like','\''.$prefix.'%\'')->get()->last();
+            $lastMatch = $this->where('UniqueID','like','%'.$prefix.'%')->get()->last();
             $lastCount = $lastMatch->Series;
             $lastCount++;
         }catch(\Exception $exception) {
@@ -187,13 +203,16 @@ class Product extends Model
     }
 
     public function getNextServiceSeriesNumber() {
-        $prefix = sprintf("SERV-%s", Carbon::today()->format("my"));
+        $lastCount = 0;
+        $prefix = sprintf("SER-%s", Carbon::today()->format("my"));
         try{
-            $lastMatch = $this->where('UniqueID','LIKE',$prefix."%")->orderByDesc('UniqueID')->firstOrFail();
-            $lastCount = $lastMatch->Series;
+            $lastMatch = $this->where('UniqueID','LIKE',$prefix."%")->orderByDesc('UniqueID')->first();
+            if($lastMatch) {
+                $lastCount = $lastMatch->Series;
+            }
             $lastCount++;
         }catch(ModelNotFoundException $exception) {
-            $lastCount = 0;
+            $lastCount = 1;
         }
 
         return $lastCount;
@@ -230,9 +249,13 @@ class Product extends Model
             if(count($lineItems)>0 and $lineItem->isOrderItem() and $lineItem->Ordered) {
                 $orderItem = $lineItem->OrderItem();
                 $purchaseOrder = $orderItem->PurchaseOrder();
-
-                if($purchaseOrder->Status=='A') {
-                    $counter += $lineItem->getRemainingDeliverableQuantity();
+                try{
+                    if($purchaseOrder->Status=='A') {
+                        $counter += $lineItem->getRemainingDeliverableQuantity();
+                    }
+                }
+                catch(\Exception $ex) {
+                    
                 }
             }
         }
@@ -251,7 +274,7 @@ class Product extends Model
                 $purchaseOrder = $orderItem->PurchaseOrder();
 
                 if($purchaseOrder->Status=='A') {
-                    array_push($data, $lineItem->OrderItem());
+                    array_push($data, $purchaseOrder);
                 }
             }
         }

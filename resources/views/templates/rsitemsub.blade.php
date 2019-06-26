@@ -51,8 +51,8 @@
                     <tr>
                         <th>Purchase Order #</th>
                         <th>Estimated Arrival</th>
-                        <th>Quantity</th>
-                        <th>Unit of Measure</th>
+                        <th class="text-right">Ordered Quantity</th>
+                        <th class="text-right">Receivable Quantity</th>
                     </tr>
                     @php($count=0)
                     @if(count($data->getOrderItems())>0)
@@ -63,9 +63,9 @@
                                 @if($po->Status=='A' && $data->getIncomingQuantity()>0)
                                     <tr>
                                         <td><a href="/purchase-order/view/{{ $po->OrderNumber }}">{{ $po->OrderNumber }}</a></td>
-                                        <td>{{ $po->Quantity }}</td>
-                                        <td>{{ $lineItem->Quantity }}</td>
-                                        <td>{{ $data->getIncomingQuantity() }} {{ $data->UOM()->Abbreviation }}</td>
+                                        <td>{{ $po->DeliveryDate->format('F d, Y') }}</td>
+                                        <td class="text-right">{{ $lineItem->Quantity }} {{ $data->UOM()->Abbreviation }}</td>
+                                        <td class="text-right">{{ $po->getRemainingDeliverableQuantity() }} {{ $data->UOM()->Abbreviation }}</td>
                                     </tr>
                                     @php($count++)
                                 @endif

@@ -139,6 +139,7 @@ Route::get('/purchase-order/update/{id}', 'PurchaseOrderController@edit');
 Route::post('/purchase-order/{purchaseOrder}/update', 'PurchaseOrderController@update');
 Route::post('/purchase-order/{purchaseOrder}/submit', 'PurchaseOrderController@submit');
 Route::post('/purchase-order/{purchaseOrder}/approve', 'PurchaseOrderController@approve');
+Route::post('/purchase-order/{purchaseOrder}/reject', 'PurchaseOrderController@reject');
 
 Route::get('/purchase-order/data/{status}', 'PurchaseOrderController@getPurchaseOrderData');
 Route::post('/purchase-order/{id}/toggle', 'PurchaseOrderController@toggle');
@@ -486,7 +487,7 @@ Route::post('/rs/{table}/addArrayToList', 'RequisitionController@addArrayToRequi
 Route::post('/rs/{table}/removeFromList', 'RequisitionController@removeFromRequisitionList');
 Route::get('/rs/{table}/raw','RequisitionController@getRequisitionListAsArray');
 Route::get('/rs/{table}/count','RequisitionController@getRequisitionListCount');
-Route::post('/rs/{table}/check', 'RequisitionController@canCreateRequest');
+Route::post('/rs/{table}/check/{id}', 'RequisitionController@canCreateRequest');
 
 
 
@@ -750,4 +751,10 @@ Route::get('/test123', function(){
 
     dd($isNumber);
 
+});
+
+Route::get('/test/mail', function() {
+
+    $mailHelper = new \App\Classes\MailHelper();
+    $mailHelper->sendMail('mail.test', [], 'ajamiscosa@gmail.com', 'Application Status');
 });

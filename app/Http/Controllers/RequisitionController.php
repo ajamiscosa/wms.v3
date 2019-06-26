@@ -175,23 +175,26 @@ class RequisitionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function canCreateRequest(Request $request, $table) {
+    public function canCreateRequest(Request $request, $table, $id) {
         $data = session()->pull($table);
         session()->put($table, $data);
+
 
         if(count($data)>0) {
             $product = new Product();
 
             if($table=='issuanceList') {
-                for($i=0;$i<count($data);$i++) {
-                    $product = $product->where('ID','=',$data[$i])->first();
-                   if($product->getAvailableQuantity()==0) {
-                       return response()->json([
-                           'code'=>0,
-                           'title'=>'Oops...',
-                           'message'=>'One or more of your selected items is currently out of stock and cannot be issued.!'
-                       ]);
-                   }
+                foreach($data as $entry) {
+                    $product = $product->where('ID','=',$entry)->first();
+                    if($id=="ir") {
+                        if($product->getAvailableQuantity()==0) {
+                            return response()->json([
+                                'code'=>0,
+                                'title'=>'Oops...',
+                                'message'=>'One or more of your selected items is currently out of stock and cannot be issued.!'
+                            ]);
+                        }
+                    }
                 }
             }
 
@@ -306,11 +309,22 @@ class RequisitionController extends Controller
             $issuance->save();
 
             for($i=0;$i<count($request->Product);$i++) {
+                $product = Product::find($request->Product[$i]);
+                if($product->InventoryGL == 0) {
+                    $product->InventoryGL = $request->InventoryGL;
+                }
+
                 $lineItem = new LineItem();
                 $lineItem->OrderNumber = $issuance->OrderNumber;
-                $lineItem->Product = $request->Product[$i];
+                $lineItem->Product = $product->ID;
                 $lineItem->Quantity = $request->Quantity[$i];
                 $lineItem->GLCode = is_array($request->GLCode)?$request->GLCode[$i]:$request->GLCode;
+
+                if($product->IssuanceGL == 0) {
+                    $product->IssuanceGL = $lineItem->GLCode;
+                    $product->save();
+                }
+
                 $lineItem->save();
             }
 
@@ -838,7 +852,7 @@ class RequisitionController extends Controller
         $product->Name = $request->Name;
         $product->Description = $request->Description;
         $product->Category = $request->Category;
-        $product->ProductLine = $request->ProductLine;
+        $product->ProductLine = ProductLine::FindProductLineByCode($request->ProductLine);
         $product->Series = $product->getNextItemSeriesNumber();
         $product->Quantity = 0;
         $product->UOM = $request->UOM;

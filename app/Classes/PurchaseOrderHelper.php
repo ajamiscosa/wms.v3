@@ -22,7 +22,7 @@ class PurchaseOrderHelper {
             case '2': return sprintf("Approved by Operations Director [%s].", $log->By()->Person()->Name());
             case '3': return sprintf("Approved by Plant Manager [%s].", $log->By()->Person()->Name());
             case 'A': return sprintf("Approved by General Manager [%s].", $log->By()->Person()->Name());
-            case 'R': return sprintf("Approval for %s has been rejected by %s.", $transactionType, $log->By()->Person()->Name());
+            case 'X': return sprintf("Approval for %s has been rejected by %s.", $transactionType, $log->By()->Person()->Name());
             case 'Z': return sprintf('Purchase Order has been fulfilled');
         }
     }

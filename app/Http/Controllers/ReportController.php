@@ -423,9 +423,8 @@ class ReportController extends Controller
         if(isset($request->start)) {
             $start = Carbon::parse($request->start);
             $end = Carbon::parse($request->end);
-
+            $end = $end->addDay();
             if($start->format('Ymd')===$end->format('Ymd')) {
-                $end = $end->addDay();
             }
 
             $suppliers = $supplier->whereBetween('created_at', [$start, $end]);
@@ -435,6 +434,8 @@ class ReportController extends Controller
             $suppliers = $supplier->whereDate('created_at', '=', Carbon::today()->toDateString());
             $title = Carbon::today()->format('Ymd');
         }
+
+        dd($suppliers->get());
 
         $columns = array(
             'Vendor ID',

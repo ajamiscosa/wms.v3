@@ -358,7 +358,7 @@
                 e.preventDefault();
                 var request = $.ajax({
                     method: "POST",
-                    url: "/rs/issuanceList/check",
+                    url: "/rs/issuanceList/check/ir",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
@@ -382,7 +382,7 @@
                 e.preventDefault();
                 var request = $.ajax({
                     method: "POST",
-                    url: "/rs/issuanceList/check",
+                    url: "/rs/issuanceList/check/pr",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }

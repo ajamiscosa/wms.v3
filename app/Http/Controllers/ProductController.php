@@ -77,6 +77,7 @@ class ProductController extends Controller
         $product->MinimumQuantity = $request->MinimumQuantity;
         $product->CriticalQuantity = $request->CriticalQuantity;
         $product->UniqueID = $product->generateUniqueID();
+
         $product->save();
 
         return redirect()->to('/product/view/'.$product->UniqueID);
