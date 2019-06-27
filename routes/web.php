@@ -68,7 +68,7 @@ Route::post('/quote/{id}/delete', 'QuoteController@destroy');
 Route::get('/pending-quote', 'QuoteController@viewPendingQuotes');
 Route::get('/for-quotation', 'PurchaseOrderController@showItemsForQuotation');
 
-Route::get('/order-item','PurchaseOrderController@showItemsReadyForPO');
+Route::get('/order-item','PurchaseOrderController@showItemsReadyForPO')->name('purchasing.purchase-orders.orderitems');
 Route::get('/order-item/po-items','PurchaseOrderController@getOrderItemsReadyForPO');
 Route::get('/order-item/quote-items', 'PurchaseOrderController@getOrderItemData');
 Route::get('/order-item/for-quote-approval','PurchaseOrderController@getItemsForQuotationApproval');
@@ -133,7 +133,7 @@ Route::get('/stock-transfer/location-data', 'StockTransferController@locationdat
 Route::get('/purchase-order', 'PurchaseOrderController@index')->name('purchasing.purchase-orders.index');
 Route::post('/purchase-order/store', 'PurchaseOrderController@store');
 Route::get('/purchase-order/view/{id}', 'PurchaseOrderController@show');
-Route::get('/purchase-order/draft/{id}', 'PurchaseOrderController@create');
+Route::get('/purchase-order/draft/{id}', 'PurchaseOrderController@create')->name('purchasing.purchase-orders.create');
 Route::get('/purchase-order/update/{id}', 'PurchaseOrderController@edit');
 
 Route::post('/purchase-order/{purchaseOrder}/update', 'PurchaseOrderController@update');
@@ -155,7 +155,7 @@ Route::get('/purchase-order/{id}/data','PurchaseOrderController@getPurchaseOrder
 
 
 
-Route::get('/receive-order', 'ReceiveOrderController@showReceivingForm');
+Route::get('/receive-order', 'ReceiveOrderController@showReceivingForm')->name('purchasing.receive-orders.receiving');
 Route::get('/receive-order/new', 'ReceiveOrderController@create');
 Route::post('/receive-order/store', 'ReceiveOrderController@store');
 Route::get('/receive-order/view/{ro}', 'ReceiveOrderController@show');
@@ -232,7 +232,8 @@ Route::get('/reports/recent-items/export', 'ReportController@exportItemsReport')
 Route::get('/reports/adjustments', 'ReportController@showStockAdjustmentsReport');
 Route::get('/reports/adjustments/export', 'ReportController@exportAdjustmentReport');
 
-
+Route::get('/reports/item-restock', 'ReportController@showItemRestockReport');
+Route::get('/reports/item-restock/export', 'ReportController@exportItemRestockReport');
 
 Route::get('/capex', 'CAPEXController@index');
 Route::get('/capex/new', 'CAPEXController@create');
@@ -273,7 +274,7 @@ Route::get('/department/update/{id}', 'DepartmentController@edit');
 Route::post('/department/update/{department}', 'DepartmentController@update');
 Route::post('/department/toggle/{department}', 'DepartmentController@toggle');
 Route::get('/department/data', 'DepartmentController@data');
-Route::get('/department/view/{department}', 'DepartmentController@show');
+Route::get('/department/view/{department}', 'DepartmentController@show')->name('settings.departments.view');
 Route::get('/department/approverdata', 'DepartmentController@approverdata');
 Route::get('/department/parentdata', 'DepartmentController@parentdata');
 Route::get('/department/gldata', 'DepartmentController@gldata');
@@ -757,4 +758,104 @@ Route::get('/test/mail', function() {
 
     $mailHelper = new \App\Classes\MailHelper();
     $mailHelper->sendMail('mail.test', [], 'ajamiscosa@gmail.com', 'Application Status');
+});
+
+Route::get('/test/file', function(){
+    $html2pdf = new \Spipu\Html2Pdf\Html2Pdf('P', 'A4', 'en');
+    $purchaseOrder = new PurchaseOrder();
+    $orderNumber = "FOUSXX0619006";
+    try{
+        $po = $purchaseOrder->where('OrderNumber', '=',$orderNumber)->first();
+        if($po) {
+            $file = Storage::url('/app/template/po.xlsx');
+
+
+//                $user = User::where('ID','=',$po->Requester)->first();
+            $supplier = $po->Supplier();
+
+            $address = array(
+                $supplier->AddressLine1,
+                $supplier->AddressLine2,
+                $supplier->City,
+                $supplier->State,
+                $supplier->Zip && $supplier->Country?$supplier->Zip." ".$supplier->Country:""
+            );
+
+
+
+            $dto = new DTO();
+            $dto->Address = array_filter($address);
+
+            $dto->VendorName = $supplier->Name;
+            $dto->PurchaseOrderNumber = $po->OrderNumber;
+            $dto->DateIssued = Carbon::today()->format('n/j/y');
+            $dto->VendorID = $supplier->Code;
+            $dto->DeliveryDate = $po->DeliveryDate->format('n/j/y');
+            $dto->Terms = $po->PaymentTerm()->Description;
+            $dto->Currency = $po->Supplier()->Currency()->Code;
+            $dto->OrderItems = $po->OrderItems();
+
+            $purchaseRequest = null;
+            $counter = 21;
+            $total = 0;
+            foreach($po->OrderItems() as $orderItem) {
+                $lineItem = $orderItem->LineItem();
+                $purchaseRequest = $orderItem->Requisition();
+//                    $data["A$counter"] = $lineItem->Quantity;
+//                    $data["B$counter"] = $lineItem->Product()->UOM()->Abbreviation;
+//                    $data["C$counter"] = $lineItem->Product()->Description;
+//                    $data["J$counter"] = $orderItem->SelectedQuote()->Amount;
+//                    $data["M$counter"] = $orderItem->SelectedQuote()->Amount * $lineItem->Quantity;
+                $total += $orderItem->SelectedQuote()->Amount * $lineItem->Quantity;
+
+                $counter++;
+            }
+//
+//                $data["C$counter"] = "X X X NOTHING FOLLOWS X X X";
+            $dto->Total = $total;
+
+
+            $dto->ChargeType = $po->ChargeType=='S'?"STOCKS":substr($purchaseRequest->ChargedTo()->Name, 0, 3);
+            $dto->ChargeNo = sprintf("%s/%s",$purchaseRequest->OrderNumber,$dto->ChargeType);
+//                $data['D18'] = $chargeNo;
+
+            $purchasingManager = App\Role::findUserWithRole('PurchasingManager');
+            $operationsManager = App\Role::findUserWithRole('OperationsDirector');
+            $plantManager = App\Role::findUserWithRole('PlantManager');
+            $generalManager = App\Role::findUserWithRole('GeneralManager');
+            
+            $dto->PurchasingManager = $purchasingManager->Person()->AbbreviatedName();
+            $dto->OperationsManager = $operationsManager->Person()->AbbreviatedName();
+
+            if($plantManager && $generalManager && $plantManager->ID == $generalManager->ID) {
+                $dto->PlantManager = $generalManager->Person()->AbbreviatedName();
+                $dto->GeneralManager = "";
+            }
+            else {
+                $dto->PlantManager = $plantManager?$plantManager->Person()->AbbreviatedName():"";
+                $dto->GeneralManager = $generalManager?$generalManager->Person()->AbbreviatedName():"";
+            }
+
+            $html2pdf->writeHTML(view('report.templates.purchaseorder',['data'=>$dto]));
+            $html2pdf->output();
+
+
+        } else {
+            $data = new DTO();
+            $data->Title = "Purchase Order $orderNumber";
+            $data->Class = "Purchase Order";
+            $data->Description = "We cannot not find the $data->Class in the database.";
+            return response()
+                ->view('errors.404',['data'=>$data]
+                    ,404);
+        }
+    } catch(\Exception $exc) {
+        dd($exc);
+    }
+
+
+
+
+
+    $myfile = fopen("testfile.txt", "w+");
 });

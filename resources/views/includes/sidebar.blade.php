@@ -307,7 +307,13 @@
                                 <li class="nav-item">
                                     <a href="/reports/pr-status" class="nav-link flat" id="pr-status" data-parent="#reports">
                                         <i class="fa fa-angle-right nav-icon"></i>
-                                        <p>PR Status Report (WIP)</p>
+                                        <p>PR Status Report</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/reports/item-restock" class="nav-link flat" id="item-restock" data-parent="#reports">
+                                        <i class="fa fa-angle-right nav-icon"></i>
+                                        <p>Items for Restocking</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
