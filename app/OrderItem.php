@@ -43,7 +43,7 @@ class OrderItem extends Model
     }
 
     public function SelectedQuote() {
-        return $this->hasOne('App\Quote','ID','Quote')->firstOrFail();
+        return $this->hasOne('App\Quote','ID','Quote')->first();
     }
 
     public function Requisition() {
