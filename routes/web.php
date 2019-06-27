@@ -155,7 +155,7 @@ Route::get('/purchase-order/{id}/data','PurchaseOrderController@getPurchaseOrder
 
 
 
-Route::get('/receive-order', 'ReceiveOrderController@showReceivingForm');
+Route::get('/receive-order', 'ReceiveOrderController@showReceivingForm')->name('purchasing.receive-orders.receiving');
 Route::get('/receive-order/new', 'ReceiveOrderController@create');
 Route::post('/receive-order/store', 'ReceiveOrderController@store');
 Route::get('/receive-order/view/{ro}', 'ReceiveOrderController@show');
