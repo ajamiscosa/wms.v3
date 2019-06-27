@@ -68,7 +68,7 @@ Route::post('/quote/{id}/delete', 'QuoteController@destroy');
 Route::get('/pending-quote', 'QuoteController@viewPendingQuotes');
 Route::get('/for-quotation', 'PurchaseOrderController@showItemsForQuotation');
 
-Route::get('/order-item','PurchaseOrderController@showItemsReadyForPO');
+Route::get('/order-item','PurchaseOrderController@showItemsReadyForPO')->name('purchasing.purchase-orders.orderitems');
 Route::get('/order-item/po-items','PurchaseOrderController@getOrderItemsReadyForPO');
 Route::get('/order-item/quote-items', 'PurchaseOrderController@getOrderItemData');
 Route::get('/order-item/for-quote-approval','PurchaseOrderController@getItemsForQuotationApproval');
@@ -133,7 +133,7 @@ Route::get('/stock-transfer/location-data', 'StockTransferController@locationdat
 Route::get('/purchase-order', 'PurchaseOrderController@index')->name('purchasing.purchase-orders.index');
 Route::post('/purchase-order/store', 'PurchaseOrderController@store');
 Route::get('/purchase-order/view/{id}', 'PurchaseOrderController@show');
-Route::get('/purchase-order/draft/{id}', 'PurchaseOrderController@create');
+Route::get('/purchase-order/draft/{id}', 'PurchaseOrderController@create')->name('purchasing.purchase-orders.create');
 Route::get('/purchase-order/update/{id}', 'PurchaseOrderController@edit');
 
 Route::post('/purchase-order/{purchaseOrder}/update', 'PurchaseOrderController@update');
@@ -273,7 +273,7 @@ Route::get('/department/update/{id}', 'DepartmentController@edit');
 Route::post('/department/update/{department}', 'DepartmentController@update');
 Route::post('/department/toggle/{department}', 'DepartmentController@toggle');
 Route::get('/department/data', 'DepartmentController@data');
-Route::get('/department/view/{department}', 'DepartmentController@show');
+Route::get('/department/view/{department}', 'DepartmentController@show')->name('settings.departments.view');
 Route::get('/department/approverdata', 'DepartmentController@approverdata');
 Route::get('/department/parentdata', 'DepartmentController@parentdata');
 Route::get('/department/gldata', 'DepartmentController@gldata');
