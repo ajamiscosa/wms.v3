@@ -863,4 +863,40 @@ class ReportController extends Controller
         $fileName = sprintf('Adjustments%s%s.csv', $outDateFormat, $curr);
         return ReportHelper::export($fileName,$columns,$data);
     }
+
+    public function showItemRestockReport() { 
+        return view('report.restock');
+    }
+
+    public function exportItemRestockReport() { 
+        $columns = array(
+            'UniqueID',
+            'Description',
+            'Quantity',
+            'MinimumQuantity',
+            'IncomingQuantity',
+            'UOM'
+        );
+
+        $data = array();
+        $product = new Product();
+        $products = $product->whereRaw('Quantity < MinimumQuantity');
+
+        foreach($products->get() as $product) {
+
+            $uom = $product->UOM()!=null?$product->UOM()->Abbreviation:"";
+            $entry = array(
+                $product->UniqueID,
+                $product->Description,
+                $product->Quantity,
+                $product->MinimumQuantity,
+                $product->getIncomingQuantity(),
+                $uom
+            );
+            array_push($data, $entry);
+        }
+
+        $fileName = sprintf('InventoryBalance%s.csv', Carbon::today()->format('Ymd'));
+        return ReportHelper::export($fileName,$columns,$data);
+    }
 }
