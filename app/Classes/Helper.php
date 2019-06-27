@@ -24,4 +24,10 @@ class Helper {
         return $random_date->format('Y-m-d');
     }
 
+    public static function removeObjectFromArray(&$array, $value, $prop)
+    {
+        return array_filter($array, function($a) use($value, $prop) {
+            return $a->$prop !== $value;
+        });
+    }
 }

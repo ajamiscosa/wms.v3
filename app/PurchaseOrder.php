@@ -135,4 +135,8 @@ class PurchaseOrder extends Model
     public function getShipVia() {
         return sprintf("%s/%s", $this->ChargeNo, $this->getChargeType());
     }
+
+    public static function findPObyOrderNumber($orderNumber) { 
+        return PurchaseOrder::where('OrderNumber','=',$orderNumber)->first();
+    }
 }

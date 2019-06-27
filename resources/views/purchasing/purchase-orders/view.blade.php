@@ -253,12 +253,15 @@
                                                     <div class="col-lg-6 col-sm-12 pr-0 pt-0 pl-1 pb-0">
                                                         <table width="100%">
                                                             <tr>
-                                                                <th class="text-center">Last Date of Purchase</th>
+                                                                <th class="text-center" colspan="3">Last Date of Purchase</th>
                                                             </tr>
                                                             <tr>
                                                                 @php
+                                                                    $thisPO = \App\PurchaseOrder::findPObyOrderNumber($data->OrderNumber);
                                                                     $lastPO = null;
                                                                     $poList = $product->getPurchaseOrders();
+                                                                    \App\Classes\Helper::removeObjectFromArray($poList, 'OrderNumber', $thisPO->OrderNumber);
+                                                                    
                                                                     if(count($poList)>0) {
                                                                         for($i=0;$i<count($poList);$i++) {
                                                                             if($i-1>=0) {
@@ -271,7 +274,17 @@
                                                                     }
                                                                 @endphp
                                                                 @if($lastPO)
+                                                                    <td class="text-center">{{ $lastPO->Supplier()->Name }}</td>
                                                                     <td class="text-center">{{ $lastPO->OrderDate->format('F d, Y')??"N/A" }}</td>
+                                                                    <td class="text-center">
+                                                                        @foreach($lastPO->OrderItems() as $orderItem)
+                                                                            @if($orderItem->LineItem()->Product()->ID == $product->ID)
+                                                                                {{ $orderItem->SelectedQuote()->Currency()->Code }} {{ $orderItem->SelectedQuote()->Amount }}
+                                                                            @else
+                                                                                @continue
+                                                                            @endif
+                                                                        @endforeach
+                                                                    </td>
                                                                 @else
                                                                     <td class="text-center">N/A</td>
                                                                 @endif
