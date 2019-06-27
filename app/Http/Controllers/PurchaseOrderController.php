@@ -868,10 +868,22 @@ class PurchaseOrderController extends Controller
                 $dto->ChargeNo = sprintf("%s/%s",$purchaseRequest->OrderNumber,$dto->ChargeType);
 //                $data['D18'] = $chargeNo;
 
-                $dto->PurchasingManager = Role::findUserWithRole('PurchasingManager')->Person()->AbbreviatedName();
-                $dto->OperationsManager = Role::findUserWithRole('OperationsDirector')->Person()->AbbreviatedName();
-                $dto->PlantManager = Role::findUserWithRole('PlantManager')->Person()->AbbreviatedName();
-                $dto->GeneralManager = Role::findUserWithRole('GeneralManager')->Person()->AbbreviatedName();
+                $purchasingManager = Role::findUserWithRole('PurchasingManager');
+                $operationsManager = Role::findUserWithRole('OperationsDirector');
+                $plantManager = Role::findUserWithRole('PlantManager');
+                $generalManager = Role::findUserWithRole('GeneralManager');
+                
+                $dto->PurchasingManager = $purchasingManager->Person()->AbbreviatedName();
+                $dto->OperationsManager = $operationsManager->Person()->AbbreviatedName();
+
+                if($plantManager && $generalManager && $plantManager->ID == $generalManager->ID) {
+                    $dto->PlantManager = $generalManager->Person()->AbbreviatedName();
+                    $dto->GeneralManager = "";
+                }
+                else {
+                    $dto->PlantManager = $plantManager?$plantManager->Person()->AbbreviatedName():"";
+                    $dto->GeneralManager = $generalManager?$generalManager->Person()->AbbreviatedName():"";
+                }
 
                 return view('report.templates.purchaseorder',['data'=>$dto]);
 

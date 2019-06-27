@@ -75,18 +75,54 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label ">ChargeTo</label>
-                                <select class="form-control department-select" name="ChargeTo" id="ChargeTo" required>
+                                <label class="control-label ">Department</label>
+                                <div class="form-group" style="border: 1px solid #AAA;">
+                                    <span style="line-height: 36px;">&nbsp;&nbsp;{{ auth()->user()->Department()->Name }}</span>
+                                    <input type="hidden" id="userDept" value="{{auth()->user()->Department()->ID}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label ">Approver</label>
+                                <select class="form-control approver1-select" name="Approver1" required>
                                     <option></option>
-                                    @foreach(\App\Department::all() as $department)
-                                        <option value="{{ $department->ID }}">{{ $department->Name }}</option>
-                                    @endforeach
                                 </select>
                             </div>
                         </div>
                     </div>
+                    
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label ">Charged To Department</label>
+                                <br class="input-lining"/>
+                                <select class="form-control department-select" name="ChargeTo" required>
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label ">Charged Department Approver</label>
+                                <select class="form-control approver2-select" name="Approver2" required>
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -213,6 +249,28 @@
             });
 
 
+
+            var currentUserDept = $('#userDept').val();
+            $(".approver1-select").select2({
+                ajax: {
+                    url: '/rs/approver-data/'+currentUserDept,
+                    dataType: 'json'
+                    // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+                },
+                matcher: matchCustom,
+                placeholder: 'Select Approver'
+            });
+
+            $(".approver2-select").select2({
+                placeholder: 'Select Approver'
+            });
+            
+            $(".glcode-select").select2({
+                dropdownAutoWidth : true,
+                placeholder: 'Select GL Code',
+                minimumResultsForSearch: -1
+            });
+            
             var $deptSelect = $(".department-select").select2({
                 ajax: {
                     url: '/rs/department-data',
@@ -224,8 +282,39 @@
 //                minimumResultsForSearch: -1
             });
 
-            $deptSelect.select2('val',"{{ \App\Department::findByName('Materials Group')->ID }}");
+            // $deptSelect.select2('val',"{{ \App\Department::findByName('Materials Group')->ID }}");
+            $deptSelect.on('change', function () {
+                var $glCode = $('.glcode-select').val("");
+                var $approverSelect = $('.approver2-select').val("");
 
+                var chargeType = $chargeType.val();
+
+                var glType = 'issuance';
+                if(chargeType=='C') {
+                    glType = 'capex';
+                }
+
+                var deptID = $('.department-select').select2('data')[0].id;
+                $glCode.select2({
+                    ajax: {
+                        url: '/rs/gl-data/'+glType+'/'+deptID,
+                        dataType: 'json'
+                        // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+                    },
+                    matcher: matchCustom,
+                    placeholder: 'Select GL Code'
+                });
+
+                $approverSelect.select2({
+                    ajax: {
+                        url: '/rs/approver-data/'+deptID,
+                        dataType: 'json'
+                        // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+                    },
+                    matcher: matchCustom,
+                    placeholder: 'Select Approver'
+                });
+            });
 
 
             var $glCode = $(".glcode-select").select2({

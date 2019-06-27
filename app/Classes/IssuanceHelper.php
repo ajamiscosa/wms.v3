@@ -14,7 +14,6 @@ use App\StatusLog;
 class IssuanceHelper {
     public static function ParseLog(StatusLog $log) {
         $transactionType = $log->TransactionType=='IR'?"Issuance":"Purchase";
-        dd($log->By());
         switch($log->LogType) {
             case 'N': return sprintf("%s Request filed by %s.", $transactionType, $log->By()->Person()->Name());
             case '1': return sprintf("Initial Approval granted by %s.", $log->By()->Person()->Name());
