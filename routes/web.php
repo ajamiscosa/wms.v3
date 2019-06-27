@@ -859,3 +859,15 @@ Route::get('/test/file', function(){
 
     $myfile = fopen("testfile.txt", "w+");
 });
+
+
+Route::get('/test/po-data/{year}/{month}', function($year, $month) {
+    $startOfMonth = \Carbon\Carbon::create($year, $month, 1);
+    $endOfMonth = \Carbon\Carbon::create($year, $month+1, 1)->subDay();
+    
+    $po = new PurchaseOrder();
+    $poList = $po
+        ->whereBetween('OrderDate',[$startOfMonth, $endOfMonth])
+        ->where('Status','=','A');
+    dd($poList->get());
+});
