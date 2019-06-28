@@ -486,7 +486,7 @@
 
 
      var areaChartData = {
-      labels  : ['May','June'],
+      //labels  : ['May','June'],
       datasets: [
         {
           label               : 'Purchase Request',
@@ -530,11 +530,6 @@
     //- BAR CHART -
     //-------------
     var barChartCanvas = $('#barChart').get(0).getContext('2d')
-    var barChartData = jQuery.extend(true, {}, areaChartData)
-    var temp0 = areaChartData.datasets[0]
-    var temp1 = areaChartData.datasets[1]
-    barChartData.datasets[0] = temp1
-    barChartData.datasets[1] = temp0
 
     var barChartOptions = {
       responsive              : true,
@@ -544,32 +539,54 @@
 
     var barChart = new Chart(barChartCanvas, {
       type: 'bar', 
-      data: barChartData,
       options: barChartOptions
     })
 
-    function addData(chart, xdata) {
-		chart.data.datasets.foreach((dataset)) => {
-                dataset.forEach((innerData)) => {
-                    innerData.push(xdata);
-                }
-            }
-        });
+    function addData(chart, mlabel, xdata) {
+        chart.config.data.datasets = [];
+        chart.config.data.labels = [];
+        
+        chart.config.data.labels = mlabel;
+
+        for (i = 0; i < xdata.length; i++) {
+            areaChartData.datasets[i].data = xdata[i];
+            chart.config.data.datasets.push(areaChartData.datasets[i]);
+        }
         chart.update();
     }
 
-
+    var mlabels = ['May', 'June'];
     var qwe = [
-        {
-            "values" : [
-                3,4,5
-            ]
-        }
-    ];
+        [234, 234, 5],
+        [22, 1, 123],
+        [55,125,60]
+    ]
 
      setTimeout(function() {
-          addData(barChart, qwe[0].values);
-     }, 1000)
+          addData(barChart, mlabels, qwe);
+     }, 1000);
+
+    // function addData(chart, xdata) {
+	// 	chart.data.datasets.foreach((dataset) => {
+    //             dataset.forEach((innerData) => {
+    //                 innerData.push(xdata);
+    //             });
+    //     });
+    //     chart.update();
+    // }
+
+
+    // var qwe = [
+    //     {
+    //         "values" : [
+    //             3,4,5
+    //         ]
+    //     }
+    // ];
+
+    //  setTimeout(function() {
+    //       addData(barChart, qwe);
+    //  }, 1000)
     // 
     // console.log(areaChartData);
     // barChart.forEach(function(elem) {
