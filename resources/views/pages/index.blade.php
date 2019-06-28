@@ -486,7 +486,7 @@
 
 
      var areaChartData = {
-      //labels  : ['Lead'],
+      labels  : ['May','June'],
       datasets: [
         {
           label               : 'Purchase Request',
@@ -497,7 +497,7 @@
           pointStrokeColor    : 'rgba(0,166,90,1)',
           pointHighlightFill  : '#fff',
           pointHighlightStroke: 'rgba(0,166,90,1)',
-          data                : results
+          //data                : [6,3]
         },
         {
           label               : 'Purchase Orders',
@@ -508,7 +508,7 @@
           pointStrokeColor    : 'rgba(60,141,188,1)',
           pointHighlightFill  : '#fff',
           pointHighlightStroke: 'rgba(60,141,188,1)',
-          data                : [18,4]
+          //data                : [18,4]
         },
         {
           label               : 'Deliveries',
@@ -519,7 +519,7 @@
           pointStrokeColor    : '#c1c7d1',
           pointHighlightFill  : '#fff',
           pointHighlightStroke: 'rgba(220,220,220,1)',
-          data                : [8,3]
+          //data                : [8,3]
         },
       ]
     }
@@ -548,20 +548,28 @@
       options: barChartOptions
     })
 
-    function addData(chart, xlabel, xcolor, xdata) {
-		chart.data.datasets.push({
-            label : xlabel,
-            backgroundColor : xcolor,
-            data: xdata
+    function addData(chart, xdata) {
+		chart.data.datasets.foreach((dataset)) => {
+                dataset.forEach((innerData)) => {
+                    innerData.push(xdata);
+                }
+            }
         });
         chart.update();
     }
 
 
+    var qwe = [
+        {
+            "values" : [
+                3,4,5
+            ]
+        }
+    ];
 
-    // setTimeout(function() {
-    //      addData(barChart, '# of Votes 2017', ['#f56954','#eee','#333'], results);
-    // }, 2000)
+     setTimeout(function() {
+          addData(barChart, qwe[0].values);
+     }, 1000)
     // 
     // console.log(areaChartData);
     // barChart.forEach(function(elem) {
