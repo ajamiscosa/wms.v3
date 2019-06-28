@@ -113,7 +113,7 @@
                         @php
 
                             $receiveOrders = new \App\ReceiveOrder();
-                            $receiveOrders = $receiveOrders->groupBy(['OrderNumber']);
+                            $receiveOrders = $receiveOrders->orderBy('created_at', 'desc')->groupBy(['OrderNumber']);
                             if(request()->has('v')) {
                                 $page = request()->v;
                                 if($page=="All") {
