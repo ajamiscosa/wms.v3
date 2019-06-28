@@ -80,6 +80,8 @@
                 <div class="toolbar">
                     <!-- For Immediate Approver -->
                     @if((
+                        $data->Approver1 == auth()->user()->Person()->ID
+                        or
                         $data->Department()->Manager()->ID == auth()->user()->ID
                         or
                         auth()->user()->isAdministrator()
@@ -99,6 +101,8 @@
                     @endif
                     <!-- For Charged To Approver -->
                     @if(
+                        $data->Approver2 == auth()->user()->Person()->ID
+                        or
                         $data->ChargedTo()->Manager()->ID == auth()->user()->ID
                         or
                         auth()->user()->isAdministrator()
