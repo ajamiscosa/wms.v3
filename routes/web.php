@@ -44,7 +44,7 @@ Route::post('/product/store', 'ProductController@store');
 Route::get('/product/update/{product}', 'ProductController@edit');
 Route::post('/product/update/{product}', 'ProductController@update');
 Route::get('/product/data', 'ProductController@data');
-Route::get('/product/view/{product}', 'ProductController@show');
+Route::get('/product/view/{product}', 'ProductController@show')->name('inventory.products.view');
 Route::post('/product/toggle/{product}', 'ProductController@toggle');
 Route::get('/product/{product}/current-stocks','ProductController@currentstocks');
 Route::get('/product/{product}/transactions', 'ProductController@transactions');
@@ -202,7 +202,7 @@ Route::get('/reports/inventory-balance', 'ReportController@showInventoryBalanceR
 Route::get('/reports/inventory-balance/export', 'ReportController@exportInventoryBalanceReport');
 Route::get('/reports/issuance-log', 'ReportController@showIssuanceReport');
 Route::get('/reports/issuance-log/export', 'ReportController@exportIssuanceReport');
-Route::get('/reports/receiving-log', 'ReportController@showReceivingReport');
+Route::get('/reports/receiving-log', 'ReportController@showReceivingReport')->name('report.receiving');
 Route::get('/reports/receiving-log/export', 'ReportController@exportReceivingReport');
 Route::get('/reports/supplies-pchem', 'ReportController@showSuppliesAndProcessChemReport');
 Route::get('/reports/consumption/{product}/view', 'ReportController@showConsumptionReportOfProduct');
@@ -858,6 +858,10 @@ Route::get('/test/file', function(){
 
 
     $myfile = fopen("testfile.txt", "w+");
+});
+
+Route::get('/error',function() {
+    return view('errors.404');
 });
 
 
