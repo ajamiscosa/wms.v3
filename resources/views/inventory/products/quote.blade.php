@@ -27,7 +27,7 @@
             <hr class="mt-0 mb-0">
             <!-- /.card-header -->
             <div class="card-body">
-                @foreach($data->getLastFiveAwardedQuotations() as $entry)
+                @forelse($data->getLastFiveAwardedQuotations() as $entry)
                     <div class="row">
                         <div class="col-lg-3 col-md-12">
                             <strong><i class="fa fa-calendar mr-1"></i> Vendor</strong>
@@ -71,7 +71,9 @@
                     @if(!$loop->last)
                         <hr class="mt-0">
                     @endif
-                @endforeach
+                @empty
+                    No data available
+                @endforelse
             </div>
         </div>
 
