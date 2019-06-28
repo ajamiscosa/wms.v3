@@ -44,6 +44,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \Exception)
+        {
+            return redirect()->to('error');
+            #handle it
+        }
         return parent::render($request, $exception);
     }
 
