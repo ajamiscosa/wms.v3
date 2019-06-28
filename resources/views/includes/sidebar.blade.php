@@ -90,7 +90,7 @@
                                         </a>
                                     </li>
                                 @endif
-                                @if(auth()->user()->isAuthorized('Issuances','A'))
+                                @if(auth()->user()->isAuthorized('Issuances','V'))
                                     <li class="nav-item nav-divider">
                                         <hr class="pt-0 pb-0 mt-0 mb-1"/>
                                     </li>
