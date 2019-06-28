@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use SebastianBergmann\Diff\Line;
+use App\Currency;
 
 class PurchaseOrderController extends Controller
 {
@@ -200,6 +201,7 @@ class PurchaseOrderController extends Controller
 
             $data[$supplier->ID][$requisition->OrderNumber]['Supplier'] = $supplier->ID;
             $data[$supplier->ID][$requisition->OrderNumber]['OrderNumber'] = $requisition->OrderNumber;
+            $data[$supplier->ID][$requisition->OrderNumber]['Currency'] = $quote->Currency()->Code;
 
 
             if(isset($data[$supplier->ID][$requisition->OrderNumber]['Counter'])) {
@@ -249,6 +251,7 @@ class PurchaseOrderController extends Controller
         else {
             $current = 0;
         }
+
         // Step 3: Create PO
         foreach($data as $entry) {
             // entry = vendor.
@@ -269,6 +272,7 @@ class PurchaseOrderController extends Controller
                         $today->format('my'),
                         str_pad($current,3,'0',STR_PAD_LEFT)
                     );
+                    
                     $po->ChargeNo = $item['OrderNumber'];
                     $po->ChargeType = 'S';
                     $po->Series = self::$series;
@@ -312,6 +316,7 @@ class PurchaseOrderController extends Controller
                     }
 
                     $po->save();
+                    $current++;
 
 
                     $log = new StatusLog();
@@ -329,7 +334,7 @@ class PurchaseOrderController extends Controller
                      * 5. Send mail to GM
                      *
                      */
-
+                    // throw new \Exception("wala lang");
                 }
 
 
@@ -447,8 +452,17 @@ class PurchaseOrderController extends Controller
                 $category = "LO";
             }
 
-            $currency = $po->Supplier()->Currency()->Code;
-            $currency = substr($currency,0,2);
+            $counter = 0;
+            foreach($po->OrderItems() as $orderItem) {
+                if($counter == 0) {
+                    $quote = $orderItem->SelectedQuote();
+                    $currency = Currency::find($quote->Currency);
+                    $currency = $currency->Code;
+                    $currency = substr($currency,0,2);
+                }
+                break;
+            }
+
 
 
             $tempOrderNumber = $po->OrderNumber;
@@ -528,7 +542,7 @@ class PurchaseOrderController extends Controller
             $entry['Supplier'] = $order->Supplier()->Name;
             $entry['OrderDate'] = $order->OrderDate->format('F d, Y');
 //            $entry['DeliveryDate'] = $order->DeliveryDate->format('F d, Y');
-            $entry['Total'] = ($order->Supplier()->SupplierType==1?'PHP':'USD').' '.number_format($order->Total,2,'.',',');
+            $entry['Total'] = ($order->OrderItems()[0]->SelectedQuote()->Currency()->Code).' '.number_format($order->Total,2,'.',',');
             $entry['Status'] = IssuanceHelper::ParsePurchaseOrderStatus($order->Status);
             array_push($data, $entry);
         }
