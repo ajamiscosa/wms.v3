@@ -8,12 +8,21 @@
     ]
 ])
 @section('title',"[$data->UniqueID] $data->Name")
-@section('styles')
+@section('styles')  
     <link rel="stylesheet" href="{{ asset('css/select2.css') }}">
     <link rel="stylesheet" href="{{ asset('css/sweetalert.css') }}">
     <link rel="stylesheet" href="{{ asset('css/icheck.square-red.css') }}">
 @endsection
 @section('content')
+    <div class="row">
+        <div class="col-md-12">
+            <div class="float-right">
+                <a href="/for-quotation" style="margin-right: 15px;">Back to Quotation List</a>
+            </div>
+            
+        </div>
+    </div>
+    <br>
     <div class="row">
         <div class="col-lg-4 col-md-12">
         @include('inventory.products.details', ['data'=>$data])
