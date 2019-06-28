@@ -154,18 +154,29 @@
                                     <td>{{ $request->OrderNumber }}</td>
                                     <td>{{ $request->Department()->Name }}</td>
                                     <td>{{ \Carbon\Carbon::parse($request->Date)->format('m/d/Y') }}</td>
+                                    @php($count=0)
                                 @forelse($request->LineItems() as $lineItem)
                                     @if($lineItem)
                                         @php
                                             // $lineItem = $orderItem->LineItem();
                                             $product = $lineItem->Product();
                                         @endphp
-                                        <td>{{ $product->UniqueID }}</td>
-                                        <td>{{ $product->getGeneralLedger()->Code }}</td>
-                                        <td class="text-right">{{ $lineItem->Quantity }}</td>
-                                        <td>{{ $product->UOM()->Abbreviation }}</td>
-                                        <td>{{ $product->Description }}</td>
+                                        @if($count==0)
+                                            <td>{{ $product->UniqueID }}</td>
+                                            <td>{{ $product->getGeneralLedger()->Code }}</td>
+                                            <td class="text-right">{{ $lineItem->Quantity }}</td>
+                                            <td>{{ $product->UOM()->Abbreviation }}</td>
+                                            <td>{{ $product->Description }}</td>
+                                        @else
+                                            <td colspan="3"></td>
+                                            <td>{{ $product->UniqueID }}</td>
+                                            <td>{{ $product->getGeneralLedger()->Code }}</td>
+                                            <td class="text-right">{{ $lineItem->Quantity }}</td>
+                                            <td>{{ $product->UOM()->Abbreviation }}</td>
+                                            <td>{{ $product->Description }}</td>
+                                        @endif
 
+                                        @php($count++)
                                         @forelse($request->OrderItems() as $orderItem)
                                             @if($orderItem)
                                                 @if($po = $orderItem->PurchaseOrder())
@@ -208,6 +219,7 @@
                                         @empty
                                             <td colspan="7"></td>
                                         @endforelse
+                                    </tr>
                                     @else
                                     <td colspan="12"></td>
                                     @endif
