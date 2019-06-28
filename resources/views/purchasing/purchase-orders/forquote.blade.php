@@ -6,7 +6,7 @@
     'description'=>'List of Items that Needs Quotations',
     'breadcrumbs' => [
         \App\Classes\Breadcrumb::create('Home','/'),
-        \App\Classes\Breadcrumb::create('Order Items')
+        \App\Classes\Breadcrumb::create('Order For Quotation')
     ]
 ])
 @section('styles')
