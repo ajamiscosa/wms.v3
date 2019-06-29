@@ -44,7 +44,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof \Exception)
+        if($exception instanceof AuthenticationException) {
+            // skip.
+        }
+        else
         {
             return redirect()->to('error');
             #handle it
