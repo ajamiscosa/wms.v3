@@ -48,8 +48,7 @@ class AndroidAPIController extends Controller
             $status = "failed";
             $message = "Account doesn't exist.";
         }
-
-        return response()->json(['status'=>$status, 'message'=>$message]);
+        return response()->json(['status'=>$status, 'message'=>$message, 'data'=>$account]);
     }
     //end android login
 
