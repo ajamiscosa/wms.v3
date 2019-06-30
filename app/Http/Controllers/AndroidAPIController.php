@@ -6,6 +6,8 @@ use App\Person;
 use App\PhonebookEntry;
 use App\User;
 use App\Product;
+use App\LineItem;
+use App\OrderItem;
 use App\Supplier;
 use App\PurchaseOrder;
 use App\StockAdjustment;
@@ -33,7 +35,7 @@ class AndroidAPIController extends Controller
         $message = "";
         if($account) {
             if($account->Password == $pass) {
-                Auth::login($account);
+                //Auth::login($account);
                 $status = "success";
                 $message = "ok";
             }
@@ -50,6 +52,8 @@ class AndroidAPIController extends Controller
         return response()->json(['status'=>$status, 'message'=>$message]);
     }
     //end android login
+
+    // inventory
     public function androidGetProduct($product) {
         $product = Product::where('UniqueID','=',$product)->first();
 
@@ -62,18 +66,7 @@ class AndroidAPIController extends Controller
 
         return response()->json($data);
     }
-
-    public function androidGetSupplier($supplier) {
-        $supplier = Supplier::where('ID','=',$supplier)->first();
-
-        $data = array();
-        if($supplier){
-            $data['Name'] = $supplier->Name;
-            //$data['Description'] = $supplier->Description;
-        }
-
-        return response()->json($data);
-    }
+    //end inventory
 
     public function androidGetPO($supplier) {
         $po = PurchaseOrder::where('Supplier','=',$supplier)->first();
@@ -85,6 +78,71 @@ class AndroidAPIController extends Controller
         
         return response()->json($data);
     }
+
+    // Receiving 
+    public function androidGetPendingPO($supplier) {
+        $vID = $this->getSupplierIDByCode($supplier);
+        $purchase = PurchaseOrder::where('Supplier','=',$vID)->get();
+        $data = array();
+        foreach($purchase as $po){
+            if($po->Status == "A" && $po->getRemainingDeliverableQuantity()>0){
+                $p = new PurchaseOrder();
+                $p->OrderNumber = $po->OrderNumber;
+                array_push($data,$p);
+            }
+        }
+        return response()->json($data);
+    }
+
+    public function androidGetPODataByOrderNumber($purchaseOrder)
+    {
+        $totalRemaining = 0;
+        $po = PurchaseOrder::where('OrderNumber','=',$purchaseOrder)->first();
+        foreach($po->OrderItems() as $item){
+            $lineItem = $item->LineItem();
+            $product = $lineItem->Product();
+            $totalRemaining+=$lineItem->getRemainingDeliverableQuantity();
+        }
+        dd($product->UniqueID);
+        //return view('purchasing.receive-orders.receive.content',['data'=>$po]);
+    }
+
+    public function androidGetProductIDByOrderNumber($purchaseOrder)
+    {
+        $data = array();
+        $po = PurchaseOrder::where('OrderNumber','=',$purchaseOrder)->first();
+        foreach($po->OrderItems() as $item){
+            $prod = new Product();
+            $lineItem = $item->LineItem();
+            $product = $lineItem->Product();
+
+            $prod->UniqueID = $product->UniqueID;
+            array_push($data,$prod);
+        }
+        return response()->json($data);
+    }
+
+    public function androidGetItemDataByOrderNumber($purchaseOrder)
+    {
+        $purchaseOrder = explode("&", $purchaseOrder);
+        $totalRemaining = 0;
+        $data = array();
+        $po = PurchaseOrder::where('OrderNumber','=',$purchaseOrder[0])->first();
+        foreach($po->OrderItems() as $item){
+            $prod = new Product();
+            $lineItem = $item->LineItem();
+            $product = $lineItem->Product();
+            $totalRemaining+=$lineItem->getRemainingDeliverableQuantity();
+            if($product->UniqueID == $purchaseOrder[1]){
+                $prod->UniqueID = $product->UniqueID;
+                $prod->Description = $product->Description;
+                $prod->Quantity = $totalRemaining;
+                array_push($data,$prod);
+            }
+        }
+        return response()->json($data);
+    }
+    //end receiving
 
     // stockadjustment
     public function stockAdjustmentStore($adjustment) {
@@ -135,6 +193,25 @@ class AndroidAPIController extends Controller
             return $product->ID;
         }
         return "";
+    }
+
+    public function getSupplierIDByCode($code)
+    {
+        $supplier = Supplier::where('Code','=',$code)->first();
+        if($supplier) {
+            return $supplier->ID;
+        }
+        return "";
+    }
+
+    public function androidGetSupplier($supplier) {
+        $supplier = Supplier::where('Code','=',$supplier)->first();
+        $data = array();
+        if($supplier){
+            $data['Name'] = $supplier->Name;
+        }
+
+        return response()->json($data);
     }
     // end of functions
 }

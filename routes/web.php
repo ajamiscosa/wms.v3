@@ -497,10 +497,15 @@ Route::post('/deferred/restore', 'RequisitionController@restoreDeferredItem');
 
 
 //Android routes
-Route::post('/api/login', 'UserController@androidlogin');
-Route::get('/api/product/{product}','ProductController@androidGetProduct');
-Route::get('/api/supplier/{supplier}','SupplierController@androidGetSupplier');
-Route::get('/api/purchase-order/{supplier}','PurchaseOrderController@androidGetPO');
+Route::post('/api/login', 'AndroidAPIController@androidlogin');
+Route::get('/api/login', 'AndroidAPIController@androidlogin');
+Route::get('/api/product/{product}','AndroidAPIController@androidGetProduct');
+Route::get('/api/supplier/{supplier}','AndroidAPIController@androidGetSupplier');
+Route::get('/api/purchase-order/{supplier}','AndroidAPIController@androidGetPO');
+Route::get('/api/purchase-order/data/{purchaseorder}','AndroidAPIController@androidGetPODataByOrderNumber');
+Route::get('/api/purchase-order/line-item-product-id/{purchaseorder}','AndroidAPIController@androidGetProductIDByOrderNumber');
+Route::get('/api/purchase-order/line-item-product-data/{purchaseorder}','AndroidAPIController@androidGetItemDataByOrderNumber');
+Route::get('/api/receive-order/{supplier}','AndroidAPIController@androidGetPendingPO');
 
 // end of android routes
 
