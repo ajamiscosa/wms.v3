@@ -151,9 +151,9 @@ class AndroidAPIController extends Controller
             $sa->Number = $this->getCurrentIncrement();
             $sa->Product = $this->getProductIDByCode($ex[0]);
             $sa->Final = $ex[1];
-    
+            
             $remarks = array();
-            $remark = array('userid'=>auth()->user()->ID, 'message'=>'Inventory Mobile', 'time'=>Carbon::now()->toDateTimeString());
+            $remark = array('userid'=>$ex[2], 'message'=>'Inventory Mobile', 'time'=>Carbon::now()->toDateTimeString());
             array_push($remarks, $remark);
     
             $sa->Remarks = json_encode(['data'=>$remarks]);
@@ -165,7 +165,7 @@ class AndroidAPIController extends Controller
                 return response()->json(['result'=>"fail"]);
             }
         }catch(\Exception $e) {
-            return response()->json(false);
+            return response()->json(['Error'=>$e]);
         }
         // return response()->json(['result'=>"success"]);
     }
