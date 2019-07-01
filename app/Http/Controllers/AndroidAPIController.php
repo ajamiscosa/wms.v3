@@ -11,6 +11,8 @@ use App\OrderItem;
 use App\Supplier;
 use App\PurchaseOrder;
 use App\StockAdjustment;
+use App\ReceiveOrder;
+use App\InventoryLog;
 use Carbon\Carbon;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
@@ -136,15 +138,103 @@ class AndroidAPIController extends Controller
                 $prod->UniqueID = $product->UniqueID;
                 $prod->Description = $product->Description;
                 $prod->Quantity = $totalRemaining;
+                $prod->OrderItem = $item->ID;
                 array_push($data,$prod);
             }
         }
         return response()->json($data);
     }
+
+    public function androidReceivingStore($id)//poNumber&orderItem&invoiceDR&_qty
+    {
+        $ex = explode("&",$id);
+        $orderItem = new OrderItem();
+        $po = new PurchaseOrder();
+        $po = $po->where('OrderNumber','=',$ex[0])->firstOrFail(); //poNumber
+
+
+        $rrNumber = "";
+
+
+        $lastReceipt = ReceiveOrder::orderByDesc('ID')->first();
+        if($lastReceipt) {
+            $length = strlen($lastReceipt->OrderNumber);
+                
+            $prefix = Carbon::today()->format('ym');
+            $currentMonth = substr($lastReceipt->OrderNumber,6,4);
+            if($prefix==$currentMonth) {
+                $current = substr($lastReceipt->OrderNumber, $length-3);
+                $current++;
+            }
+            else {
+                $current = 0;
+                $current++;
+            }
+        }
+        else {
+            $current = 0;
+            $current++;
+        }
+
+        if($ex[3]>0) {
+            $ro = new ReceiveOrder();
+            $ro->PurchaseOrder = $po->ID;
+            $orderItem = $orderItem->where('ID','=',$ex[1])->firstOrFail();//orderItem
+            $lineItem = $orderItem->LineItem();
+
+            $ro->OrderItem  = $orderItem->ID;
+            $ro->Received = Carbon::now();
+            $ro->ReferenceNumber = $ex[2];//invoiceDR
+
+            try {
+                $latest = $ro->where('PurchaseOrder','=',$orderItem->PurchaseOrder)->orderBy('Received', 'desc')->firstOrFail();
+                $ro->Series = $latest->Series + 1;
+            } catch(\Exception $exception) {
+                $ro->Series = 1;
+            }
+
+            $ro->Quantity = $ex[3];//_qty
+
+
+            $rrNumber = sprintf("RR%s%s%s",
+                substr($po->OrderNumber,2,4),
+                Carbon::today()->format('ym'),
+                str_pad($current,3,'0',STR_PAD_LEFT)
+            );
+            
+            $ro->OrderNumber = $rrNumber;
+
+            $remarks = array();
+            $remark = array(
+                'receiver'=>"Mobile",//none
+                'message'=>"From Mobile"//none
+            );
+            array_push($remarks, $remark);
+
+            $ro->Remarks = json_encode(['data'=>$remarks]);
+            $ro->save();
+
+            $product = $lineItem->Product();
+
+            $inventoryLog = new InventoryLog();
+            $inventoryLog->Product = $lineItem->Product;
+            $inventoryLog->Type = 'I'; // item out ito.
+            $inventoryLog->TransactionType = 'RR'; // Receiving Receipt
+            $inventoryLog->Quantity = $ex[3];//_qty
+            $inventoryLog->Initial = $product->Quantity;
+            $inventoryLog->Final = $product->Quantity + $ex[3];//_qty
+            $inventoryLog->save();
+
+            $product->Quantity = $product->Quantity + $ex[3];//_qty
+            $product->save();
+        }
+
+        return response()->json(['result'=>"success"]);
+    }
     //end receiving
 
     // stockadjustment
-    public function stockAdjustmentStore($adjustment) {
+    public function androidStockAdjustmentStore($adjustment) {
         try{
             $ex = explode("&",$adjustment);
             $sa = new StockAdjustment();
