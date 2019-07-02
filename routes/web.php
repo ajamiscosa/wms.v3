@@ -66,7 +66,7 @@ Route::get('/quote/document/{file}', 'QuoteController@viewDocument');
 Route::post('/quote/{id}/delete', 'QuoteController@destroy');
 
 Route::get('/pending-quote', 'QuoteController@viewPendingQuotes');
-Route::get('/for-quotation', 'PurchaseOrderController@showItemsForQuotation');
+Route::get('/for-quotation', 'PurchaseOrderController@showItemsForQuotation')->name('purchasing/purchase-orders/forquote');
 
 Route::get('/order-item','PurchaseOrderController@showItemsReadyForPO')->name('purchasing.purchase-orders.orderitems');
 Route::get('/order-item/po-items','PurchaseOrderController@getOrderItemsReadyForPO');
