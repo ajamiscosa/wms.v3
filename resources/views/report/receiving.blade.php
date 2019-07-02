@@ -206,20 +206,35 @@
 //                        win.document.body.innerHTML = content;
                         var win = PopupCenter("", "Print Preview", 850,768);
                         win.document.body.innerHTML = content;
-//
                         var $content = win.document.querySelector('#capture');
+
+
+                        var doc = new jsPDF('p', 'in', [8.5, 11]);
 
                         html2canvas($content,{
                             onrendered: function (canvas) {
-                                win.document.body.innerHTML = "<html><head><title>"+rr+"</title><link rel='stylesheet' href='{{asset('css/custom.css')}}'/><link rel='stylesheet' href='{{asset('css/fontawesome-all.min.css')}}'/></head><a role='button' onclick='window.print(); return false;' class='float'><i class='fa fa-print my-float'></i></a></html>";
-                                win.document.body.appendChild(canvas);
-//                                var imgData = canvas.toDataURL(
-//                                    'image/png');
-//                                var doc = new jsPDF('p', 'in', [8.5, 11]);
-//                                doc.addImage(imgData, 'PNG', 0, 0);
-//                                doc.save(rr+'.pdf');
+                               var imgData = canvas.toDataURL(
+                                   'image/png');
+                               doc.addImage(imgData, 'PNG', 0, 0);
+                               window.open(doc.output('bloburl'), '_blank');
+                                win.close();
                             }
                         });
+
+                        // html2canvas($content,{
+                        //     onrendered: function (canvas) {
+                        //         win.document.body.innerHTML = "<html><head><title>"+rr+"</title><link rel='stylesheet' href='{{asset('css/custom.css')}}'/><link rel='stylesheet' href='{{asset('css/fontawesome-all.min.css')}}'/></head><a role='button' onclick='window.print(); return false;' class='float'><i class='fa fa-print my-float'></i></a></html>";
+                        //         win.document.body.appendChild(canvas);
+                        //        var imgData = canvas.toDataURL(
+                        //            'image/png');
+                        //        var doc = new jsPDF('p', 'in', [8.5, 11]);
+                        //        doc.addImage(imgData, 'PNG', 0, 0);
+                        //        window.open(doc.output('bloburl'), '_blank');
+                        //     //    console.log(doc.output('datauristring'));
+                        //     //    doc.output('save', 'D:/reports/'+rr+'pdf'); 
+                        //     //    doc.save('//D:/reports/'+rr+'.pdf');
+                        //     }
+                        // });
 
                     }
                 });

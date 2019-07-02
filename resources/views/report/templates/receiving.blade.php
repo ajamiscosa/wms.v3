@@ -428,6 +428,7 @@
             @php($lineItem = $orderItem->LineItem())
             @php($product = $lineItem->Product())
             @php($quote = $orderItem->SelectedQuote())
+            @php($currency = $quote->Currency()->Code)
             @php($usd = \App\Currency::getExchangeRate('USD'))
             @php($totalUSD = 0)
             @php($totalCUR = 0)
@@ -435,12 +436,20 @@
                 <div title="" class="textBox99 s7-" style="position:absolute;overflow:hidden;left:38px;top:{{$y}}px;width:93px;height:19px;">{{ $product->UniqueID }}</div>
                 <div title="" class="textBox100 s8-" style="position:absolute;overflow:hidden;left:137px;top:{{$y}}px;width:206px;height:19px;">{{ $product->Description }}</div>
                 <div title="" class="textBox101 s9-" style="position:absolute;overflow:hidden;left:348px;top:{{$y}}px;width:62px;height:19px;">{{ $item->Quantity }}</div>
-                <div title="" class="textBox102 s9-" style="position:absolute;overflow:hidden;left:416px;top:{{$y}}px;width:82px;height:19px;">{{ number_format($quote->Amount / $usd,2,'.',',') }}</div>
-                <div title="" class="textBox103 s10-" style="position:absolute;overflow:hidden;left:504px;top:{{$y}}px;width:95px;height:19px;">{{ number_format(($quote->Amount / $usd) * $item->Quantity, 2, '.', ',') }}</div>
+                @if($currency=="USD")
+                    <div title="" class="textBox102 s9-" style="position:absolute;overflow:hidden;left:416px;top:{{$y}}px;width:82px;height:19px;">{{ number_format($quote->Amount,2,'.',',') }}</div>
+                    <div title="" class="textBox103 s10-" style="position:absolute;overflow:hidden;left:504px;top:{{$y}}px;width:95px;height:19px;">{{ number_format(($quote->Amount) * $item->Quantity, 2, '.', ',') }}</div>
+                    @php($totalUSD += ($quote->Amount) * $item->Quantity)
+                    @php($totalCUR += $quote->Amount * $item->Quantity)
+                @else
+                    <div title="" class="textBox102 s9-" style="position:absolute;overflow:hidden;left:416px;top:{{$y}}px;width:82px;height:19px;">{{ number_format($quote->Amount / $usd,2,'.',',') }}</div>
+                    <div title="" class="textBox103 s10-" style="position:absolute;overflow:hidden;left:504px;top:{{$y}}px;width:95px;height:19px;">{{ number_format(($quote->Amount / $usd) * $item->Quantity, 2, '.', ',') }}</div>
+                    @php($totalUSD += ($quote->Amount / $usd) * $item->Quantity)
+                    @php($totalCUR += $quote->Amount * $item->Quantity)
+                @endif
                 <div title="" class="textBox104 s11-" style="position:absolute;overflow:hidden;left:604px;top:{{$y}}px;width:80px;height:19px;">{{ $quote->Amount }}</div>
                 <div title="" class="textBox105 s9-" style="position:absolute;overflow:hidden;left:688px;top:{{$y}}px;width:84px;height:19px;">{{ number_format($quote->Amount * $item->Quantity,2,'.',',') }}</div>
-                @php($totalUSD += ($quote->Amount / $usd) * $item->Quantity)
-                @php($totalCUR += $quote->Amount * $item->Quantity)
+               
                 @php($y+=20)
             @else
                 <div title="" class="textBox99 s7-" style="position:absolute;overflow:hidden;left:38px;top:{{$y}}px;width:93px;height:19px;">{{ $product->UniqueID }}</div>
