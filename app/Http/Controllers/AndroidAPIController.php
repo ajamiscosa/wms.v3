@@ -7,13 +7,16 @@ use App\PhonebookEntry;
 use App\User;
 use App\Product;
 use App\LineItem;
+use App\Requisition;
 use App\OrderItem;
 use App\Supplier;
 use App\PurchaseOrder;
 use App\StockAdjustment;
 use App\ReceiveOrder;
 use App\InventoryLog;
+use App\Department;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Psy\Util\Json;
@@ -37,7 +40,7 @@ class AndroidAPIController extends Controller
         $message = "";
         if($account) {
             if($account->Password == $pass) {
-                //Auth::login($account);
+                Auth::login($account);
                 $status = "success";
                 $message = "ok";
             }
@@ -52,7 +55,7 @@ class AndroidAPIController extends Controller
         }
         return response()->json(['status'=>$status, 'message'=>$message, 'data'=>$account]);
     }
-    //end android login
+    // end android login
 
     // inventory
     public function androidGetProduct($product) {
@@ -67,7 +70,7 @@ class AndroidAPIController extends Controller
 
         return response()->json($data);
     }
-    //end inventory
+    // end inventory
 
     public function androidGetPO($supplier) {
         $po = PurchaseOrder::where('Supplier','=',$supplier)->first();
@@ -234,7 +237,22 @@ class AndroidAPIController extends Controller
             return response()->json(['result'=>$e]);
         }
     }
-    //end receiving
+    // end receiving
+
+    // issuance
+    public function androidGetDepartment(){
+        $data = array();
+        $departments = Department::all();
+        for($i=0;$i<count($departments);$i++){
+            $department = new Department();
+            $department->ID = $departments[$i]->ID;
+            $department->Name = $departments[$i]->Name;
+
+            array_push($data, $department);
+        }
+        return response()->json($data);
+    }
+    // end issuance
 
     // stockadjustment
     public function androidStockAdjustmentStore($adjustment) {
@@ -248,21 +266,24 @@ class AndroidAPIController extends Controller
             $remarks = array();
             $remark = array('userid'=>$ex[2], 'message'=>'Inventory Mobile', 'time'=>Carbon::now()->toDateTimeString());
             array_push($remarks, $remark);
-    
+            $id = $ex[2];
             $sa->Remarks = json_encode(['data'=>$remarks]);
             $sa->Status = 'P'; // default is pending
+            // dd($sa);
             // $sa->save();
             if($sa->save()){
+                $sa->created_by = $id;
+                $sa->save();
                 return response()->json(['result'=>"success"]);
             }else{
                 return response()->json(['result'=>"fail"]);
             }
         }catch(\Exception $e) {
-            return response()->json(['Error'=>$e]);
+            return response()->json(['result'=>"Exception: " +$e]);
         }
         // return response()->json(['result'=>"success"]);
     }
-    //end of stockadjustment
+    // end of stockadjustment
 
     // functions
     public function getCurrentIncrement()

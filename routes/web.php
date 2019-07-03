@@ -44,7 +44,7 @@ Route::post('/product/store', 'ProductController@store');
 Route::get('/product/update/{product}', 'ProductController@edit');
 Route::post('/product/update/{product}', 'ProductController@update');
 Route::get('/product/data', 'ProductController@data');
-Route::get('/product/view/{product}', 'ProductController@show')->name('inventory.products.view');
+Route::get('/product/view/{product}', 'ProductController@show')->name('inventory/products/view');
 Route::post('/product/toggle/{product}', 'ProductController@toggle');
 Route::get('/product/{product}/current-stocks','ProductController@currentstocks');
 Route::get('/product/{product}/transactions', 'ProductController@transactions');
@@ -68,7 +68,7 @@ Route::post('/quote/{id}/delete', 'QuoteController@destroy');
 Route::get('/pending-quote', 'QuoteController@viewPendingQuotes');
 Route::get('/for-quotation', 'PurchaseOrderController@showItemsForQuotation')->name('purchasing/purchase-orders/forquote');
 
-Route::get('/order-item','PurchaseOrderController@showItemsReadyForPO')->name('purchasing.purchase-orders.orderitems');
+Route::get('/order-item','PurchaseOrderController@showItemsReadyForPO')->name('purchasing/purchase-orders/orderitems');
 Route::get('/order-item/po-items','PurchaseOrderController@getOrderItemsReadyForPO');
 Route::get('/order-item/quote-items', 'PurchaseOrderController@getOrderItemData');
 Route::get('/order-item/for-quote-approval','PurchaseOrderController@getItemsForQuotationApproval');
@@ -88,15 +88,15 @@ Route::get('/issuance/{id}/transactions','IssuanceReceiptController@getReceiptTr
 
 Route::get('/inventory-log', 'InventoryLogController@index'); // read only lang to. Rekta na sa Model pag create.
 
-Route::get('/stock-adjustment', 'StockAdjustmentController@index');
-Route::get('/stock-adjustment/new', 'StockAdjustmentController@create');
+Route::get('/stock-adjustment', 'StockAdjustmentController@index')->name('inventory/stock-adjustments/index');
+Route::get('/stock-adjustment/new', 'StockAdjustmentController@create')->name('inventory/stock-adjustments/create');
 Route::post('/stock-adjustment/store', 'StockAdjustmentController@store');
 Route::get('/stock-adjustment/update/{id}', 'StockAdjustmentController@edit');
 Route::post('/stock-adjustment/update/{id}', 'StockAdjustmentController@update');
 Route::post('/stock-adjustment/{id}/void', 'StockAdjustmentController@void');
 Route::post('/stock-adjustment/{id}/approve', 'StockAdjustmentController@approve');
 Route::get('/stock-adjustment/data', 'StockAdjustmentController@data');
-Route::get('/stock-adjustment/view/{id}', 'StockAdjustmentController@show');
+Route::get('/stock-adjustment/view/{id}', 'StockAdjustmentController@show')->name('inventory/stock-adjustments/view');
 Route::get('/stock-adjustment/product-data', 'StockAdjustmentController@getProductList');
 Route::get('/stock-adjustment/location-data', 'StockAdjustmentController@locationdata');
 
@@ -155,7 +155,7 @@ Route::get('/purchase-order/{id}/data','PurchaseOrderController@getPurchaseOrder
 
 
 
-Route::get('/receive-order', 'ReceiveOrderController@showReceivingForm')->name('purchasing.receive-orders.receiving');
+Route::get('/receive-order', 'ReceiveOrderController@showReceivingForm')->name('purchasing/receive-orders/receiving');
 Route::get('/receive-order/new', 'ReceiveOrderController@create');
 Route::post('/receive-order/store', 'ReceiveOrderController@store');
 Route::get('/receive-order/view/{ro}', 'ReceiveOrderController@show');
@@ -274,7 +274,7 @@ Route::get('/department/update/{id}', 'DepartmentController@edit');
 Route::post('/department/update/{department}', 'DepartmentController@update');
 Route::post('/department/toggle/{department}', 'DepartmentController@toggle');
 Route::get('/department/data', 'DepartmentController@data');
-Route::get('/department/view/{department}', 'DepartmentController@show')->name('settings.departments.view');
+Route::get('/department/view/{department}', 'DepartmentController@show')->name('settings/departments/view');
 Route::get('/department/approverdata', 'DepartmentController@approverdata');
 Route::get('/department/parentdata', 'DepartmentController@parentdata');
 Route::get('/department/gldata', 'DepartmentController@gldata');
@@ -414,7 +414,7 @@ Route::get('/deferred', 'RequisitionController@showDeferredForRestockingList');
 Route::get('/ship-via', 'ShippingMethodController@index');
 Route::get('/ship-via/new', 'ShippingMethodController@create');
 Route::post('/ship-via/store', 'ShippingMethodController@store');
-Route::get('/ship-via/update/{shipvia}', 'ShippingMethodController@edit')->name('settings.shipvia.update');
+Route::get('/ship-via/update/{shipvia}', 'ShippingMethodController@edit')->name('settings/shipvia/update');
 Route::post('/ship-via/update/{shipvia}', 'ShippingMethodController@update');
 Route::post('/ship-via/disable', 'ShippingMethodController@disable');
 Route::post('/ship-via/toggle/{shipvia}', 'ShippingMethodController@toggle');
@@ -508,6 +508,7 @@ Route::get('/api/purchase-order/line-item-product-data/{purchaseorder}','Android
 Route::get('/api/receive-order/{supplier}','AndroidAPIController@androidGetPendingPO');
 Route::get('/api/stock-adjustment/{adjustment}','AndroidAPIController@androidStockAdjustmentStore');
 Route::get('/api/purchase-order/receiving-update/{id}','AndroidAPIController@androidReceivingStore');
+Route::get('/api/departments','AndroidAPIController@androidGetDepartment');
 
 // end of android routes
 
