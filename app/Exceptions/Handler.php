@@ -44,13 +44,18 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if($exception instanceof AuthenticationException) {
+        if(env('APP_DEBUG')) {
             // skip.
         }
-        else
-        {
-            return redirect()->to('error');
-            #handle it
+        else {
+            if($exception instanceof AuthenticationException) {
+                // skip.
+            }
+            else
+            {
+                return redirect()->to('error');
+                #handle it
+            }
         }
         return parent::render($request, $exception);
     }

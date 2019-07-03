@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\RecordSignature as RecordSignature;
 
 class StockAdjustment extends Model
 {
+    use RecordSignature;
+    
     /**
      * The primary key of the table
      * @var string
