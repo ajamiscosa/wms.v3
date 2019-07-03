@@ -14,6 +14,7 @@ use App\StockAdjustment;
 use App\ReceiveOrder;
 use App\InventoryLog;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Psy\Util\Json;
@@ -37,7 +38,7 @@ class AndroidAPIController extends Controller
         $message = "";
         if($account) {
             if($account->Password == $pass) {
-                //Auth::login($account);
+                Auth::login($account);
                 $status = "success";
                 $message = "ok";
             }
@@ -248,17 +249,20 @@ class AndroidAPIController extends Controller
             $remarks = array();
             $remark = array('userid'=>$ex[2], 'message'=>'Inventory Mobile', 'time'=>Carbon::now()->toDateTimeString());
             array_push($remarks, $remark);
-    
+            $id = $ex[2];
             $sa->Remarks = json_encode(['data'=>$remarks]);
             $sa->Status = 'P'; // default is pending
+            // dd($sa);
             // $sa->save();
             if($sa->save()){
+                $sa->setCreatedBy($id);
+                $sa->save();
                 return response()->json(['result'=>"success"]);
             }else{
                 return response()->json(['result'=>"fail"]);
             }
         }catch(\Exception $e) {
-            return response()->json(['Error'=>$e]);
+            return response()->json(['result'=>"Exception: " +$e]);
         }
         // return response()->json(['result'=>"success"]);
     }
