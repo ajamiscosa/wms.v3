@@ -508,6 +508,7 @@ Route::get('/api/purchase-order/line-item-product-data/{purchaseorder}','Android
 Route::get('/api/receive-order/{supplier}','AndroidAPIController@androidGetPendingPO');
 Route::get('/api/stock-adjustment/{adjustment}','AndroidAPIController@androidStockAdjustmentStore');
 Route::get('/api/purchase-order/receiving-update/{id}','AndroidAPIController@androidReceivingStore');
+Route::get('/api/departments','AndroidAPIController@androidGetDepartment');
 
 // end of android routes
 

@@ -7,12 +7,14 @@ use App\PhonebookEntry;
 use App\User;
 use App\Product;
 use App\LineItem;
+use App\Requisition;
 use App\OrderItem;
 use App\Supplier;
 use App\PurchaseOrder;
 use App\StockAdjustment;
 use App\ReceiveOrder;
 use App\InventoryLog;
+use App\Department;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\File;
@@ -53,7 +55,7 @@ class AndroidAPIController extends Controller
         }
         return response()->json(['status'=>$status, 'message'=>$message, 'data'=>$account]);
     }
-    //end android login
+    // end android login
 
     // inventory
     public function androidGetProduct($product) {
@@ -68,7 +70,7 @@ class AndroidAPIController extends Controller
 
         return response()->json($data);
     }
-    //end inventory
+    // end inventory
 
     public function androidGetPO($supplier) {
         $po = PurchaseOrder::where('Supplier','=',$supplier)->first();
@@ -235,7 +237,22 @@ class AndroidAPIController extends Controller
             return response()->json(['result'=>$e]);
         }
     }
-    //end receiving
+    // end receiving
+
+    // issuance
+    public function androidGetDepartment(){
+        $data = array();
+        $departments = Department::all();
+        for($i=0;$i<count($departments);$i++){
+            $department = new Department();
+            $department->ID = $departments[$i]->ID;
+            $department->Name = $departments[$i]->Name;
+
+            array_push($data, $department);
+        }
+        return response()->json($data);
+    }
+    // end issuance
 
     // stockadjustment
     public function androidStockAdjustmentStore($adjustment) {
@@ -255,7 +272,7 @@ class AndroidAPIController extends Controller
             // dd($sa);
             // $sa->save();
             if($sa->save()){
-                $sa->setCreatedBy($id);
+                $sa->created_by = $id;
                 $sa->save();
                 return response()->json(['result'=>"success"]);
             }else{
@@ -266,7 +283,7 @@ class AndroidAPIController extends Controller
         }
         // return response()->json(['result'=>"success"]);
     }
-    //end of stockadjustment
+    // end of stockadjustment
 
     // functions
     public function getCurrentIncrement()
