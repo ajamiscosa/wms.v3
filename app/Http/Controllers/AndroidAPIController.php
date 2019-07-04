@@ -290,33 +290,39 @@ class AndroidAPIController extends Controller
 
     // stockadjustment
     public function androidStockAdjustmentStore($adjustment) {
-        $ex = explode("&",$adjustment);
-        $sa = new StockAdjustment();
-        $sa->Number = $this->getCurrentIncrement();
-        $sa->Product = $this->getProductIDByCode($ex[0]);
-        $sa->Final = $ex[1];
-        
-        $remarks = array();
-        $remark = array('userid'=>$ex[2], 'message'=>'Inventory Mobile', 'time'=>Carbon::now()->toDateTimeString());
-        array_push($remarks, $remark);
-        $id = $ex[2];
-        $sa->Remarks = json_encode(['data'=>$remarks]);
-        $sa->Status = 'P'; // default is pending
-        // return response()->json(['result'=>$sa]);
-        // dd($sa);
-        // $sa->save();
-        if($sa->save()){
-            // $sa->created_by = $id;
+        try{
+            $ex = explode("&",$adjustment);
+            $sa = new StockAdjustment();
+            $sa->Number = $this->getCurrentIncrement();
+            $sa->Product = $this->getProductIDByCode($ex[0]);
+            $sa->Final = $ex[1];
+            
+            $remarks = array();
+            $remark = array('userid'=>$ex[2], 'message'=>'Inventory Mobile', 'time'=>Carbon::now()->toDateTimeString());
+            array_push($remarks, $remark);
+            $id = $ex[2];
+            $sa->Remarks = json_encode(['data'=>$remarks]);
+            $sa->Status = 'P'; // default is pending
+            // return response()->json(['result'=>$sa]);
+            // dd($sa);
             // $sa->save();
-            return response()->json(['result'=>"success"]);
-        }else{
-            return response()->json(['result'=>"fail"]);
+            if($sa->save()){
+                // $sa->created_by = $id;
+                // $sa->save();
+                if($sa->save()){
+                    $sa->created_by = $id;
+                    $sa->created_at = Carbon::now();
+                    $sa->updated_by = $id;
+                    $sa->updated_at = Carbon::now();
+                    $sa->save();
+                    return response()->json(['result'=>"success"]);
+                }else{
+                    return response()->json(['result'=>"fail"]);
+                }
+            }
+        }catch(Exception $e){
+            return response()->json(['result'=>"Exception: " +$e]);
         }
-        // try{
-           
-        // }catch(\Exception $e) {
-        //     return response()->json(['result'=>"Exception: " +$e]);
-        // }
         // return response()->json(['result'=>"success"]);
     }
     // end of stockadjustment
