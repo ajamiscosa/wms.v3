@@ -256,7 +256,7 @@ class AndroidAPIController extends Controller
 
     // stockadjustment
     public function androidStockAdjustmentStore($adjustment) {
-        // try{
+        try{
             $ex = explode("&",$adjustment);
             $sa = new StockAdjustment();
             $sa->Number = $this->getCurrentIncrement();
@@ -270,22 +270,21 @@ class AndroidAPIController extends Controller
             $sa->Remarks = json_encode(['data'=>$remarks]);
             $sa->Status = 'P'; // default is pending
             // dd($sa);
-            $sa->created_by = $id;
-            $sa->created_at = Carbon::now();
-            $sa->updated_by = $id;
-            $sa->updated_at = Carbon::now();
-            $sa->save();
-            // if($sa->save()){
-            //     $sa->created_by = $id;
-            //     $sa->save();
-            //     return response()->json(['result'=>"success"]);
-            // }else{
-            //     return response()->json(['result'=>"fail"]);
-            // }
-        // }catch(\Exception $e) {
-        //     return response()->json(['result'=>"Exception: " +$e]);
-        // }
-        // return response()->json(['result'=>"success"]);
+            // $sa->save();
+            if($sa->save()){
+                $sa->created_by = $id;
+                $sa->created_at = Carbon::now();
+                $sa->updated_by = $id;
+                $sa->updated_at = Carbon::now();
+                $sa->save();
+                return response()->json(['result'=>"success"]);
+            }else{
+                return response()->json(['result'=>"fail"]);
+            }
+        }catch(\Exception $e) {
+            return response()->json(['result'=>"Exception: " +$e]);
+        }
+        return response()->json(['result'=>"success"]);
     }
     // end of stockadjustment
 
