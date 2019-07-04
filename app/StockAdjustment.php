@@ -7,7 +7,7 @@ use App\Traits\RecordSignature as RecordSignature;
 
 class StockAdjustment extends Model
 {
-    use RecordSignature;
+    // use RecordSignature;
     
     /**
      * The primary key of the table
@@ -21,6 +21,8 @@ class StockAdjustment extends Model
      * @var string
      */
     protected $table = 'stockadjustments';
+
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
