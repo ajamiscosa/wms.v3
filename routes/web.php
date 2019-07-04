@@ -509,6 +509,8 @@ Route::get('/api/receive-order/{supplier}','AndroidAPIController@androidGetPendi
 Route::get('/api/stock-adjustment/{adjustment}','AndroidAPIController@androidStockAdjustmentStore');
 Route::get('/api/purchase-order/receiving-update/{id}','AndroidAPIController@androidReceivingStore');
 Route::get('/api/departments','AndroidAPIController@androidGetDepartment');
+Route::get('/api/requisition/ir/{id}','AndroidAPIController@androidGetIRByDepartment');
+Route::get('/api/requisition/ir-details/{id}','AndroidAPIController@androidGetIRDetails');
 
 // end of android routes
 

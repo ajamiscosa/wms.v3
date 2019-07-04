@@ -15,6 +15,7 @@ use App\StockAdjustment;
 use App\ReceiveOrder;
 use App\InventoryLog;
 use App\Department;
+use App\GeneralLedger;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\File;
@@ -252,35 +253,70 @@ class AndroidAPIController extends Controller
         }
         return response()->json($data);
     }
+
+    public function androidGetIRByDepartment($id){
+        $data = array();
+        $requition = new Requisition();
+        foreach($requition->IssuanceRequests() as $ir){
+            if($ir->Status == 'A' && $ir->getRemainingIssuableQuantity()>0 && $ir->ChargeTo == $id){
+                $req = new Requisition();
+                $req->OrderNumber = $ir->OrderNumber;
+                array_push($data,$req);
+            }
+        }
+        return response()->json($data);
+    }
+
+    public function androidGetIRDetails($id){
+        $data = array();
+        $requition = new Requisition();
+        foreach($requition->IssuanceRequests() as $ir){
+            if($ir->Status == 'A' && $ir->getRemainingIssuableQuantity()>0 && $ir->OrderNumber == $id){
+                $req = new Requisition();
+                $genLedger = new GeneralLedger();
+                $gl = $genLedger->where('ID','=',$ir->GLAccount)->first();
+                $req->GLAccount = '['.$gl->Code.']'.$gl->Description; 
+
+                foreach($ir->LineItems() as $item){
+                    //look for issuance.issuance.details
+                }
+
+                array_push($data,$req);
+            }
+        }
+        return response()->json($data);
+    }
     // end issuance
 
     // stockadjustment
     public function androidStockAdjustmentStore($adjustment) {
-        try{
-            $ex = explode("&",$adjustment);
-            $sa = new StockAdjustment();
-            $sa->Number = $this->getCurrentIncrement();
-            $sa->Product = $this->getProductIDByCode($ex[0]);
-            $sa->Final = $ex[1];
-            
-            $remarks = array();
-            $remark = array('userid'=>$ex[2], 'message'=>'Inventory Mobile', 'time'=>Carbon::now()->toDateTimeString());
-            array_push($remarks, $remark);
-            $id = $ex[2];
-            $sa->Remarks = json_encode(['data'=>$remarks]);
-            $sa->Status = 'P'; // default is pending
-            // dd($sa);
+        $ex = explode("&",$adjustment);
+        $sa = new StockAdjustment();
+        $sa->Number = $this->getCurrentIncrement();
+        $sa->Product = $this->getProductIDByCode($ex[0]);
+        $sa->Final = $ex[1];
+        
+        $remarks = array();
+        $remark = array('userid'=>$ex[2], 'message'=>'Inventory Mobile', 'time'=>Carbon::now()->toDateTimeString());
+        array_push($remarks, $remark);
+        $id = $ex[2];
+        $sa->Remarks = json_encode(['data'=>$remarks]);
+        $sa->Status = 'P'; // default is pending
+        // return response()->json(['result'=>$sa]);
+        // dd($sa);
+        // $sa->save();
+        if($sa->save()){
+            // $sa->created_by = $id;
             // $sa->save();
-            if($sa->save()){
-                $sa->created_by = $id;
-                $sa->save();
-                return response()->json(['result'=>"success"]);
-            }else{
-                return response()->json(['result'=>"fail"]);
-            }
-        }catch(\Exception $e) {
-            return response()->json(['result'=>"Exception: " +$e]);
+            return response()->json(['result'=>"success"]);
+        }else{
+            return response()->json(['result'=>"fail"]);
         }
+        // try{
+           
+        // }catch(\Exception $e) {
+        //     return response()->json(['result'=>"Exception: " +$e]);
+        // }
         // return response()->json(['result'=>"success"]);
     }
     // end of stockadjustment
