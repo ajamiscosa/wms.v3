@@ -577,7 +577,8 @@ class PurchaseOrderController extends Controller
                     $product = $lineItem->Product();
                     $validQuotes = count($product->ValidQuotes());
 
-                    if($validQuotes < 5 && !$lineItem->Quoted) {
+                    // if($validQuotes < 5 && !$lineItem->Quoted) {
+                    if(!$lineItem->Quoted) {
                         $entry['QuoteCount'] = $validQuotes;
                         $entry['Quantity'] = $lineItem->Quantity;
                         $entry['LineItemID'] = $lineItem->ID;
