@@ -20,6 +20,8 @@ class IssuanceReceipt extends Model
      */
     protected $table = 'ir';
 
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *
