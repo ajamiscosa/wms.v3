@@ -19,6 +19,8 @@ class InventoryLog extends Model
      */
     protected $table = 'inventorylogs';
 
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *

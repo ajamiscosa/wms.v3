@@ -16,6 +16,7 @@ use App\ReceiveOrder;
 use App\InventoryLog;
 use App\Department;
 use App\GeneralLedger;
+use App\IssuanceReceipt;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\File;
@@ -25,9 +26,13 @@ use Psy\Util\Json;
 class AndroidAPIController extends Controller
 {
     private $stockAdjustment;
+    private $lineItem;
+    private $product;
     function __construct()
     {
         $this->stockAdjustment = new StockAdjustment();
+        $this->lineItem = new LineItem();
+        $this->product = new Product();
     }
     // android login
     public function androidlogin(Request $request) {
@@ -265,6 +270,134 @@ class AndroidAPIController extends Controller
             }
         }
         return response()->json($data);
+    }
+
+    public function androidGetIRItems($id){
+        $data = array();
+        $requition = new Requisition();
+        foreach($requition->IssuanceRequests() as $ir){
+            if($ir->Status == 'A' && $ir->getRemainingIssuableQuantity()>0 && $ir->OrderNumber == $id){
+                $req = new Requisition();
+                //dd($ir->LineItems());   
+                foreach($ir->LineItems() as $item){
+                    $product = new Product();
+                    $product->LineItemID = $item->ID;
+                    $product->UniqueID = $item->Product()->UniqueID;
+                    $product->Description = $item->Product()->Description;
+                    $product->GLAccount = '['.$item->GeneralLedger()->Code.']'.$item->GeneralLedger()->Description;  
+                    $product->Qty = $item->getRemainingReceivableQuantity();
+                    array_push($data,$product);
+                }
+
+                
+            }
+        }
+        return response()->json($data);
+    }
+
+    public function androidIssuanceStore($id)//_id&_qty&_user
+    {
+        try{
+            $ex = explode("&",$id);
+            $lastReceipt = IssuanceReceipt::orderByDesc('ID')->first();
+            if($lastReceipt) {
+                $length = strlen($lastReceipt->OrderNumber);
+
+                $prefix = Carbon::today()->format('ym');
+                $currentMonth = substr($lastReceipt->OrderNumber,2,4);
+                if($prefix==$currentMonth) {
+                    $current = substr($lastReceipt->OrderNumber, $length-3);
+                    $current++;
+                }
+                else {
+                    $current = 0;
+                    $current++;
+                }
+            }
+            else {
+                $current = 0;
+                $current++;
+            }
+
+            if($ex[1] > 0) {//_qty
+                $lineItem = $this->lineItem->where('ID','=',$ex[0])->firstOrFail();//id
+
+                $issuanceReceipt = new IssuanceReceipt();
+                $issuanceReceipt->LineItem = $lineItem->ID;
+                $issuanceReceipt->Quantity = $ex[1];//_qty
+                $issuanceReceipt->Received = Carbon::now();
+
+                try {
+                    $latest = $issuanceReceipt->where('LineItem','=',$lineItem->ID)->orderBy('Received', 'desc')->firstOrFail();
+                    $issuanceReceipt->Series = $latest->Series + 1;
+                } catch(\Exception $exception) {
+                    $issuanceReceipt->Series = 1;
+                }
+
+                $remarks = array();
+                $remark = array(
+                    'receiver'=>"Mobile",//none
+                    'message'=>"From Mobile"//none
+                );
+                array_push($remarks, $remark);
+
+                $issuanceReceipt->Remarks = json_encode(['data'=>$remarks]);
+
+                $isNumber = sprintf("IS%s%s",
+                    Carbon::today()->format('ym'),
+                    str_pad($current,3,'0',STR_PAD_LEFT)
+                );
+
+                $issuanceReceipt->OrderNumber = $isNumber;
+                if($issuanceReceipt->save()){
+                    $issuanceReceipt->created_by = $ex[2];
+                    $issuanceReceipt->created_at = Carbon::now();
+                    $issuanceReceipt->updated_by = $ex[2];
+                    $issuanceReceipt->updated_at = Carbon::now();
+                    $issuanceReceipt->save();
+                }else{
+                    return response()->json(['result'=>"fail issuanceReceipt"]);
+                }
+
+                $product = $this->product->where('ID','=',$lineItem->Product)->firstOrFail();
+
+                $inventoryLog = new InventoryLog();
+                $inventoryLog->Product = $lineItem->Product;
+                $inventoryLog->Type = 'O'; // item out ito.
+                $inventoryLog->TransactionType = 'IR'; // Issuance Receipt
+                $inventoryLog->Quantity = $ex[1] * -1;//_qty
+                $inventoryLog->Initial = $product->Quantity;
+                $inventoryLog->Final = $product->Quantity - $ex[1];//_qty
+
+                if($inventoryLog->save()){
+                    $inventoryLog->created_by = $ex[2];
+                    $inventoryLog->created_at = Carbon::now();
+                    $inventoryLog->updated_by = $ex[2];
+                    $inventoryLog->updated_at = Carbon::now();
+                    $inventoryLog->save();
+                }else{
+                    return response()->json(['result'=>"fail inventoryLog"]);
+                }
+
+                $product->Quantity = $product->Quantity - $ex[1];//_qty
+
+                if($product->save()){
+                    $product->created_by = $ex[2];
+                    $product->created_at = Carbon::now();
+                    $product->updated_by = $ex[2];
+                    $product->updated_at = Carbon::now();
+                    $product->save();
+                }else{
+                    return response()->json(['result'=>"fail product"]);
+                }
+            }
+
+            return response()->json(['result'=>"success"]);
+        }catch(\Exception $e) {
+            dd($e);
+            // return response()->json(['result'=> "Exception". $e]);
+        }
+        
     }
 
     public function androidGetIRDetails($id){
