@@ -70,7 +70,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <input class="form-control text-right" name="Amount" type="number" step="{{ $data->UOM()->Type==1?"0.001":"1" }}" min="0">
+                                        <input required class="form-control text-right" name="Amount" type="number" step="{{ $data->UOM()->Type==1?"0.001":"1" }}" min="0">
                                     </div>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="control-label">Valid From</label>
-                                    <input type="text" class="form-control datepicker" data-date-format="MM dd, yyyy" id="ValidFrom" name="ValidFrom" value="{{ \Carbon\Carbon::today()->format('F d, Y') }}">
+                                    <input readonly type="text" class="form-control datepicker" data-date-format="MM dd, yyyy" id="ValidFrom" name="ValidFrom" value="{{ \Carbon\Carbon::today()->format('F d, Y') }}">
                                 </div>
                             </div>
                         </div>
