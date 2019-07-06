@@ -3,7 +3,7 @@
     'description'=>"View Purchase Request Details",
     'breadcrumbs' => [
         \App\Classes\Breadcrumb::create('Home','/'),
-        \App\Classes\Breadcrumb::create('Purchase Requests','/issuance-request'),
+        \App\Classes\Breadcrumb::create('Purchase Requests','/purchase-request'),
         \App\Classes\Breadcrumb::create("$data->OrderNumber")
     ]
 ])
