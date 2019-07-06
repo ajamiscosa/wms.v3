@@ -451,21 +451,30 @@ class RequisitionController extends Controller
         }
 
         if($status=="Z") {
-            $issuances = $issuances->get();
+            $issuances = $issuances;
         } else {
             if($status=='P') {
                 $issuances = $issuances
-                    ->where('Status','=','P')
-                    ->orWhere('Status','=',2)
-                    ->orWhere('Status','=',1)
-                    ->orWhere('Status','=','Q')
-                    ->get();
+                    ->where('Type','=','PR')
+                    ->where(function($query) use ($authUser) {
+                        $query
+                            ->where('Status','=','P')
+                            ->orWhere('Status','=',2)
+                            ->orWhere('Status','=',1)
+                            ->orWhere('Status','=','Q');
+                    });
+                    
             } else {
-                $issuances = $issuances->where('Status','=',$status)->get();
+                $issuances = $issuances
+                    ->where('Type','=','PR')
+                    ->where(function($query) use ($status) {
+                        $query
+                            ->where('Status','=',$status);
+                    });
             }
         }
 
-        foreach($issuances as $issuance) {
+        foreach($issuances->get() as $issuance) {
             $requester = $this->user->where('ID','=',$issuance->Requester)->firstOrFail();
 
             $entry = array();
