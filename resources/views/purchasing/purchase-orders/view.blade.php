@@ -221,8 +221,8 @@
                                             </td>
                                             <td class="text-right align-middle">
                                                 @php
-                                                    if($quote = $product->PreferredQuote()) {
-                                                        $quote = $product->PreferredQuote();
+                                                    if($orderItem->SelectedQuote()) {
+                                                        $quote = $orderItem->SelectedQuote();
                                                         echo "{$quote->Currency()->Code} {$quote->Amount}";
                                                     } else {
                                                         echo "No Quote Available";

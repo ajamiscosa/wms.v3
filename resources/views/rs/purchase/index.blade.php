@@ -29,6 +29,7 @@
                 <li class="nav-item"><a class="nav-link active show" href="#pending" data-toggle="tab">Pending</a></li>
                 <li class="nav-item"><a class="nav-link" href="#approved" data-toggle="tab">Approved</a></li>
                 <li class="nav-item"><a class="nav-link" href="#cancelled" data-toggle="tab">Cancelled</a></li>
+                <li class="nav-item"><a class="nav-link" href="#forQuote" data-toggle="tab">For Quote</a></li>
                 <li class="nav-item"><a class="nav-link" href="#all" data-toggle="tab">All</a></li>
             </ul>
         </div><!-- /.card-header -->
@@ -70,6 +71,25 @@
                             ]
                     ))
                 </div>
+                
+                <div class="tab-pane flat" id="forQuote">
+                    @include('templates.datatable',
+                        array("table"=> [
+                                'Name' => 'forQuoteTable',
+                                'Classes'=> "",
+                                'Checkbox'=> false,
+                                'Headers'=>
+                                [
+                                    ['Text'=>'Number', 'Sorting'=>false,'Classes'=>""],
+                                    ['Text'=>'Date', 'Sorting'=>false,'Classes'=>""],
+                                    ['Text'=>'Requested By', 'Sorting'=>false,'Classes'=>""],
+                                    ['Text'=>'Charged To', 'Sorting'=>false,'Classes'=>""],
+                                    ['Text'=>'Status', 'Sorting'=>false,'Classes'=>""]
+                                ]
+                            ]
+                    ))
+                </div>
+
                 <div class="tab-pane flat" id="cancelled">
                     @include('templates.datatable',
                         array("table"=> [
@@ -296,6 +316,43 @@
             processing: true,
             searching: true,
             ajax: '/purchase-request/data/O',
+            dataSrc: 'data',
+            columns: [
+                { data:"OrderNumber" },
+                { data:"Date" },
+                { data:"Requester" },
+                { data:"ChargeTo" },
+                { data:"Status" }
+            ],
+            columnDefs: [
+                {
+                    render: function ( data, type, row ) {
+                        addon = '';
+                        if(row['Status']=='V') {
+                            addon = '<span class="badge badge-danger">Voided</span>';
+                        }
+                        return '<a class="alert-link" href="/purchase-request/view/'+data+'">'+data+'</a> '+addon;
+                    },
+                    targets: 0
+
+                }
+            ],
+            pagingType: "full_numbers",
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            responsive: true,
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Search records",
+                infoFiltered: ""
+            }
+        } );
+
+
+        $('#forQuoteTable').DataTable( {
+            serverSide: false,
+            processing: true,
+            searching: true,
+            ajax: '/purchase-request/data/Q',
             dataSrc: 'data',
             columns: [
                 { data:"OrderNumber" },
