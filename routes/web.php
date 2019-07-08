@@ -499,6 +499,7 @@ Route::post('/deferred/restore', 'RequisitionController@restoreDeferredItem');
 //Android routes
 Route::post('/api/login', 'AndroidAPIController@androidlogin');
 Route::get('/api/login', 'AndroidAPIController@androidlogin');
+Route::get('/api/person-data/{id}', 'AndroidAPIController@androidGetPersonData');
 Route::get('/api/product/{product}','AndroidAPIController@androidGetProduct');
 Route::get('/api/supplier/{supplier}','AndroidAPIController@androidGetSupplier');
 Route::get('/api/purchase-order/{supplier}','AndroidAPIController@androidGetPO');

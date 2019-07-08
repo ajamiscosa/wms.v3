@@ -61,6 +61,19 @@ class AndroidAPIController extends Controller
         }
         return response()->json(['status'=>$status, 'message'=>$message, 'data'=>$account]);
     }
+
+    public function androidGetPersonData($id) {
+        $person = Person::where('ID','=',$id)->first();
+
+        $data = array();
+        if($person){
+            $data['FirstName'] = $person->FirstName;
+            $data['LastName'] = $person->LastName;
+            $data['Position'] = $person->Position;
+        }
+
+        return response()->json($data);
+    }
     // end android login
 
     // inventory
