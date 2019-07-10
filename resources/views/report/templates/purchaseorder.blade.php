@@ -1025,6 +1025,9 @@
         <div title="" class="htmlTextBox25 s1-" style="position:absolute;overflow:hidden;left:38px;top:761px;width:738px;height:16px;">
             <div class="s25-" style="top:0px;left:0px;"><span class="s26-">5. Please acknowledge receipt of this PO by sending an e-mail to: PerformanceMetals.Purchasing@ii-vi.com</span></div>
         </div>
+        <div title="" class="htmlTextBox25 s1-" style="position:absolute;overflow:hidden;left:38px;top:787px;width:738px;height:16px;">
+            <div class="s25-" style="top:0px;left:0px; text-align: center; height:100%; width:100%; font-weight: bold;">*** THIS DOCUMENT IS ELECTRONICALLY GENERATED, NO SIGNATURE REQUIRED ***</div>
+        </div>
         <div title="" class="table4 s8-" style="position:absolute;overflow:hidden;left:38px;top:809px;width:737px;height:103px;"></div>
         <div title="" class="textBox54 s27-" style="position:absolute;overflow:hidden;left:38px;top:809px;width:186px;height:19px;">
             <div style="position:absolute;top:4px;white-space:pre;left:3px;">&nbsp;&nbsp;&nbsp;Prepared by:</div>
@@ -1051,10 +1054,18 @@
             <div style="position:absolute;top:2px;white-space:pre;left:3px;">{{ $data->OperationsManager }}</div>
         </div>
         <div title="" class="textBox70 s34-" style="position:absolute;overflow:hidden;left:422px;top:875px;width:187px;height:18px;">
+            @if($data->PlantManager)
             <div style="position:absolute;top:2px;white-space:pre;left:61px;">{{ $data->PlantManager }}</div>
+            @else
+            <div style="position:absolute;top:2px;white-space:pre;left:61px;">{{ $data->GeneralManager }}</div>
+            @endif
         </div>
         <div title="" class="textBox69 s35-" style="position:absolute;overflow:hidden;left:613px;top:875px;width:158px;height:18px;">
+            @if(!$data->PlantManager)
+            <div style="position:absolute;top:2px;white-space:pre;left:57px;"></div>
+            @else
             <div style="position:absolute;top:2px;white-space:pre;left:57px;">{{ $data->GeneralManager }}</div>
+            @endif
         </div>
         <div title="" class="textBox62 s31-" style="position:absolute;overflow:hidden;left:38px;top:894px;width:186px;height:19px;"></div>
         <div title="" class="textBox63 s21-" style="position:absolute;overflow:hidden;left:230px;top:894px;width:186px;height:19px;"></div>
@@ -1166,8 +1177,8 @@
         $requester = $user->Person()->AbbreviatedName();
         $orderedBy = $user->Username; // nag order
 
-        $checkedBy = App\Role::FindUserWithRole("PurchasingManager")->Username; // Purchasing Manager
-        $approvedBy = App\Role::FindUserWithRole("PlantManager")->Username;; // Plant Manager
+        $checkedBy = App\Role::FindUserWithRole("PurchasingManager")->Username??""; // Purchasing Manager
+        $approvedBy = App\Role::FindUserWithRole("PlantManager")->Username??""; // Plant Manager
 
         $timeRequested = $pr->Date->format('h:i:s A -');
         $dateRequested = $pr->Date->format('n/j/Y');
@@ -1541,7 +1552,7 @@ $(document).ready(function(){
                     'image/png');
                 doc.addImage(imgData, 'PNG', 0, 0, 0, 0, null,null, -90); 
                 // img, 'JPEG', adjustedX, adjustedY, adjustedWidth, adjustedHeight, null, -90
-                doc.save('{{ $data->PurchaseOrderNumber }}.pdf');
+                // doc.save('{{ $data->PurchaseOrderNumber }}.pdf');
             }
         });
         @php($x++)
