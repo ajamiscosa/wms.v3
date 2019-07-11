@@ -134,12 +134,20 @@ class ReportController extends Controller
             
             $remarks = json_decode($issuance->Remarks, true);
         
+            if ($issuance->ChargeType=='C') {
+                $remark = $remarks['data'][0]['message'];
+                $reason = "";
+            }
+            else {
+                $remark = "";
+                $reason = $remarks['data'][0]['message'];
+            }
             $entry = array(
                 $product->UniqueID,
                 $lineItem->OrderNumber,
                 Carbon::parse($receipt->Received)->format('m/d/Y'),
-                $remarks['data'][0]['message'],
-                null,
+                $remark??"",
+                $reason??"",
                 $receipt->Series,
                 $lineItem->GeneralLedger()->Code,
                 $receipt->Quantity * -1,

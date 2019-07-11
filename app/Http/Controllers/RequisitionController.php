@@ -284,6 +284,7 @@ class RequisitionController extends Controller
 //                $issuance->Approver1 = $request->Approver;
 //                $issuance->Approver2 = $chargeToDept->Manager()->ID;
                 $issuance->ChargeTo = $chargeToDept->ID;
+                $issuance->ChargeType = $request->ChargeType;
             } else { // PR
                 if(isset($request->ChargeType)) {
                     $issuance->ChargeType = $request->ChargeType;
@@ -505,13 +506,28 @@ class RequisitionController extends Controller
         }
 
         if($status=="Z") {
-            $issuances = $issuances->get();
+            $issuances = $issuances;
         } else {
-            $issuances = $issuances->where('Status','=',$status)->get();
+            if($status=='P') {
+                $issuances = $issuances
+                    ->where('Type','=','IR')
+                    ->where(function($query) use ($authUser) {
+                        $query
+                            ->where('Status','=','P')
+                            ->orWhere('Status','=',1);
+                    });
+            } else {
+                $issuances = $issuances
+                    ->where('Type','=','IR')
+                    ->where(function($query) use ($status) {
+                        $query
+                            ->where('Status','=',$status);
+                    });
+            }
         }
 
 
-        foreach($issuances as $issuance) {
+        foreach($issuances->get() as $issuance) {
             $requester = $this->user->where('ID','=',$issuance->Requester)->firstOrFail();
             $entry = array();
             $entry['ID'] = $issuance->ID;
