@@ -31,7 +31,7 @@ class Supplier extends Model
         'SupplierType',
         'Currency',
         'DeliveryLeadTime',
-        // 'ShippingMethod',
+        'APAccount',
         'Term',
         'Contact',
         'AddressLine1',

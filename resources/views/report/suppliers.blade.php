@@ -77,6 +77,7 @@
                     <tr role="row">
                         <th>Code</th>
                         <th width="70%">Name</th>
+                        <th>Expense Account</th>
                         <th>Date Added</th>
                         {{--<th>&nbsp;</th>--}}
                     </tr>
@@ -85,6 +86,7 @@
                     <tr>
                         <th>Code</th>
                         <th>Name</th>
+                        <th>Expense Account</th>
                         <th>Date Added</th>
                         {{--<th>&nbsp;</th>--}}
                     </tr>
@@ -127,6 +129,7 @@
                             <tr role="row" class="{{ $loop->index % 2 ? "odd":"even" }}">
                                 <td><a class="alert-link" href="/vendor/view/{{ $supplier->Code }}">{{ $supplier->Code }}</a></td>
                                 <td>{{ $supplier->Name }}</td>
+                                <td>{{ $supplier->APAccount }}</td>
                                 <td>{{ \Carbon\Carbon::parse($supplier->created_at)->format('F d, Y &#8195; h:m:s A') }}</td>
                                 {{--<td class="text-right"><a role="button" class="btn btn-sm btn-danger btn-flat" href="/vendor/{{ $supplier->Code }}/product">View Products</a></td>--}}
                             </tr>

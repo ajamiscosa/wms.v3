@@ -467,7 +467,7 @@ class ReportController extends Controller
                 $supplier->FaxNumber,
                 $supplier->Email,
                 $supplier->WebSite,
-                null,
+                $supplier->APAccount,
                 $supplier->TIN,
                 null,
                 null,
