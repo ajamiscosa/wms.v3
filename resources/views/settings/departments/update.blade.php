@@ -53,7 +53,9 @@
                                     <select class="manager-select form-control select2-container" name="Manager" style="width: 100%;" required>
                                         <option></option>
                                         @foreach($data->Approvers() as $approver)
+                                            @if($approver->user()->Status==1)
                                             <option value="{{ $approver->ID }}" {{ $approver->ID==$data->Manager?"selected":"" }}>{{$approver->Name()}} ({{$approver->User()->Username}})</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -65,10 +67,9 @@
                                     <label class="control-label">Approver/s</label>
                                     <select class="approver-select form-control select2-container" multiple readonly name="Approver[]" style="width: 100%;">
                                         @foreach($data->Approvers() as $approver)
-                                            @php
-                                                echo "<option value='$approver->ID' selected>{$approver->Name()} ({$approver->User()->Username})</option>";
-                                            @endphp
-
+                                            @if($approver->user()->Status==1)
+                                                <option value="{{ $approver->ID }}" selected>{{$approver->Name()}} ({{$approver->User()->Username}})</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -152,6 +153,13 @@
                 $('#btnSubmit').removeAttr('disabled','disabled');
                 $('#code-error').text('');
             }
+        });
+
+        var $mgrSelect = $('.manager-select');
+        $mgrSelect.select2({
+            width: '100%',
+            placeholder: "Select Manager",
+            minimumResultsForSearch: -1
         });
 
         var $approverSelect = $('.approver-select');

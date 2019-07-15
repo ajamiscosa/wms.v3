@@ -58,12 +58,12 @@ $name = implode('-', $name);
                 <strong><i class="fa fa-user-check mr-1"></i> Approver/s</strong>
                 <p class="text-muted">
                     @foreach($data->Approvers() as $approver)
-                        @php
-                            echo "{$approver->Name()}";
-                            if(!$loop->last){
-                                echo "<br/>";
-                            }
-                        @endphp
+                        @if($approver->user()->Status==1)
+                            {{ $approver->Name() }}
+                            @if(!$loop->last)
+                                <br/>
+                            @endif
+                        @endif
                     @endforeach
                 </p>
                 <strong><i class="fa fa-user-friends mr-1"></i> Parent Department</strong>
