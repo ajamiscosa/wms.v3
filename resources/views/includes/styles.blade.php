@@ -102,4 +102,8 @@
         background: inherit;
         left: 20px;
     }
+
+    input {
+        cursor : pointer;
+    }
 </style>

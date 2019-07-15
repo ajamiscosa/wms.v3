@@ -200,9 +200,9 @@ Route::get('/reports','ReportController@index');
 Route::get('/reports/inventory-log', 'ReportController@showInventoryLogReport');
 Route::get('/reports/inventory-balance', 'ReportController@showInventoryBalanceReport');
 Route::get('/reports/inventory-balance/export', 'ReportController@exportInventoryBalanceReport');
-Route::get('/reports/issuance-log', 'ReportController@showIssuanceReport');
+Route::get('/reports/issuance-log', 'ReportController@showIssuanceReport')->name('report/issuance');
 Route::get('/reports/issuance-log/export', 'ReportController@exportIssuanceReport');
-Route::get('/reports/receiving-log', 'ReportController@showReceivingReport')->name('report.receiving');
+Route::get('/reports/receiving-log', 'ReportController@showReceivingReport')->name('report/receiving');
 Route::get('/reports/receiving-log/export', 'ReportController@exportReceivingReport');
 Route::get('/reports/supplies-pchem', 'ReportController@showSuppliesAndProcessChemReport');
 Route::get('/reports/consumption/{product}/view', 'ReportController@showConsumptionReportOfProduct');
@@ -215,21 +215,21 @@ Route::get('/reports/item-movement', 'ReportController@showItemMovementReport');
 Route::get('/reports/item-movement/export', 'ReportController@exportItemMovementReport');
 
 
-Route::get('/reports/pr-status', 'ReportController@showPurchaseRequestStatusReport');
-Route::get('/reports/recent-suppliers', 'ReportController@showRecentlyAddedSuppliersReport');
+Route::get('/reports/pr-status', 'ReportController@showPurchaseRequestStatusReport')->name('report/prstatus');
+Route::get('/reports/recent-suppliers', 'ReportController@showRecentlyAddedSuppliersReport')->name('report/suppliers');
 Route::get('/reports/recent-suppliers/export', 'ReportController@exportSupplierReport');
-Route::get('/reports/purchase-order-log', 'ReportController@showPurchaseOrdersReport');
+Route::get('/reports/purchase-order-log', 'ReportController@showPurchaseOrdersReport')->name('report/po');
 Route::get('/reports/purchase-order-log/export', 'ReportController@exportPurchaseOrdersReport');
 
-Route::get('/reports/custom-po-list', 'ReportController@showCustomPOList');
+Route::get('/reports/custom-po-list', 'ReportController@showCustomPOList')->name('report/custompolist');
 Route::get('/reports/custom-po-list/export', 'ReportController@exportCustomPOList');
 
 
-Route::get('/reports/recent-items', 'ReportController@showRecentlyAddedItemsReport');
+Route::get('/reports/recent-items', 'ReportController@showRecentlyAddedItemsReport')->name('report/items');
 Route::get('/reports/recent-items/export', 'ReportController@exportItemsReport');
 
 
-Route::get('/reports/adjustments', 'ReportController@showStockAdjustmentsReport');
+Route::get('/reports/adjustments', 'ReportController@showStockAdjustmentsReport')->name('report/adjustments');
 Route::get('/reports/adjustments/export', 'ReportController@exportAdjustmentReport');
 
 Route::get('/reports/item-restock', 'ReportController@showItemRestockReport');

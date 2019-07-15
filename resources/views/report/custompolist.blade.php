@@ -188,9 +188,9 @@
                             title: 'Select Range',
                             text:
                             "<html>Please select the date range below:<br/><br/>" +
-                            "<input type='text' class='form-control datepicker' data-date-format='MM dd, yyyy' id='pckStart' name='Start' required>" +
+                            "<input readonly type='text' class='form-control datepicker' data-date-format='MM dd, yyyy' id='pckStart' name='Start' required>" +
                             "to"+
-                            "<input type='text' class='form-control datepicker' data-date-format='MM dd, yyyy' id='pckEnd' name='End' required>" +
+                            "<input readonly type='text' class='form-control datepicker' data-date-format='MM dd, yyyy' id='pckEnd' name='End' required>" +
                             "</html>",
                             type: 'warning',
                             showCancelButton: true,
