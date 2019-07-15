@@ -203,6 +203,7 @@ class UserController extends Controller
             $entry['Username'] = $user->Username;
             $entry['Name'] = $user->Person()->Name();
             $entry['Title'] = $title;
+            $entry['Status'] = $user->Status;
 
             array_push($data, $entry);
         }

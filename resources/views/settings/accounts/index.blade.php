@@ -46,6 +46,7 @@
                                 <th rowspan="1" colspan="1">Username</th>
                                 <th rowspan="1" colspan="1">Name</th>
                                 <th rowspan="1" colspan="1">Role</th>
+                                <th rowspan="1" colspan="1">Status</th>
                             </tr>
                             </thead>
                             <tfoot>
@@ -53,6 +54,7 @@
                                 <th rowspan="1" colspan="1">Username</th>
                                 <th rowspan="1" colspan="1">Name</th>
                                 <th rowspan="1" colspan="1">Role</th>
+                                <th rowspan="1" colspan="1">Status</th>
                             </tr>
                             </tfoot>
                             <tbody>
@@ -82,7 +84,8 @@
             columns: [
                 { data:"Username" },
                 { data:"Name" },
-                { data:"Title" }
+                { data:"Title" },
+                { data:"Status" }
             ],
             columnDefs: [
                 {
@@ -92,6 +95,24 @@
                     },
                     targets: 0
 
+                },
+                {
+                    render: function(data,type,row) {
+                        var status = row['Status'];
+                        console.log(status);
+                        var stat = '';
+                        var class_stat = '';
+                        if(status==1) {
+                            stat = 'Enabled';
+                            class_stat = 'badge-success';
+                        }
+                        else {
+                            stat = 'Disabled';
+                            class_stat = 'badge-danger';
+                        }
+                        return '<span class="badge flat '+class_stat+'">'+stat+'</span>';
+                    },
+                    targets: 3
                 }
             ],
             pagingType: "full_numbers",
