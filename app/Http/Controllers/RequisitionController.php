@@ -446,7 +446,9 @@ class RequisitionController extends Controller
             $issuances = $this->requisition
                 ->where('Type','=','PR')
                 ->where(function($query) use ($authUser) {
-                    $query->where('Approver1','=',$authUser->ID)
+                    $query
+                        ->where('Requester','=',$authUser->ID)
+                        ->orWhere('Approver1','=',$authUser->ID)
                         ->orWhere('Approver2','=',$authUser->ID);
                 });
         }
@@ -500,7 +502,9 @@ class RequisitionController extends Controller
             $issuances = $this->requisition
                 ->where('Type','=','IR')
                 ->where(function($query) use ($authUser) {
-                    $query->where('Approver1','=',$authUser->ID)
+                    $query
+                        ->where('Requester','=',$authUser->ID)
+                        ->orWhere('Approver1','=',$authUser->ID)
                         ->orWhere('Approver2','=',$authUser->ID);
                 });
         }
