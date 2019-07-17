@@ -153,7 +153,7 @@ class StockAdjustmentController extends Controller
             $entry = array();
             $entry['Number'] = $adjustment->Number;
             $entry['Product'] = sprintf('[%s] %s',$adjustment->Product()->UniqueID, $adjustment->Product()->Description);
-            $entry['Date'] = $adjustment->created_at->format('F d, Y');
+            $entry['Date'] = date('d-m-Y', strtotime($adjustment->created_at) );
             $entry['Initial'] = $adjustment->Initial." ".$adjustment->Product()->UOM()->Abbreviation;
             $entry['Final'] = $adjustment->Final." ".$adjustment->Product()->UOM()->Abbreviation;
             $entry['Status'] = $adjustment->Status;
