@@ -783,13 +783,16 @@ class RequisitionController extends Controller
     public function getApproverDataOfDepartmentForSelect($department) {
         $data = array();
         $approvers = Department::where('ID','=',$department)->first()->Approvers();
-        for($i=0;$i<count($approvers);$i++) {
-            $entry['id'] = $approvers[$i]->ID;
-            $entry['text'] = $approvers[$i]->Name().' ('.$approvers[$i]->User()->Username.')';
 
-            array_push($data, $entry);
+        foreach($approvers as $approver) {
+            if($approver->User()->Status==1) {
+                $entry['id'] = $approver->ID;
+                $entry['text'] = $approver->Name().' ('.$approver->User()->Username.')';
+
+                array_push($data, $entry);
+            }
         }
-
+        
         return response()->json(['results'=>$data]);
     }
 
