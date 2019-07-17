@@ -393,47 +393,51 @@
 
         $(document).on('submit','form#approveGroupPR',function(e){
             e.preventDefault();
-            swal({
-                html: true,
-                title: 'Confirm Action',
-                text: "<html>Do you wish to approve<br/> All checked Purchase Request?<br/><br/>"+
-                "<textarea " +
-                "id='Remarks'" +
-                "class='form-control flat' " +
-                "placeholder='Add some notes here.' " +
-                "style='resize: none;' " +
-                "rows='3'></textarea>" +
-                "</html>",
-                type: 'warning',
-                showConfirmButton: true,
-                showCancelButton: true,
-                confirmButtonColor: '#DC3545',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No'
-            },function(x){
-                if(x) {
-                    $('input[type=checkbox]:not(#checkAll)').each(function () {
-                        if(this.checked){
-                            var remarks = $("#Remarks").val();
-                            var request = $.ajax({
-                                method: "POST",
-                                url: "/purchase-request/" + $(this).val() + "/toggle",
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                },
-                                data: { Remarks: remarks }
-                            });
-                        }
-                    }).promise().done(function () { 
-                        console.log(x);
-                        window.location = window.location.pathname;
-                    });
+            if($('input[type=checkbox]:not(#checkAll):checkbox:checked').length == 0){
+                swal('Please select a request.');
+            }else{
+                swal({
+                    html: true,
+                    title: 'Confirm Action',
+                    text: "<html>Do you wish to approve<br/> All checked Purchase Request?<br/><br/>"+
+                    "<textarea " +
+                    "id='Remarks'" +
+                    "class='form-control flat' " +
+                    "placeholder='Add some notes here.' " +
+                    "style='resize: none;' " +
+                    "rows='3'></textarea>" +
+                    "</html>",
+                    type: 'warning',
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    confirmButtonColor: '#DC3545',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No'
+                },function(x){
+                    if(x) {
+                        $('input[type=checkbox]:not(#checkAll)').each(function () {
+                            if(this.checked){
+                                var remarks = $("#Remarks").val();
+                                var request = $.ajax({
+                                    method: "POST",
+                                    url: "/purchase-request/" + $(this).val() + "/toggle",
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    },
+                                    data: { Remarks: remarks }
+                                });
+                            }
+                        }).promise().done(function () { 
+                            console.log(x);
+                            window.location = window.location.pathname;
+                        });
 
-                } else {
+                    } else {
 
-                }
-            });
+                    }
+                });
+            }
         });
     </script>
 @endsection
