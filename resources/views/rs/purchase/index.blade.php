@@ -211,7 +211,11 @@
                 },
                 {
                     render: function ( data, type, row ) {
-                        return '<input type="checkbox" class="checkSingle icheckbox_square-red" value="' + row['OrderNumber'] + '" name="SelectedItems[]"/>';
+                        if(row['Status'] == "Pending Quotation"){
+                            return "";
+                        }else{
+                            return '<input type="checkbox" class="checkSingle icheckbox_square-red" value="' + row['OrderNumber'] + '" name="SelectedItems[]"/>';
+                        }
                     },
                     targets: 0
                 }
