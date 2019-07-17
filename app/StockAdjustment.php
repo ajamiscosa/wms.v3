@@ -3,11 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\RecordSignature as RecordSignature;
+use App\Traits\RecordSignature as Signature;
 
 class StockAdjustment extends Model
 {
-    // use RecordSignature;
+    use Signature;
     
     /**
      * The primary key of the table
@@ -21,8 +21,6 @@ class StockAdjustment extends Model
      * @var string
      */
     protected $table = 'stockadjustments';
-
-    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.

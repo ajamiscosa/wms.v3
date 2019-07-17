@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\RecordSignature as Signature;
 
 class InventoryLog extends Model
 {
+    use Signature;
     /**
      * The primary key of the table
      * @var string
@@ -18,8 +20,6 @@ class InventoryLog extends Model
      * @var string
      */
     protected $table = 'inventorylogs';
-
-    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
