@@ -4,9 +4,11 @@ namespace App;
 
 use App\Classes\DTO\DTO;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\RecordSignature as Signature;
 
 class IssuanceReceipt extends Model
 {
+    use Signature;
     /**
      * The primary key of the table
      * @var string
@@ -19,8 +21,6 @@ class IssuanceReceipt extends Model
      * @var string
      */
     protected $table = 'ir';
-
-    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.

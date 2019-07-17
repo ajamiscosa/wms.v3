@@ -9,9 +9,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Svg\Tag\Line;
 use Mockery\CountValidator\Exception;
+use App\Traits\RecordSignature as Signature;
 
 class Product extends Model
 {
+    use Signature;
     /**
      * The primary key of the table
      * @var string
@@ -24,9 +26,7 @@ class Product extends Model
      * @var string
      */
     protected $table = 'products';
-
-    public $timestamps = false;
-
+    
     /**
      * The attributes that are mass assignable.
      *
