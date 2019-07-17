@@ -467,6 +467,15 @@ class RequisitionController extends Controller
                             ->orWhere('Status','=','Q');
                     });
                     
+            } else if($status=='X' || $status=='V') {
+                $issuances = $issuances
+                    ->where('Type','=','PR')
+                    ->where(function($query) use ($authUser) {
+                        $query
+                            ->where('Status','=','X')
+                            ->orWhere('Status','=','C')
+                            ->orWhere('Status','=','V');
+                    });
             } else {
                 $issuances = $issuances
                     ->where('Type','=','PR')
@@ -519,6 +528,15 @@ class RequisitionController extends Controller
                         $query
                             ->where('Status','=','P')
                             ->orWhere('Status','=',1);
+                    });
+            } else if($status=='X' || $status=='V') {
+                $issuances = $issuances
+                    ->where('Type','=','IR')
+                    ->where(function($query) use ($authUser) {
+                        $query
+                            ->where('Status','=','X')
+                            ->orWhere('Status','=','C')
+                            ->orWhere('Status','=','V');
                     });
             } else {
                 $issuances = $issuances

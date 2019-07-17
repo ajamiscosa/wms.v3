@@ -263,7 +263,7 @@
             serverSide: false,
             processing: true,
             searching: true,
-            ajax: '/issuance-request/data/C',
+            ajax: '/issuance-request/data/X',
             dataSrc: 'data',
             columns: [
                 { data:"OrderNumber" },
