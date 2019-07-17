@@ -9,6 +9,7 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/icheck.square-red.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/sweetalert.css') }}">
     <style>
         a {
             color: #3b5998;
@@ -35,24 +36,29 @@
         </div><!-- /.card-header -->
         <div class="card-body">
 
-
             <div class="tab-content">
                 <div class="tab-pane flat active show" id="pending">
-                    @include('templates.datatable',
-                        array("table"=> [
-                                'Name' => 'pendingTable',
-                                'Classes'=> "",
-                                'Checkbox'=> true,
-                                'Headers'=>
-                                [
-                                    ['Text'=>'Number', 'Sorting'=>false,'Classes'=>""],
-                                    ['Text'=>'Date', 'Sorting'=>false,'Classes'=>""],
-                                    ['Text'=>'Requested By', 'Sorting'=>false,'Classes'=>""],
-                                    ['Text'=>'Charged To', 'Sorting'=>false,'Classes'=>""],
-                                    ['Text'=>'Status', 'Sorting'=>false,'Classes'=>""]
+                    <form method="post" action="#" id="approveGroupPR">
+                    {{ csrf_field() }}
+                    <div class="toolbar" style="display: flex; justify-content: flex-end">
+                        <input type="submit" id="generate-po" class="btn btn-flat btn-fill btn-danger btn-md" style="margin-left: 8px;" value="Approve Purchase Request"/>
+                    </div><br/>
+                        @include('templates.datatable',
+                            array("table"=> [
+                                    'Name' => 'pendingTable',
+                                    'Classes'=> "",
+                                    'Checkbox'=> true,
+                                    'Headers'=>
+                                    [
+                                        ['Text'=>'Number', 'Sorting'=>false,'Classes'=>""],
+                                        ['Text'=>'Date', 'Sorting'=>false,'Classes'=>""],
+                                        ['Text'=>'Requested By', 'Sorting'=>false,'Classes'=>""],
+                                        ['Text'=>'Charged To', 'Sorting'=>false,'Classes'=>""],
+                                        ['Text'=>'Status', 'Sorting'=>false,'Classes'=>""]
+                                    ]
                                 ]
-                            ]
-                    ))
+                        ))
+                    </form>
                 </div>
                 <div class="tab-pane flat" id="approved">
                     @include('templates.datatable',
@@ -132,11 +138,12 @@
     </div>
     <!--  end card  -->
 @endsection
-@section('scripts')
+@section('scripts')                
+    <script src="{{ asset('js/sweetalert.js') }}"></script>
     <script src="{{ asset('js/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('js/dataTables.bootstrap4.js') }}"></script>
-    <script src="{{ asset('js/icheck.min.js') }}"></script>                        
-    <script>
+    <script src="{{ asset('js/icheck.min.js') }}"></script>        
+    <script type="text/javascript">
         $('#allIssuanceTable').DataTable( {
             serverSide: false,
             processing: true,
@@ -204,7 +211,11 @@
                 },
                 {
                     render: function ( data, type, row ) {
-                        return '<input type="checkbox" class="checkSingle icheckbox_square-red" value="test" name="SelectedItems[]"/>';
+                        if(row['Status'] == "Pending Quotation"){
+                            return "";
+                        }else{
+                            return '<input type="checkbox" class="checkSingle icheckbox_square-red" value="' + row['OrderNumber'] + '" name="SelectedItems[]"/>';
+                        }
                     },
                     targets: 0
                 }
@@ -383,5 +394,54 @@
                 infoFiltered: ""
             }
         } );
+
+        $(document).on('submit','form#approveGroupPR',function(e){
+            e.preventDefault();
+            if($('input[type=checkbox]:not(#checkAll):checkbox:checked').length == 0){
+                swal('Please select a request.');
+            }else{
+                swal({
+                    html: true,
+                    title: 'Confirm Action',
+                    text: "<html>Do you wish to approve<br/> All checked Purchase Request?<br/><br/>"+
+                    "<textarea " +
+                    "id='Remarks'" +
+                    "class='form-control flat' " +
+                    "placeholder='Add some notes here.' " +
+                    "style='resize: none;' " +
+                    "rows='3'></textarea>" +
+                    "</html>",
+                    type: 'warning',
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    confirmButtonColor: '#DC3545',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No'
+                },function(x){
+                    if(x) {
+                        $('input[type=checkbox]:not(#checkAll)').each(function () {
+                            if(this.checked){
+                                var remarks = $("#Remarks").val();
+                                var request = $.ajax({
+                                    method: "POST",
+                                    url: "/purchase-request/" + $(this).val() + "/toggle",
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    },
+                                    data: { Remarks: remarks }
+                                });
+                            }
+                        }).promise().done(function () { 
+                            console.log(x);
+                            window.location = window.location.pathname;
+                        });
+
+                    } else {
+
+                    }
+                });
+            }
+        });
     </script>
 @endsection

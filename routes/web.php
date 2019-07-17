@@ -65,7 +65,7 @@ Route::post('/quote/store', 'QuoteController@store');
 Route::get('/quote/document/{file}', 'QuoteController@viewDocument');
 Route::post('/quote/{id}/delete', 'QuoteController@destroy');
 
-Route::get('/pending-quote', 'QuoteController@viewPendingQuotes');
+Route::get('/pending-quote', 'QuoteController@viewPendingQuotes')->name('quote/pending');
 Route::get('/for-quotation', 'PurchaseOrderController@showItemsForQuotation')->name('purchasing/purchase-orders/forquote');
 
 Route::get('/order-item','PurchaseOrderController@showItemsReadyForPO')->name('purchasing/purchase-orders/orderitems');
@@ -197,7 +197,7 @@ Route::delete('/suppliers-payment/delete', 'PaymentController@delete');
 
 
 Route::get('/reports','ReportController@index');
-Route::get('/reports/inventory-log', 'ReportController@showInventoryLogReport');
+Route::get('/reports/inventory-log', 'ReportController@showInventoryLogReport')->name('report/inventorylog');
 Route::get('/reports/inventory-balance', 'ReportController@showInventoryBalanceReport');
 Route::get('/reports/inventory-balance/export', 'ReportController@exportInventoryBalanceReport');
 Route::get('/reports/issuance-log', 'ReportController@showIssuanceReport')->name('report/issuance');
@@ -352,13 +352,13 @@ Route::get('/issuance-request/{issuance}/data', 'RequisitionController@getIssuan
 Route::get('/issuance-request/{issuance}/download', 'RequisitionController@generateIssueSlip');
 
 
-Route::get('/purchase-request/', 'RequisitionController@showPurchaseRequestIndexPage');
+Route::get('/purchase-request/', 'RequisitionController@showPurchaseRequestIndexPage')->name('rs/purchase/index');
 Route::get('/purchase-request/new', 'RequisitionController@showCreatePurchaseRequestForm');
 Route::get('/purchase-request/edit/{id}', 'RequisitionController@showPurchaseRequestEditForm');
 Route::post('/purchase-request/edit/{id}', 'RequisitionController@update');
 Route::post('/purchase-request/store', 'RequisitionController@store');
 Route::get('/purchase-request/data/{status}', 'RequisitionController@getPurchaseRequestList');
-Route::get('/purchase-request/view/{purchase}', 'RequisitionController@showPurchaseRequestByOrderNumber');
+Route::get('/purchase-request/view/{purchase}', 'RequisitionController@showPurchaseRequestByOrderNumber')->name('rs/purchase/view');
 Route::post('/purchase-request/{purchase}/toggle', 'RequisitionController@togglePurchaseRequestStatus');
 Route::post('/purchase-request/{purchase}/void', 'RequisitionController@voidPurchaseRequest');
 Route::get('/purchase-request/{purchase}/download', 'RequisitionController@generateCanvassReport');

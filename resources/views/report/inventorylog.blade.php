@@ -148,7 +148,7 @@
                                     <td>[{{ $product->Name }}] {{ $product->Description }}</td>
                                     <td>{{ \App\Classes\InventoryLogHelper::parseLogType($inventoryLog->Type) }}</td>
                                     <td>{{ \App\Classes\InventoryLogHelper::parseTransactionType($inventoryLog->TransactionType) }}</td>
-                                    <td>{{ $inventoryLog->created_at->format('m/d/Y') }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($inventoryLog->created_at) ) }}</td>
                                     <td class="text-right">{{ sprintf('%d %s',($inventoryLog->Quantity), $uom->Abbreviation) }}</td>
                                     <td class="text-right">{{ sprintf('%d %s',($inventoryLog->Initial), $uom->Abbreviation) }}</td>
                                     <td class="text-right">{{ sprintf('%d %s',($inventoryLog->Final), $uom->Abbreviation) }}</td>
