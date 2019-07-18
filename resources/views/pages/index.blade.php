@@ -11,6 +11,8 @@
 @section('styles')
 @endsection
 
+
+@if(auth()->user()->isAuthorized('Dashboard','V'))
 @section('content')
     <div class="row">
         <div class="col-md-6">
@@ -146,6 +148,8 @@
         </div>
     </div>
 @endsection
+@endif
+
 @section('scripts')
     <script src="{{ asset('js/Chart.min.js') }}"></script>
     <script>
