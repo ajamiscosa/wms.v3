@@ -80,8 +80,10 @@ class User extends Authenticatable
     public function isAuthorized($module, $action){
         $permissions = array();
         foreach($this->Roles() as $role) {
-            foreach(json_decode($role->Permissions) as $permission) {
-                array_push($permissions, $permission);
+            if($role->Status == 1) {
+                foreach(json_decode($role->Permissions) as $permission) {
+                    array_push($permissions, $permission);
+                }
             }
         }
 
