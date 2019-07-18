@@ -182,6 +182,12 @@
                                         <p>Issuance</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="/receive-order" class="nav-link flat" id="receive-order" data-parent="#purchasing">
+                                        <i class="fa fa-angle-right nav-icon"></i>
+                                        <p>Receiving</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     @endif
@@ -217,12 +223,6 @@
                                     <a href="/purchase-order" class="nav-link flat" id="purchase-order" data-parent="#purchasing">
                                         <i class="fa fa-angle-right nav-icon"></i>
                                         <p>Purchase Orders</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/receive-order" class="nav-link flat" id="receive-order" data-parent="#purchasing">
-                                        <i class="fa fa-angle-right nav-icon"></i>
-                                        <p>Receiving</p>
                                     </a>
                                 </li>
                                 {{--<li class="nav-item">--}}
