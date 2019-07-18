@@ -104,7 +104,7 @@
                 <div id="productsTableWrapper" class="dataTables_wrapper dt-bootstrap">
                     <form method="get" id="frmParams">
                         <div class="row">
-                            <div class="col-lg-4 col-md 12 align-middle" style="display: inline-flex;">
+                            <div class="col-lg-2 align-middle" style="display: inline-flex;">
                         <span class="xwrapper">
                             Show
                         </span>
@@ -121,8 +121,7 @@
                             Entries
                         </span>
                             </div>
-                            <div class="col-lg-6 col-md-12"></div>
-                            <div class="col-lg-2 col-md-12">
+                            <div class="col-lg-4 offset-md-6 col-md-12">
                                 <div class="input-group float-right">
                                     <input type="search" id="txtSearch" name="s" class="form-control float-right" value="{{ request()->s }}"/>
                                     <span class="input-group-append">
