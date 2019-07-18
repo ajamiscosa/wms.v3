@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\RecordSignature as Signature;
 
 class Department extends Model
 {
+    use Signature;
+    
     private $generalLedger;
     private $person;
     private $department;

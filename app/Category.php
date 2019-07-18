@@ -4,9 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Traits\RecordSignature as Signature;
 
 class Category extends Model
 {
+    use Signature;
     /**
      * The primary key of the table
      * @var string

@@ -4,9 +4,11 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\RecordSignature as Signature;
 
 class Currency extends Model
 {
+    use Signature;
     /**
      * The primary key of the table
      * @var string
