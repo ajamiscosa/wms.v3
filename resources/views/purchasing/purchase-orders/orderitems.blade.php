@@ -33,9 +33,11 @@ Pending Order Items
         <div class="card-body flat">
             <form method="post" action="/purchase-order/store" id="createPoForm">
                 {{ csrf_field() }}
+                @if(auth()->user()->isAuthorized('PurchaseOrders','A'))
                 <div class="toolbar" style="display: flex; justify-content: flex-end">
                     <input type="submit" id="generate-po" class="btn btn-flat btn-fill btn-danger btn-md" style="margin-left: 8px;" value="Generate Purchase Order"/>
                 </div>
+                @endif
                 <br/>
                 <div class="material-datatables">
                     <div id="datatables_wrapper" class="dataTables_wrapper dt-bootstrap">
