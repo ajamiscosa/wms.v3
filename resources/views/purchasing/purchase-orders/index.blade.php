@@ -32,8 +32,8 @@
                 @if(auth()->user()->isAuthorized('PurchaseOrders','M'))
                     @php($purchasing=true)
                     <li class="nav-item"><a class="nav-link active show" href="#draft" data-toggle="tab">Draft</a></li>
+                    <li class="nav-item"><a class="nav-link {{ $purchasing==false?"active show":"" }}" href="#pending" data-toggle="tab">Pending Approval</a></li>
                 @endif
-                <li class="nav-item"><a class="nav-link {{ $purchasing==false?"active show":"" }}" href="#pending" data-toggle="tab">Pending Approval</a></li>
                 <li class="nav-item"><a class="nav-link" href="#approved" data-toggle="tab">Approved</a></li>
                 <li class="nav-item"><a class="nav-link" href="#all" data-toggle="tab">All</a></li>
             </ul>
