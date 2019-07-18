@@ -40,7 +40,7 @@
                 </form>
     </div>
     <div class="card-body">
-        @foreach(\Illuminate\Support\Facades\DB::table('permissions')->distinct()->get(['Module']) as $permission)
+        @foreach(\Illuminate\Support\Facades\DB::table('permissions')->distinct()->orderBy('Module')->get(['Module']) as $permission)
             <div class="row pb-0 mb-0 mt-0 pt-0">
                 <div class="col-md-4 mt-3">
                     <h4>{{ \App\Classes\Helper::camelSplit($permission->Module) }}</h4>
