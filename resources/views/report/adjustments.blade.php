@@ -82,8 +82,8 @@
                             </div>
                         </div>
                     </form>
-                    <table id="productsTable" class="table table-responsive-lg dataTable dtr-inline" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
-                        <thead>
+                    <table id="productsTable" class="table table-responsive-md dataTable dtr-inline" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
+                        <thead align="center">
                         <tr role="row">
                             <th>Item ID</th>
                             <th>Reference</th>
@@ -93,7 +93,7 @@
                             <th class="text-right">Quantity</th>
                         </tr>
                         </thead>
-                        <tfoot>
+                        <tfoot align="center">
                         <tr>
                             <th>Item ID</th>
                             <th>Reference</th>
@@ -136,7 +136,7 @@
                                         $uom = $product->UOM();
                                         
                                     @endphp
-                                    <tr role="row" class="{{ $loop->index % 2 ? "odd":"even" }}">
+                                    <tr role="row" class="{{ $loop->index % 2 ? "odd":"even" }}" align="center">
                                         <td>{{ $product->UniqueID }}</td>
                                         <td>{{ $adjustment->Number }}</td>
                                         <td>{{ \Carbon\Carbon::parse($adjustment->created_at)->format('m/d/Y') }}</td>

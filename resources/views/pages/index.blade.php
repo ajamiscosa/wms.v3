@@ -1,6 +1,6 @@
 @extends('templates.content',[
-    'title'=>"Welcome, ".auth()->user()->Person()->Name()."!",
-    'description'=>'Below are few helpful information to get you started.',
+    'title'=>"",
+    'description'=>'',
     'breadcrumbs' => [
         \App\Classes\Breadcrumb::create('Home')
     ]
