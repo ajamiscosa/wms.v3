@@ -64,13 +64,29 @@
                                     Entries
                                 </span>
                             </div>
-                            <div class="col-lg-8 col-md-12">
+                            <div class="col-lg-5 col-md-12">
 
                                 <div class="btn-group float-right">
                                     <a class="btn btn-danger btn-flat issuance-custom" href="#">Export Custom</a>
                                 </div>
                                 <div class="btn-group float-right pr-2">
                                     <a class="btn btn-danger btn-flat" href="/reports/purchase-order-log/export">Export Today</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12 float-right">
+                                <div class="input-group float-right">
+                                    <input type="search" id="txtSearch" name="s" class="form-control float-right" placeholder="Search" value="{{ request()->s }}"/>
+                                    <span>
+                                        <select id="selectType" class="form-control" name="type" style="width: 125px; border-left: 0px;">
+                                            <option></option>
+                                            <option value="1" {{ request()->has('type') && request('type')==1 ? "selected":"" }}>PO Number</option>
+                                            <option value="2" {{ request()->has('type') && request('type')==2 ? "selected":"" }}>Vendor ID</option>
+                                            <option value="3" {{ request()->has('type') && request('type')==3 ? "selected":"" }}>Item ID</option>
+                                        </select>
+                                    </span>
+                                    <span class="input-group-append">
+                                        <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -122,6 +138,36 @@
                         @php
                             $purchaseOrder = new \App\PurchaseOrder();
                             $purchaseOrder = $purchaseOrder->where('Status','=','A');
+
+                            
+
+                            if(request()->has('s')) {
+                                $type = "";
+                                $value = "";
+
+                                switch(request('type')) {
+                                    case 2: 
+                                        $type = "Supplier";
+                                        $value = \App\Supplier::where('Code','=',request('s'))->first()->ID??"";
+                                        break;
+                                    case 3: $type = "UniqueID";
+                                        $type = "Supplier";
+                                        $value = \App\Product::where('UniqueID','=',request('s'))->first()->UniqueID??"";
+                                        break;
+                                    case 1:
+                                    default: 
+                                        $type = "OrderNumber";
+                                        $value = request('s');
+                                        break;
+                                }
+
+
+                                $purchaseOrder = $purchaseOrder->
+                                where('OrderNumber','like','%'.request('s').'%')->
+                                orWhere($type,'=',$value);
+                            }
+
+
                             if(request()->has('v')) {
                                 $page = request()->v;
                                 if($page=="All") {
@@ -204,6 +250,13 @@
     <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
     <script>
         $(function () {
+        
+            $('#selectType').select2({
+                placeholder: "Select Type",
+                minimumResultsForSearch: -1
+            });
+
+
             var selected = [];
 
             var perPage = $('#selPerPage').select2({

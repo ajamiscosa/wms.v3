@@ -64,9 +64,9 @@
                                     Entries
                                 </span>
                             </div>
-                            <div class="col-lg-8 col-md-12">
+                            <div class="col-lg-6 col-md-12">
                                 <div class="btn-group float-right">
-                                    <button type="button" class="btn btn-danger dropdown-toggle btn-flat" data-toggle="dropdown" aria-expanded="false">
+                                    <button type="button" class="btn btn-danger btn-block dropdown-toggle btn-flat" data-toggle="dropdown" aria-expanded="false">
                                         Export Custom
                                         <span class="caret"></span>
                                     </button>
@@ -76,7 +76,7 @@
                                     </div>
                                 </div>
                                 <div class="btn-group float-right pr-2">
-                                    <button type="button" class="btn btn-danger dropdown-toggle btn-flat" data-toggle="dropdown" aria-expanded="false">
+                                    <button type="button" class="btn btn-danger btn-block dropdown-toggle btn-flat" data-toggle="dropdown" aria-expanded="false">
                                         Export Today
                                         <span class="caret"></span>
                                     </button>
@@ -84,6 +84,15 @@
                                         <a class="dropdown-item" href="/reports/receiving-log/export?date={{ \Carbon\Carbon::today()->format('Ymd') }}&curr=PHP">PHP</a>
                                         <a class="dropdown-item" href="/reports/receiving-log/export?date={{ \Carbon\Carbon::today()->format('Ymd') }}&curr=USD">USD</a>
                                     </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-2 col-md-12 float-right">
+                                <div class="input-group float-right">
+                                    <input type="search" id="txtSearch" name="s" class="form-control float-right" value="{{ request()->s }}"/>
+                                    <span class="input-group-append">
+                                        <button type="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -114,6 +123,18 @@
 
                             $receiveOrders = new \App\ReceiveOrder();
                             $receiveOrders = $receiveOrders->orderBy('created_at', 'desc')->groupBy(['OrderNumber']);
+
+                            
+
+                            if(request()->has('s')) {
+                                $receiveOrders = $receiveOrders->
+                                where('OrderNumber','like','%'.request('s').'%')->
+                                orWhere('ReferenceNumber','like','%'.request('s').'%');
+                                // ->orWhere('UniqueID','like','%'.request('s').'%');
+                            }
+
+
+
                             if(request()->has('v')) {
                                 $page = request()->v;
                                 if($page=="All") {
