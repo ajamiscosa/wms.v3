@@ -8,11 +8,11 @@ trait RecordSignature
         parent::boot();
 
         static::updating(function ($model) {
-            $model->updated_by = auth()->user()->ID;
+            $model->updated_by = auth()->user()->ID??1;
         });
 
         static::creating(function ($model) {
-            $model->created_by = auth()->user()->ID;
+            $model->created_by = auth()->user()->ID??1;
         });
         //etc
 
