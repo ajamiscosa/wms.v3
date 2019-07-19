@@ -286,7 +286,9 @@ class RequisitionController extends Controller
 //                $issuance->Approver2 = $chargeToDept->Manager()->ID;
                 $issuance->ChargeTo = $chargeToDept->ID;
                 $issuance->ChargeType = $request->ChargeType;
+                $issuance->Status = '2'; // one approval only for IR
             } else { // PR
+                $issuance->Status = 'Q';
                 if(isset($request->ChargeType)) {
                     $issuance->ChargeType = $request->ChargeType;
                     $issuance->ChargeTo = $chargeToDept->ID;
@@ -299,7 +301,6 @@ class RequisitionController extends Controller
                 // $issuance->Approver1 = $authUser->Department()->Manager()->ID;
             }
 
-            $issuance->Status = 'P';
             $issuance->Purpose = $request->Purpose;
 
             $remarks = array();
@@ -499,6 +500,9 @@ class RequisitionController extends Controller
             $entry['Status'] = $issuance->Status();
             array_push($data, $entry);
         }
+
+        $qwe = $this->user->where('ID','=',$issuance->Requester)->firstOrFail();
+        $entry['Role'] = $qwe->isPurchasingManager();
         return response()->json(['aaData'=>$data]);
     }
 
@@ -528,7 +532,8 @@ class RequisitionController extends Controller
                     ->where(function($query) use ($authUser) {
                         $query
                             ->where('Status','=','P')
-                            ->orWhere('Status','=',1);
+                            ->orWhere('Status','=',1)
+                            ->orWhere('Status','=',2);
                     });
             } else if($status=='X' || $status=='V') {
                 $issuances = $issuances
@@ -561,6 +566,9 @@ class RequisitionController extends Controller
             $entry['Status'] = $issuance->Status();
             array_push($data, $entry);
         }
+
+        $qwe = $this->user->where('ID','=',$issuance->Requester)->firstOrFail();
+        $entry['Role'] = $qwe->isPurchasingManager();
         return response()->json(['aaData'=>$data]);
     }
 
