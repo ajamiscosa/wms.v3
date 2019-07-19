@@ -33,8 +33,9 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
+                                    <span class="label label-danger">**</span>
                                     <label class="control-label">Name</label>
-                                    <input id="dName" type="text" class="form-control" name="Name" required>                                     <small id="code-error" style="color: red;"></small>
+                                    <input id="dName" type="text" class="form-control" name="Name" required>
                                     <small id="code-error" style="color: red;"></small>
                                 </div>
                             </div>
@@ -43,7 +44,7 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="control-label">Manager</label>
-                                    <select class="manager-select form-control select2-container" name="Manager" style="width: 100%;" required>
+                                    <select class="manager-select form-control select2-container" name="Manager" style="width: 100%;">
                                         <option></option>
                                     </select>
                                 </div>
@@ -52,6 +53,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
+                                    <span class="label label-danger">**</span>
                                     <label class="control-label">Approver/s</label>
                                     <select class="approver-select form-control select2-container" multiple name="Approver[]" required style="width: 100%;">
                                         <option></option>

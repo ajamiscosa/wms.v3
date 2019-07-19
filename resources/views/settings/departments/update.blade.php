@@ -40,6 +40,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
+                                    <span class="label label-danger">**</span>
                                     <label class="control-label">Name</label>
                                     <input id="dName" type="text" class="form-control" name="Name" value="{{ $data->Name }}" {{$data->Legacy?"readonly":""}}>
                                     <small id="code-error" style="color: red;"></small>
@@ -50,7 +51,7 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="control-label">Manager</label>
-                                    <select class="manager-select form-control select2-container" name="Manager" style="width: 100%;" required>
+                                    <select class="manager-select form-control select2-container" name="Manager" style="width: 100%;">
                                         <option></option>
                                         @foreach($data->Approvers() as $approver)
                                             @if($approver->user()->Status==1)
@@ -64,6 +65,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
+                                    <span class="label label-danger">**</span>
                                     <label class="control-label">Approver/s</label>
                                     <select class="approver-select form-control select2-container" multiple readonly name="Approver[]" style="width: 100%;">
                                         @foreach($data->Approvers() as $approver)
