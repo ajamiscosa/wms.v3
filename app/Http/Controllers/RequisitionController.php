@@ -277,10 +277,11 @@ class RequisitionController extends Controller
             $issuance->Requester = $authUser->ID;
             $issuance->Department = $authUser->Department()->ID;
 
+            $issuance->Approver1 = $request->Approver1;
+            $issuance->Approver2 = $request->Approver2;
+
             if($request->Type=='IR'){
                 // $issuance->Approver1 = $authUser->Department()->Manager()->ID;
-                $issuance->Approver1 = $request->Approver1;
-                $issuance->Approver2 = $request->Approver2;
 //                $issuance->Approver1 = $request->Approver;
 //                $issuance->Approver2 = $chargeToDept->Manager()->ID;
                 $issuance->ChargeTo = $chargeToDept->ID;
@@ -289,13 +290,13 @@ class RequisitionController extends Controller
                 if(isset($request->ChargeType)) {
                     $issuance->ChargeType = $request->ChargeType;
                     $issuance->ChargeTo = $chargeToDept->ID;
-                    $issuance->Approver2 = $chargeToDept->Manager()->ID;
+                    // $issuance->Approver2 = $chargeToDept->Manager()->ID;
                 } else {
                     $chargeToDept = Department::findByName('Materials Group');
                     $issuance->ChargeTo = $chargeToDept->ID;
-                    $issuance->Approver2 = $chargeToDept->Manager()->ID;
+                    // $issuance->Approver2 = $chargeToDept->Manager()->ID;
                 }
-                $issuance->Approver1 = $authUser->Department()->Manager()->ID;
+                // $issuance->Approver1 = $authUser->Department()->Manager()->ID;
             }
 
             $issuance->Status = 'P';
