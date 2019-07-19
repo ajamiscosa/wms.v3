@@ -49,7 +49,7 @@
                             array("table"=> [
                                     'Name' => 'pendingTable',
                                     'Classes'=> "",
-                                    'Checkbox'=> true,
+                                    'Checkbox'=> auth()->user()->isPurchasingManager(),
                                     'Headers'=>
                                     [
                                         ['Text'=>'Number', 'Sorting'=>false,'Classes'=>""],
@@ -181,7 +181,7 @@
                 infoFiltered: ""
             }
         } );
-
+        
         $('#pendingTable').DataTable( {
             serverSide: false,
             processing: true,
@@ -189,10 +189,12 @@
             ajax: '/purchase-request/data/P',
             dataSrc: 'data',
             columns: [
+                @if(auth()->user()->isPurchasingManager())
                 {
                     class:          "checkbox",
                     data:           null
                 },
+                @endif
                 { data:"OrderNumber" },
                 { data:"Date" },
                 { data:"Requester" },
@@ -209,8 +211,13 @@
                         }
                         return '<a class="alert-link" href="/purchase-request/view/'+data+'">'+data+'</a> '+addon;
                     },
+                    @if(auth()->user()->isPurchasingManager())
                     targets: 1
+                    @else
+                    targets: 0
+                    @endif
                 },
+                @if(auth()->user()->isPurchasingManager())
                 {
                     render: function ( data, type, row ) {
                         if(row['Status'] == "Pending Quotation"){
@@ -221,6 +228,7 @@
                     },
                     targets: 0
                 }
+                @endif
             ],
             pagingType: "full_numbers",
             lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],

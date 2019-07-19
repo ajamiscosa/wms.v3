@@ -566,9 +566,6 @@ class RequisitionController extends Controller
             $entry['Status'] = $issuance->Status();
             array_push($data, $entry);
         }
-
-        $qwe = $this->user->where('ID','=',$issuance->Requester)->firstOrFail();
-        $entry['Role'] = $qwe->isPurchasingManager();
         return response()->json(['aaData'=>$data]);
     }
 
