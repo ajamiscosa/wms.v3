@@ -163,7 +163,7 @@
                                 @php($lineItem = $orderItem->LineItem())
                                 <tr role="row" class="{{ $loop->index % 2 ? "odd":"even" }} something-semantic">
                                     <td>{{ $supplier->Code }}</td>
-                                    <td><a href="/receive-order/view/{{ $ro->OrderNumber }}">{{ $ro->OrderNumber }}</a></td>
+                                    <td>{{ $ro->OrderNumber }}</td>
                                     <td class="text-center">{{ \Carbon\Carbon::parse($ro->Received)->format('m/d/Y') }}</td>
                                     <td>{{ $po->OrderNumber }}</td>
                                     <td>{{ $ro->ReferenceNumber }}</td>
