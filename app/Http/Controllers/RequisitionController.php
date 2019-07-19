@@ -598,8 +598,8 @@ class RequisitionController extends Controller
 
 
         switch($pr->Status) {
-            case 'P': $status = '1'; break;
-            case '1': $status = $pr->isFullyQuoted()==1?'2':'Q'; break;
+            //case 'P': $status = '1'; break;
+            //case '1': $status = $pr->isFullyQuoted()==1?'2':'Q'; break;
             case '2': $status = 'A'; break;
             default: $status = $pr->Status;
         }

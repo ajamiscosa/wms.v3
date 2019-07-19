@@ -40,9 +40,11 @@
                 <div class="tab-pane flat active show" id="pending">
                     <form method="post" action="#" id="approveGroupPR">
                     {{ csrf_field() }}
-                    <div class="toolbar" style="display: flex; justify-content: flex-end">
-                        <input type="submit" id="generate-po" class="btn btn-flat btn-fill btn-danger btn-md" style="margin-left: 8px;" value="Approve Purchase Request"/>
-                    </div><br/>
+                    @if(auth()->user()->isPurchasingManager())
+                        <div class="toolbar" style="display: flex; justify-content: flex-end">
+                            <input type="submit" id="generate-po" class="btn btn-flat btn-fill btn-danger btn-md" style="margin-left: 8px;" value="Approve Purchase Request"/>
+                        </div><br/>
+                    @endif
                         @include('templates.datatable',
                             array("table"=> [
                                     'Name' => 'pendingTable',
