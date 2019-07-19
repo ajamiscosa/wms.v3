@@ -47,7 +47,7 @@
                 <div id="datatables_wrapper" class="dataTables_wrapper dt-bootstrap">
                     <form method="get" id="frmParams">
                         <div class="row">
-                            <div class="col-lg-4 col-md 12 align-middle" style="display: inline-flex;">
+                            <div class="col-lg-2 align-middle" style="display: inline-flex;">
                                 <span class="xwrapper">
                                     Show
                                 </span>
@@ -64,7 +64,7 @@
                                     Entries
                                 </span>
                             </div>
-                            <div class="col-lg-5 col-md-12">
+                            <div class="col-lg-5 col-md-6">
 
                                 <div class="btn-group float-right">
                                     <a class="btn btn-danger btn-flat issuance-custom" href="#">Export Custom</a>
@@ -73,7 +73,7 @@
                                     <a class="btn btn-danger btn-flat" href="/reports/purchase-order-log/export">Export Today</a>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-12 float-right">
+                            <div class="col-lg-5 col-md-6 float-right">
                                 <div class="input-group float-right">
                                     <input type="search" id="txtSearch" name="s" class="form-control float-right" placeholder="Search" value="{{ request()->s }}"/>
                                     <span>
