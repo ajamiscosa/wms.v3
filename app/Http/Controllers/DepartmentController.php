@@ -174,10 +174,12 @@ class DepartmentController extends Controller
         $query = $request->q ?: $request->term;
         if($query == "undefined") {
             $users = User::all();
-            for($i=0;$i<count($users);$i++){
-                $entry['id'] = $users[$i]->ID;
-                $entry['text'] = $users[$i]->Person()->FirstName.' '.$users[$i]->Person()->LastName.' ('.$users[$i]->Username.')';
-                array_push($data, $entry);
+            foreach($users as $user) {
+                if($user->Status==1) {
+                    $entry['id'] = $user->ID;
+                    $entry['text'] = $user->Person()->FirstName.' '.$user->Person()->LastName.' ('.$user->Username.')';
+                    array_push($data, $entry);
+                }
             }
         }
         else{
@@ -187,13 +189,15 @@ class DepartmentController extends Controller
                         ->orWhere('people.LastName','like','%'.$query.'%')
                         ->orWhere('people.FirstName','like','%'.$query.'%')
                 ->get();
-            for($i=0;$i<count($approvers);$i++){
-                $approver = Person::where('ID','=',$approvers[$i]->ID)->first();
-                $user = $approver->User();
-                $entry['id'] = $approver->ID;
-                $entry['text'] = $approver->FirstName.' '.$approver->LastName.' ('.$user->Username.')';
 
-                array_push($data, $entry);
+            foreach($approvers as $approver) {
+                $approver = Person::where('ID','=',$approver->ID)->first();
+                $user = $approver->User();
+                if($user->Status == 1) {
+                    $entry['id'] = $user->ID;
+                    $entry['text'] = $user->Person()->FirstName.' '.$user->Person()->LastName.' ('.$user->Username.')';
+                    array_push($data, $entry);
+                }
             }
         }
         return response()->json(['results'=>$data]);
