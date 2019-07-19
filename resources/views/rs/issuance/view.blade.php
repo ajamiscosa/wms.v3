@@ -49,8 +49,8 @@
                     </h3>
                     @if($data->Status=='P')
                         <span class="badge flat badge-warning" style="margin-top: 5px; padding-top: 0; vertical-align: middle; height: 18px; line-height: 18px; text-align: center;">Pending First Approval</span>
-                    @elseif($data->Status=='1')
-                        <span class="badge flat badge-warning" style="margin-top: 5px; padding-top: 0; vertical-align: middle; height: 18px; line-height: 18px; text-align: center;">Pending Second Approval</span>
+                    @elseif($data->Status=='2')
+                        <span class="badge flat badge-warning" style="margin-top: 5px; padding-top: 0; vertical-align: middle; height: 18px; line-height: 18px; text-align: center;">Pending Final Approval</span>
                     @elseif($data->Status=='A')
                         <span class="badge flat badge-success" style="margin-top: 5px; padding-top: 0; vertical-align: middle; height: 18px; line-height: 18px; text-align: center;">Approved</span>
                     @elseif($data->Status=='X')
