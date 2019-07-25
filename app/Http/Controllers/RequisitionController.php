@@ -263,12 +263,21 @@ class RequisitionController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $orderNumber = $this->getCurrentIncrement($request->Type);
 
         DB::transaction(function() use ($request, $orderNumber){
-            $chargeToDept = $this->department->where('ID','=',$request->ChargeTo)->first();
+            $chargeToDept = $this->department->where('ID','=',$request->Approver1)->first();
             $authUser = $this->user->where('ID','=',auth()->user()->ID)->first();
+            $selectedApproverID=0;
+            if($request->Type=='PR'){
+                $selectedApproverID = $request->Approver1?$request->Approver1:$authUser->Department()->Manager()->ID;
+            }
+            else {
+                $selectedApproverID = $authUser->Department()->Manager()->ID;
+            }
 
+            // dd($chargeToDept);
             $issuance = new Requisition();
             $issuance->Type = $request->Type;
             $issuance->GLAccount = is_array($request->GLCode)?$request->GLCode[0]:$request->GLCode;
@@ -276,9 +285,11 @@ class RequisitionController extends Controller
             $issuance->Date = Carbon::parse($request->DateRequired); //Carbon::now();//->parse('F d, y');
             $issuance->Requester = $authUser->ID;
             $issuance->Department = $authUser->Department()->ID;
-
-            $issuance->Approver1 = $request->Approver1;
-            $issuance->Approver2 = $request->Approver2;
+    
+            //default dept mgr if approvers are empty
+            $defaultApprover = $selectedApproverID;
+            $issuance->Approver1 = $request->Approver1?$request->Approver1:$defaultApprover;
+            $issuance->Approver2 = $request->Approver2?$request->Approver2:$defaultApprover;
 
             if($request->Type=='IR'){
                 // $issuance->Approver1 = $authUser->Department()->Manager()->ID;
@@ -288,14 +299,14 @@ class RequisitionController extends Controller
                 $issuance->ChargeType = $request->ChargeType;
                 $issuance->Status = '2'; // one approval only for IR
             } else { // PR
-                $issuance->Status = 'Q';
+                $issuance->Status = '1';
                 if(isset($request->ChargeType)) {
                     $issuance->ChargeType = $request->ChargeType;
-                    $issuance->ChargeTo = $chargeToDept->ID;
+                    $issuance->ChargeTo = $issuance->Department;
                     // $issuance->Approver2 = $chargeToDept->Manager()->ID;
                 } else {
                     $chargeToDept = Department::findByName('Materials Group');
-                    $issuance->ChargeTo = $chargeToDept->ID;
+                    $issuance->ChargeTo = $issuance->Department;
                     // $issuance->Approver2 = $chargeToDept->Manager()->ID;
                 }
                 // $issuance->Approver1 = $authUser->Department()->Manager()->ID;
@@ -603,7 +614,7 @@ class RequisitionController extends Controller
 
         switch($pr->Status) {
             //case 'P': $status = '1'; break;
-            //case '1': $status = $pr->isFullyQuoted()==1?'2':'Q'; break;
+            case '1': $status = $pr->isFullyQuoted()==1?'2':'Q'; break;
             case '2': $status = 'A'; break;
             default: $status = $pr->Status;
         }
