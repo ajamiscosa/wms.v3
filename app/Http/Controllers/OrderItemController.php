@@ -47,7 +47,11 @@ class OrderItemController extends Controller
         $orderItem->save();
 
         $lineItem->Quoted = true;
+        // $requisition = $lineItem->Requisition();
         $lineItem->save();
+
+        // $requisition->Status = 'A';
+        // $requisition->save();
 
         return redirect()->to('/pending-quote');
     }
