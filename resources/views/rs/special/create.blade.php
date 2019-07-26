@@ -85,7 +85,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                   <input id="deptID" type="hidden" name="DeptID" value="{{auth()->user()->Department()->Manager()->ID}}">
+                    {{-- <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="ChargeTo" class="control-label ">Charge To</label>
@@ -95,7 +96,7 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="row">
                         <div class="col-md-6">
@@ -367,26 +368,26 @@
             var glType = 'inventory';
             var chargeType = 'S';
 
-            var deptID = $('#ChargeTo').val();
-            $glCode.select2({
-                ajax: {
-                    url: '/rs/gl-data/'+glType+'/'+deptID,
-                    dataType: 'json'
-                    // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
-                },
-                matcher: matchCustom,
-                placeholder: 'Select GL Code'
-            });
+            // var deptID = $('#ChargeTo').val();
+            // $glCode.select2({
+            //     ajax: {
+            //         url: '/rs/gl-data/'+glType+'/'+deptID,
+            //         dataType: 'json'
+            //         // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+            //     },
+            //     matcher: matchCustom,
+            //     placeholder: 'Select GL Code'
+            // });
 
 
-            $(document).on('change','.charge-type-select', function(e) {
+            $(document).ready(function(e) {
                 chargeType = $chargeType.val();
                 switch (chargeType) {
                     case 'S': glType = 'inventory'; break;
                     case 'D': glType = 'expense'; break;
                     case 'C': glType = 'capex'; break;
                 }
-                var deptID = $('#ChargeTo').val();
+                var deptID = $('#DeptID').val();
                 console.log(deptID);
                 $glCode.val("");
                 $glCode.select2({
@@ -400,21 +401,21 @@
                 });
             });
 
-            $(document).on('change','.department-select', function(e) {
-                var deptID = $('#ChargeTo').val();
-                console.log(deptID);
-                $glCode.val("");
-                $glCode.select2({
-                    ajax: {
-                        url: '/rs/gl-data/'+glType+'/'+deptID,
-                        dataType: 'json'
-                        // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
-                    },
-                    matcher: matchCustom,
-                    placeholder: 'Select GL Code'
-                });
+            // $(document).on('change','.department-select', function(e) {
+            //     var deptID = $('#ChargeTo').val();
+            //     console.log(deptID);
+            //     $glCode.val("");
+            //     $glCode.select2({
+            //         ajax: {
+            //             url: '/rs/gl-data/'+glType+'/'+deptID,
+            //             dataType: 'json'
+            //             // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+            //         },
+            //         matcher: matchCustom,
+            //         placeholder: 'Select GL Code'
+            //     });
 
-            });
+            // });
 
 
             $(document).on('click','#btnSubmit', function(e) {
