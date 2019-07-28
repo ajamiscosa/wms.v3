@@ -144,7 +144,8 @@ class ReportController extends Controller
             }
             $entry = array(
                 $product->UniqueID,
-                $lineItem->OrderNumber,
+                // $lineItem->OrderNumber,
+                $receipt->OrderNumber,
                 Carbon::parse($receipt->Received)->format('m/d/Y'),
                 $remark??"",
                 $reason??"",
