@@ -694,16 +694,15 @@ Route::get('/limitproduct', function(){
     // $scandium = \App\User::where('Department', '=', 3)->get();
     // $it = \App\User::where('Department', '=', 16)->get();
 
-    $lead = count(\App\User::where('Department', '=', 6)->get());
-    $scandium = count(\App\User::where('Department', '=', 14)->get());
-    $it = count(\App\User::where('Department', '=', 19)->get());
+    $lead = count(\App\Requisition::where('Type', '=', 'PR')->get());
+    $scandium = count(\App\Requisition::where('Type', '=', 'IR')->get());
+    $it = count(\App\PurchaseOrder::all());
 
     // $lead = $lead->Department();
     // dd($lead[0]->Department);
     // $scandiumDept;
     // $itDept;
-    $data = array();
-    array_push($data,[$lead,$scandium,$it]);
+    $data = [$lead,$scandium,$it];
     // $data = (object)[$lead,$scandium,$it];
     // $data->Lead = $lead;
     // $data->Scandium = $scandium;
