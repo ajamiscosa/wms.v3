@@ -181,8 +181,6 @@
 
 
                     $('.export-custom').on('click', function() {
-
-
                         swal({
                             html: true,
                             title: 'Select Range',

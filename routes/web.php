@@ -216,6 +216,8 @@ Route::get('/reports/item-movement/export', 'ReportController@exportItemMovement
 
 
 Route::get('/reports/pr-status', 'ReportController@showPurchaseRequestStatusReport')->name('report/prstatus');
+Route::get('/reports/pr-status/export', 'ReportController@exportPurchaseRequestStatusReport');
+
 Route::get('/reports/recent-suppliers', 'ReportController@showRecentlyAddedSuppliersReport')->name('report/suppliers');
 Route::get('/reports/recent-suppliers/export', 'ReportController@exportSupplierReport');
 Route::get('/reports/purchase-order-log', 'ReportController@showPurchaseOrdersReport')->name('report/po');

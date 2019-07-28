@@ -452,7 +452,7 @@ class RequisitionController extends Controller
         $data = array();
         $authUser = $this->user->where('ID','=',auth()->user()->ID)->firstOrFail();
 
-        if($authUser->isAdministrator() or $authUser->isPlantManager() or $authUser->isPurchasingManager()) {
+        if($authUser->isAdministrator() or $authUser->isPlantManager() or $authUser->isPurchasingManager() /* or $authUser->isBernie() */) {
             $issuances = $this->requisition->where('Type', '=', 'PR');
         }
         else {

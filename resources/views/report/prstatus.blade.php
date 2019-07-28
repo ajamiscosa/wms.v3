@@ -61,24 +61,12 @@
                             </div>
                             <div class="col-lg-8 col-md-12">
                                 <div class="btn-group float-right">
-                                    <button type="button" class="btn btn-danger dropdown-toggle btn-flat" data-toggle="dropdown" aria-expanded="false">
+                                    <a href="/reports/pr-status/export" target="_blank" class="btn btn-danger btn-flat mr-2 export-today">
+                                        Export All
+                                    </a>
+                                    <button type="button" class="btn btn-danger btn-flat export-custom">
                                         Export Custom
-                                        <span class="caret"></span>
                                     </button>
-                                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-112px, 38px, 0px);">
-                                        <a class="dropdown-item issuance-custom" href="#PHP">PHP</a>
-                                        <a class="dropdown-item issuance-custom" href="#USD">USD</a>
-                                    </div>
-                                </div>
-                                <div class="btn-group float-right pr-2">
-                                    <button type="button" class="btn btn-danger dropdown-toggle btn-flat" data-toggle="dropdown" aria-expanded="false">
-                                        Export Today
-                                        <span class="caret"></span>
-                                    </button>
-                                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-112px, 38px, 0px);">
-                                        <a class="dropdown-item" href="/reports/issuance-log/export?date={{ \Carbon\Carbon::today()->format('Ymd') }}&curr=PHP">PHP</a>
-                                        <a class="dropdown-item" href="/reports/issuance-log/export?date={{ \Carbon\Carbon::today()->format('Ymd') }}&curr=USD">USD</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -102,6 +90,8 @@
                             <th class="text-right">PO Amount</th>
                             <th>RR No.</th>
                             <th>RR Date</th>
+                            <th>PR to PO</th>
+                            <th>PR to RR</th>
                         </tr>
                         </thead>
                         <tfoot>
@@ -121,6 +111,8 @@
                             <th class="text-right">PO Amount</th>
                             <th>RR No.</th>
                             <th>RR Date</th>
+                            <th>PR to PO</th>
+                            <th>PR to RR</th>
                         </tr>
                         </tfoot>
                         <tbody>
@@ -196,35 +188,39 @@
                                                             @if ($loop->first)
                                                                 <td>{{ $rr->OrderNumber }}</td>
                                                                 <td>{{ \Carbon\Carbon::parse($rr->Received)->format('m/d/Y') }}</td>
+                                                                <td class="text-center">{{ \Carbon\Carbon::parse($po->OrderDate)->diffInDays(\Carbon\Carbon::parse($request->Date)) }}</td>
+                                                                <td class="text-center">{{ \Carbon\Carbon::parse($rr->Received)->diffInDays(\Carbon\Carbon::parse($request->Date)) }}</td>
                                                             </tr>
                                                             @else
                                                             <tr>
                                                                 <td colspan="13"></td>
                                                                 <td>{{ $rr->OrderNumber }}</td>
                                                                 <td>{{ \Carbon\Carbon::parse($rr->Received)->format('m/d/Y') }}</td>
+                                                                <td class="text-center">{{ \Carbon\Carbon::parse($po->OrderDate)->diffInDays(\Carbon\Carbon::parse($request->Date)) }}</td>
+                                                                <td class="text-center">{{ \Carbon\Carbon::parse($rr->Received)->diffInDays(\Carbon\Carbon::parse($request->Date)) }}</td>
                                                             </tr>
                                                             @endif
                                                         @empty
-                                                            <td colspan="2"></td>
+                                                            <td colspan="4"></td>
                                                         @endforelse
                                                     @else
-                                                        <td colspan="7"></td>
+                                                        <td colspan="9"></td>
                                                     @endif
                                                 @else
-                                                    <td colspan="7"></td>
+                                                    <td colspan="9"></td>
                                                 @endif
                                             @else
-                                            <td colspan="7"></td>
+                                            <td colspan="9"></td>
                                             @endif
                                         @empty
-                                            <td colspan="7"></td>
+                                            <td colspan="9"></td>
                                         @endforelse
                                     </tr>
                                     @else
-                                    <td colspan="12"></td>
+                                    <td colspan="14"></td>
                                     @endif
                                 @empty
-                                    <td colspan="12"></td>
+                                    <td colspan="14"></td>
                                 @endforelse
                                 </tr>
                             @endforeach
@@ -269,7 +265,7 @@
             });
 
 
-            $('.issuance-custom').on('click', function() {
+            $('.export-custom').on('click', function() {
 
 
                 swal({
@@ -306,10 +302,10 @@
                         var mEnd = zEnd.getMonth();
                         var dEnd = zEnd.getDate();
 
-                        dStart = String.format('{0}{1}{2}', yStart,mStart+1,zeroFill(dStart,2));
-                        dEnd = String.format('{0}{1}{2}', yEnd,mEnd+1,zeroFill(dEnd, 2));
+                        dStart = String.format('{0}{1}{2}', yStart,zeroFill(mStart+1,2),zeroFill(dStart,2));
+                        dEnd = String.format('{0}{1}{2}', yEnd,zeroFill(mEnd+1,2),zeroFill(dEnd, 2));
 
-                        window.open('/reports/issuance-log/export?start='+dStart+"&end="+dEnd,'_blank');
+                        window.open('/reports/pr-status/export?start='+dStart+"&end="+dEnd,'_blank');
                     }
                 });
 

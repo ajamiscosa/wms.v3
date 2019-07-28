@@ -406,23 +406,41 @@ class ReportController extends Controller
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    public function showPurchaseRequestStatusReport(Request $request){
+    public function showPurchaseRequestStatusReport(Request $request) {
         return view('report.prstatus');
     }
 
-    public function showRecentlyAddedSuppliersReport(Request $request){
+    public function exportPurchaseRequestStatusReport(Request $request) {
+
+        $requisition = new Requisition();
+        $rsList = $requisition->where('Type','=','PR');
+
+        if(isset($request->start)) {
+            $start = Carbon::parse($request->start);
+            $end = Carbon::parse($request->end);
+
+            $end = $end->addDay();
+
+            $rsList = $rsList->whereBetween('created_at',[$start, $end]);
+            $outDateFormat = $start->format('dmy');
+        }
+        else {
+            $outDateFormat = Carbon::today()->format('dmy');
+        }
+
+        $rsList = $rsList->get();
+        
+        $date = Carbon::now()->format('Ymd');
+        \Excel::create("PRStatusReport-{$date}", function($excel) use ($rsList) {
+
+            $excel->sheet('PRStatusReport', function($sheet) use ($rsList) {
+                $sheet->loadView('report.view.prstatus',['data'=>$rsList]);
+            });
+
+        })->download('xlsx');
+    }
+
+    public function showRecentlyAddedSuppliersReport(Request $request) {
         return view('report.suppliers');
     }
 
