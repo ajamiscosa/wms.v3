@@ -639,7 +639,7 @@ class PurchaseOrderController extends Controller
         $lineItem = new LineItem();
 
         $orderItem = new OrderItem();
-        $orderItems = $orderItem->where('PurchaseOrder','=',0)->get();
+        $orderItems = $orderItem->where('PurchaseOrder','=',0)->orderBy('ID','desc')->get();
         foreach($orderItems as $orderItem) {
             if($orderItem->PurchaseOrder == 0) {
                 $lineItem = $orderItem->LineItem();

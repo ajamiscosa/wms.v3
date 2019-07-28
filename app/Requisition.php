@@ -96,7 +96,7 @@ class Requisition extends Model
     public function Status() {
         switch($this->Status) {
             case 'P': return "Pending Initial Approval";
-            case '1': return $this->Type=='IR'?"Pending Final Approval":"Pending First Approval";
+            case '1': return $this->Type=='IR'?"Pending Final Approval":"Pending Approval";
             case '2': return "Pending Final Approval";
             case 'A': return "Approved";
             case 'C': return "Completed";

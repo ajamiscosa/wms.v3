@@ -314,7 +314,7 @@
     var results = $.getValues("/limitproduct"); // array
     console.log(results);
 
-    var fdata = [5,12,20];
+    var fdata = results;
     
     //-------------
     //- DONUT CHART -
@@ -323,9 +323,9 @@
     var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
     var donutData        = {
       labels: [
-          'Draft', 
-          'Pending Approval',
-          'Approved',  
+          'Purchase Requests', 
+          'Issuance Requests',
+          'Purchase Orders',  
       ],
       datasets: [
         {
@@ -417,7 +417,7 @@
         chart.update();
     }
 
-    var mlabels = ['May', 'June'];
+    var mlabels = ['Purchase Requests', 'Issuance Requests', 'Purchase Orders'];
     var qwe = [
         [234, 234, 5],
         [22, 1, 123],

@@ -56,7 +56,7 @@
                     @if($data->Status=='P')
                         <span class="badge flat badge-warning" style="margin-top: 5px; padding-top: 0; vertical-align: middle; height: 18px; line-height: 18px; text-align: center;">Pending First Approval</span>
                     @elseif($data->Status=='1')
-                        <span class="badge flat badge-warning" style="margin-top: 5px; padding-top: 0; vertical-align: middle; height: 18px; line-height: 18px; text-align: center;">Pending First Approval</span>
+                        <span class="badge flat badge-warning" style="margin-top: 5px; padding-top: 0; vertical-align: middle; height: 18px; line-height: 18px; text-align: center;">Pending for Approval</span>
                     @elseif($data->Status=='2')
                         <span class="badge flat badge-warning" style="margin-top: 5px; padding-top: 0; vertical-align: middle; height: 18px; line-height: 18px; text-align: center;">Pending First Approval</span>
                     @elseif($data->Status=='A')
@@ -80,14 +80,14 @@
                 <div class="toolbar">
                     <!-- For Immediate Approver -->
                     @if((
-                        $data->Approver1 == auth()->user()->Person()->ID
+                        $data->Approver1 == auth()->user()->ID
                         or
                         $data->Department()->Manager()->ID == auth()->user()->ID
                         or
                         auth()->user()->isAdministrator()
                         )
-                        and
-                        auth()->user()->ID != $data->ChargedTo()->Manager()->ID
+                        // and
+                        // auth()->user()->ID != $data->ChargedTo()->Manager()->ID
                     )
                         @if($data->Status=='P')
                             <a class="btn flat btn-sm btn-simple" id="btnApprove1">
@@ -107,7 +107,12 @@
                         or
                         auth()->user()->isAdministrator()
                     )
-                        @if($data->Status=='1' and auth()->user()->ID == $data->Department()->Manager()->ID)
+                        @if ($data->Status=='1' and 
+                                ( $data->Approver1 == $data->Department()->Manager()->ID or 
+                                  auth()->user()->isPurchasingManager() or
+                                  $data->Approver1 == auth()->user()->ID
+                                )
+                            )
                             <a class="btn btn-sm flat btn-simple" id="btnApprove2">
                                 <span class="fa fa-check"></span>
                                 <!---->Approve
