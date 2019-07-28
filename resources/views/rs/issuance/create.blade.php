@@ -376,28 +376,35 @@
             $(".approver2-select").select2({
                 placeholder: 'Select Approver'
             });
+
+            var chargeType = $chargeType.val();
+            var glType = 'issuance';
+            if(chargeType=='C') {
+                glType = 'capex';
+            }
             
             $(".glcode-select").select2({
                 dropdownAutoWidth : true,
                 placeholder: 'Select GL Code',
-                minimumResultsForSearch: -1
+                minimumResultsForSearch: -1,
+                ajax: {
+                    url: '/rs/gl-data/'+glType+'/'+{{auth()->user()->Department()->ID}},
+                    dataType: 'json'
+                    // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+                },
+                matcher: matchCustom,
             });
 
-            $deptSelect.on('change', function () {
+            $(document).ready(function () {
                 var $glCode = $('.glcode-select').val("");
                 var $approverSelect = $('.approver2-select').val("");
 
-                var chargeType = $chargeType.val();
 
-                var glType = 'issuance';
-                if(chargeType=='C') {
-                    glType = 'capex';
-                }
 
                 var deptID = $('.department-select').select2('data')[0].id;
                 $glCode.select2({
                     ajax: {
-                        url: '/rs/gl-data/'+glType+'/'+deptID,
+                        url: '/rs/gl-data/'+glType+'/'+{{auth()->user()->Department()->ID}},
                         dataType: 'json'
                         // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
                     },
