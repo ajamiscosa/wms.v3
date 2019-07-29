@@ -267,7 +267,8 @@ class RequisitionController extends Controller
         $orderNumber = $this->getCurrentIncrement($request->Type);
 
         DB::transaction(function() use ($request, $orderNumber){
-            $chargeToDept = $this->department->where('ID','=',$request->Approver1)->first();
+            $chargeToDept = $this->department->where('ID','=',$request->UserDept)->first();
+            // dd($request->UserDept);
             $authUser = $this->user->where('ID','=',auth()->user()->ID)->first();
             $selectedApproverID=0;
             if($request->Type=='PR'){
@@ -297,7 +298,7 @@ class RequisitionController extends Controller
 //                $issuance->Approver2 = $chargeToDept->Manager()->ID;
                 $issuance->ChargeTo = $chargeToDept->ID;
                 $issuance->ChargeType = $request->ChargeType;
-                $issuance->Status = '2'; // one approval only for IR
+                $issuance->Status = '1'; // one approval only for IR
             } else { // PR
                 $issuance->Status = '1';
                 if(isset($request->ChargeType)) {

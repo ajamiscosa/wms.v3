@@ -91,7 +91,7 @@
                                 <label class="control-label ">Department</label>
                                 <div class="form-group" style="border: 1px solid #AAA;">
                                     <span style="line-height: 36px;">&nbsp;&nbsp;{{ auth()->user()->Department()->Name }}</span>
-                                    <input type="hidden" id="userDept" value="{{auth()->user()->Department()->ID}}">
+                                    <input type="hidden" name="UserDept" id="userDept" value="{{auth()->user()->Department()->ID}}">
                                 </div>
                             </div>
                         </div>
@@ -401,7 +401,7 @@
 
 
 
-                var deptID = $('.department-select').select2('data')[0].id;
+                // var deptID = $('.department-select').select2('data')[0].id;
                 $glCode.select2({
                     ajax: {
                         url: '/rs/gl-data/'+glType+'/'+{{auth()->user()->Department()->ID}},

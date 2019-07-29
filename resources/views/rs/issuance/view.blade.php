@@ -49,8 +49,8 @@
                     </h3>
                     @if($data->Status=='P')
                         <span class="badge flat badge-warning" style="margin-top: 5px; padding-top: 0; vertical-align: middle; height: 18px; line-height: 18px; text-align: center;">Pending First Approval</span>
-                    @elseif($data->Status=='2')
-                        <span class="badge flat badge-warning" style="margin-top: 5px; padding-top: 0; vertical-align: middle; height: 18px; line-height: 18px; text-align: center;">Pending Final Approval</span>
+                    @elseif($data->Status=='1')
+                        <span class="badge flat badge-warning" style="margin-top: 5px; padding-top: 0; vertical-align: middle; height: 18px; line-height: 18px; text-align: center;">Pending Approval</span>
                     @elseif($data->Status=='A')
                         <span class="badge flat badge-success" style="margin-top: 5px; padding-top: 0; vertical-align: middle; height: 18px; line-height: 18px; text-align: center;">Approved</span>
                     @elseif($data->Status=='X')
@@ -83,9 +83,11 @@
 
                     @endif
                     @if(
-                        auth()->user()->Person()->ID == $data->Approver2 // check if user is one of the approvers.
+                        auth()->user()->Person()->ID == $data->Approver1 // check if user is one of the approvers.
                         or
                         auth()->user()->isAdministrator() //admins can overrule anybody.
+                        or
+                        auth()->user()->isAuthorized('BypassTransactions','M') // overrule bypass Role
                     )
                         @if($data->Status=='1')
                             <a class="btn btn-sm flat btn-simple" id="btnApprove2">
@@ -135,7 +137,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-lg-6">
                     <div class="row">
                         <div class="col-md-6">
@@ -156,7 +158,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="row">
                 <div class="col-lg-6">
                     <div class="row">
@@ -329,7 +331,7 @@
             swal({
                 html: true,
                 title: 'Confirm Action',
-                text: "<html>Do you wish to give <strong><span style='color: red;'>final approval</span></strong> for<br/>Requisition Request [{{ $data->OrderNumber }}]?"+
+                text: "<html>Do you wish to approve this Issuance Requisition Request [{{ $data->OrderNumber }}]?"+
                 "<textarea " +
                 "id='Remarks'" +
                 "class='form-control flat' " +

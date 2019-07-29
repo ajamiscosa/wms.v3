@@ -70,7 +70,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <input required class="form-control text-right" name="Amount" type="number" step="{{ $data->UOM()->Type==1?"0.001":"1" }}" min="0">
+                                        <input max="50000000" required class="form-control text-right" name="Amount" type="number" step="{{ $data->UOM()->Type==1?"0.001":"1" }}" min="0">
                                     </div>
                                 </div>
                             </div>
