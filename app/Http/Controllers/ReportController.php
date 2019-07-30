@@ -140,6 +140,7 @@ class ReportController extends Controller
             }
             else {
                 $remark = "";
+                $remarks = json_decode($receipt->Remarks, true);
                 $reason = $remarks['data'][0]['message'];
             }
             $entry = array(
