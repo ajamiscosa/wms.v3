@@ -12,6 +12,7 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/select2.css') }}">
     <link rel="stylesheet" href="{{ asset('css/datepicker3.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
     <style>
         a {
             color: #3b5998;
@@ -43,7 +44,7 @@
             <strong>New Purchase Request</strong>
         </h3>
     </div>
-    <form action="/issuance-request/store" method="post">
+    <form action="/issuance-request/store" method="post" id="form-purchase">
         <input type="hidden" name="Type" value="PR">
         <input type="hidden" name="ChargeType" value="S">
         {{csrf_field()}}
@@ -222,6 +223,7 @@
     <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('js/moment.js') }}"></script>
     <script src="{{ asset('js/select2.min.js') }}"></script>
+    <script src="{{ asset('js/loadingoverlay.min.js') }}"></script>
     <script>
         $(function(){
             var $datepicker = $('#DateRequired').datepicker({
@@ -446,6 +448,34 @@
                 return null;
             }
 
+        });
+
+        // $(document).ajaxStart(function(){
+        //     $.LoadingOverlay("show");
+        // });
+        // $(document).ajaxStop(function(){
+        //     $.LoadingOverlay("hide");
+        // });
+
+        $(document).on('submit','#form-purchase',function(e){
+            e.preventDefault();
+            var sdata = $(this).serialize();
+            var request = $.ajax({
+                            method: "POST",
+                            url: "/issuance-request/store",
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: { sdata: sdata },
+                            beforeSend: function() {
+                                $.LoadingOverlay("show");
+                            }
+                        });
+                    request.done(function(x){
+                        alert(x);
+                        $.LoadingOverlay("hide");
+                        // window.location = window.location.pathname;
+                    });
         });
     </script>
 @endsection
