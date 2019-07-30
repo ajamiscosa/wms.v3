@@ -462,7 +462,7 @@ class ReportController extends Controller
             $title = Carbon::today()->format('Ymd');
         }
 
-        dd($suppliers->get());
+        // dd($suppliers->get());
 
         $columns = array(
             'Vendor ID',
