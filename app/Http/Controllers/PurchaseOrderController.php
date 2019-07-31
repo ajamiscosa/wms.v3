@@ -883,6 +883,13 @@ class PurchaseOrderController extends Controller
                 $dto->ChargeNo = sprintf("%s/%s",$purchaseRequest->OrderNumber,$dto->ChargeType);
 //                $data['D18'] = $chargeNo;
 
+                if($purchaseRequest->ChargeType=='C') {
+                    $dto->ChargeTo = 'C';
+                    $remarks = json_decode($purchaseRequest->Remarks, true);
+                    $reason = $remarks['data'][0]['message'];
+                    $dto->ChargeNo = sprintf("%s/%s",$purchaseRequest->OrderNumber,$reason);
+                }
+
                 $purchasingManager = Role::findUserWithRole('PurchasingManager');
                 $operationsManager = Role::findUserWithRole('OperationsDirector');
                 $plantManager = Role::findUserWithRole('PlantManager');
