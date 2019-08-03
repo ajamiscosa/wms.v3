@@ -164,7 +164,7 @@ Route::post('/receive-order/update/{id}', 'ReceiveOrderController@update');
 Route::post('/receive-order/void', 'ReceiveOrderController@void');
 Route::get('/receive-order/data', 'ReceiveOrderController@data');
 Route::get('/receive-order/{id}/transactions','ReceiveOrderController@getReceiptTransactionsOfPurchaseOrder');
-//
+Route::get('/receive-order/check/{id}','ReceiveOrderController@search'); // ajax DRInvoice <Input>
 Route::get('/receive-order/{id}/download', 'ReceiveOrderController@generateReceivingForm');
 
 Route::get('/purchase-return', 'PurchaseReturnController@index');

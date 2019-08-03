@@ -30,6 +30,16 @@ class ReceiveOrderController extends Controller
         $this->middleware('auth');
     }
 
+    public function search($id)
+    {
+        try {
+            ReceiveOrder::where('ReferenceNumber','=',$id)->firstOrFail();
+        } catch(\Exception $e) {
+            return response()->json(false);
+        }
+        return response()->json(true);
+    }
+
     /**
      * Display a listing of the resource.
      *

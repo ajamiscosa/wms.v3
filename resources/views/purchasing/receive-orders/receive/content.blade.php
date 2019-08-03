@@ -139,7 +139,8 @@
                                 <div class="col-lg-6 col-md-12">
                                     <div class="form-group">
                                         <label for="Receiver" class="control-label">Invoice DR / Reference No.</label>
-                                        <input type="text" class="form-control flat" name="ReferenceNumber" required/>
+                                        <input id="DRInvoice" type="text" class="form-control flat" name="ReferenceNumber" required/>
+                                        <small id="code-error" style="color: red;"></small>
                                     </div>
                                 </div>
                             </div>
@@ -163,3 +164,32 @@
         </div>
     </div>
 </div>
+<script>
+    $(function() {
+        $('#DRInvoice').on('input', function() {
+            var code = $(this).val();
+            console.log(code);
+            if(code.length > 0) {
+                $.get({
+                    url: "/receive-order/check/"+$(this).val(),
+                    success: function(msg) {
+                        if(msg) {
+                            $('#DRInvoice').addClass('is-invalid');
+                            $('#code-error').html('<b>'+code+'</b> already exists in the database.');
+                            $('#btnReceive').attr('disabled','disabled');
+                        }
+                        else {
+                            $('#DRInvoice').removeClass('is-invalid');
+                            $('#code-error').text('');
+                            $('#btnReceive').removeAttr('disabled');
+                        }
+                    }
+                });
+            }
+            else {
+                $('#DRInvoice').removeClass('is-invalid');
+                $('#code-error').text('');
+            }
+        });
+    });
+</script>
