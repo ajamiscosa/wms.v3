@@ -105,6 +105,7 @@ class RoleController extends Controller
         $role = Role::where('ID','=',$data[0])->first();
         $role->Name = $request->Name;
         $permArray = json_decode('['.implode(',',$request->Permissions).']',true);
+        sort($permArray);
         $role->Permissions = json_encode($permArray);
         $role->save();
 
