@@ -57,7 +57,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="GLCode" class="control-label">Charge Type</label>
-                        <select class="form-control charge-type-select" name="ChargeType">
+                        <select class="form-control charge-type-select" name="ChargeType" style="width: 100%;">
                             <option></option>
                             <option value="S" selected>INVENTORY</option>
                             <option value="D">DIRECT CHARGE</option>
@@ -76,6 +76,16 @@
                         </select>
                     </div>
                 </div>
+                
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label ">Charged To Department</label>
+                        <br class="input-lining"/>
+                        <select class="form-control department-select" name="ChargeTo" required style="width: 100%;">
+                            <option></option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="row">
                 {{--<div class="col-md-6">--}}
@@ -85,29 +95,34 @@
                     {{--</div>--}}
                 {{--</div>--}}
                 <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label ">Department</label>
-                                <div class="form-group" style="border: 1px solid #AAA;">
-                                    <span style="line-height: 36px;">&nbsp;&nbsp;{{ auth()->user()->Department()->Name }}</span>
-                                    <input type="hidden" name="UserDept" id="userDept" value="{{auth()->user()->Department()->ID}}">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label ">Approver</label>
-                                <select class="form-control approver1-select" name="Approver1" required>
-                                    <option></option>
-                                </select>
-                            </div>
+                    <div class="form-group">
+                        <label class="control-label ">Department</label>
+                        <div class="form-group" style="border: 1px solid #AAA;">
+                            <span style="line-height: 36px;">&nbsp;&nbsp;{{ auth()->user()->Department()->Name }}</span>
+                            <input type="hidden" name="UserDept" id="userDept" value="{{auth()->user()->Department()->ID}}">
                         </div>
                     </div>
                 </div>
-            </div>
-{{--             
-            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label ">Approver</label>
+                        <div class="form-group" style="border: 1px solid #AAA;">
+                            <select class="form-control approver1-select" name="Approver1" required style="width: 100%;">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="Purpose" class="control-label">Purpose</label>
+                        <textarea class="form-control flat" style="resize: none;" rows="3" name="Purpose" required></textarea>
+                    </div>
+                </div>
+            </div> <? /* row */?>
+        
+             
+            {{--<div class="row">
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-6">
@@ -130,71 +145,60 @@
                     </div>
                 </div>
             </div> --}}
+
             <div class="row">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="Purpose" class="control-label">Purpose</label>
-                                <textarea class="form-control flat" style="resize: none;" rows="3" name="Purpose" required></textarea>
-                            </div>
-                        </div>
+                <div class="col-md-12">
+                    <div class="table-responsive-md">
+                        <table class="table">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Item</th>
+                                    <th scope="col">GL Code</th>
+                                    <th scope="col">
+                                        <label class="float-right">
+                                        Quantity
+                                        </label>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($data as $item)
+                                    @php
+                                        $product = \App\Product::where('ID','=',$item)->first();
+                                    @endphp
+                                        <tr>
+                                            <th scope="row" class="w-25">
+                                                <input type="hidden" value="{{ $product->ID }}" name="Product[]">
+                                                [{{ $product->Name }}] {{ $product->Description }}
+                                            </th>
+                                            
+                                            <td scope="col" class="w-auto">
+                                                <select id="glcd" style="width:100%; font-size: 0.9em" class="form-control glcode-select" name="GLCode[]" required>
+                                                    <option></option>
+                                                </select>
+                                            </td>
+                                            <td scope="col" class="w-auto">
+                                                <span class="float-right" style="margin:10px; font-size: 0.6em;">
+                                                    {{ $product->UOM()->Abbreviation }}
+                                                </span>
+                                                <input 
+                                                    style="width: 100px;" class="form-control float-right" 
+                                                    placeholder="Max: {!! $product->getAvailableQuantity() !!}" 
+                                                    max="{!! $product->getAvailableQuantity() !!}"
+                                                    min="0" 
+                                                    name="Quantity[]" 
+                                                    type="number" 
+                                                    step="{{ $product->UOM()->Type==1?"0.001":"1" }}"
+                                                    required>
+                                            </td>
+                                        </tr>
+                                @endforeach
+                                </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
-            <br/>
-            <br/>
-
-
-            <div class="table-responsive-md">
-                <table class="table">
-                        <thead>
-                            <tr>
-                            <th scope="col">Item</th>
-                            <th scope="col">GL Code</th>
-                            <th scope="col">
-                                <label class="float-right">
-                                Quantity
-                                </label>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($data as $item)
-                            @php
-                                $product = \App\Product::where('ID','=',$item)->first();
-                            @endphp
-                                <tr>
-                                    <th scope="row" class="w-25">
-                                        <input type="hidden" value="{{ $product->ID }}" name="Product[]">
-                                        [{{ $product->Name }}] {{ $product->Description }}
-                                    </th>
-                                    
-                                    <td scope="col" class="w-auto">
-                                        <select id="glcd" style="width:100%; font-size: 0.9em" class="form-control glcode-select" name="GLCode[]" required>
-                                            <option></option>
-                                        </select>
-                                    </td>
-                                    <td scope="col" class="w-auto">
-                                        <span class="float-right" style="margin:10px; font-size: 0.6em;">
-                                            {{ $product->UOM()->Abbreviation }}
-                                        </span>
-                                        <input 
-                                            style="width: 100px;" class="form-control float-right" 
-                                            placeholder="Max: {!! $product->getAvailableQuantity() !!}" 
-                                            max="{!! $product->getAvailableQuantity() !!}"
-                                            min="0" 
-                                            name="Quantity[]" 
-                                            type="number" 
-                                            step="{{ $product->UOM()->Type==1?"0.001":"1" }}"
-                                            required>
-                                    </td>
-                                </tr>
-                        @endforeach
-                        </tbody>
-                </table>
-            </div>
-
+            </div> <? //row ?>
+        </div> {{--card-body-}}
 
 
 
@@ -383,28 +387,29 @@
                 glType = 'capex';
             }
             
-            $(".glcode-select").select2({
+            var $glCode = $(".glcode-select").select2({
                 dropdownAutoWidth : true,
                 placeholder: 'Select GL Code',
                 minimumResultsForSearch: -1,
-                ajax: {
-                    url: '/rs/gl-data/'+glType+'/'+{{auth()->user()->Department()->ID}},
-                    dataType: 'json'
-                    // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
-                },
-                matcher: matchCustom,
+                // ajax: {
+                //     url: '/rs/gl-data/'+glType+'/'+{{auth()->user()->Department()->ID}},
+                //     dataType: 'json'
+                //     // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+                // },
+                // matcher: matchCustom,
             });
 
-            $(document).ready(function () {
-                var $glCode = $('.glcode-select').val("");
+            $(document).on('change', function () {
+                //var $glCode = $('.glcode-select').val();
                 var $approverSelect = $('.approver2-select').val("");
 
 
 
-                // var deptID = $('.department-select').select2('data')[0].id;
+                var deptID = $('.department-select').select2('data')[0].id;
                 $glCode.select2({
                     ajax: {
-                        url: '/rs/gl-data/'+glType+'/'+{{auth()->user()->Department()->ID}},
+                        url: '/rs/gl-data/'+glType+'/'+deptID,
+                        // url: '/rs/gl-data/'+glType+'/'+{{auth()->user()->Department()->ID}},
                         dataType: 'json'
                         // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
                     },
