@@ -96,7 +96,7 @@
                     </div>
                     
 
-                    {{-- <div class="row">
+                    <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label ">Charged To Department</label>
@@ -106,15 +106,15 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label ">Charged Department Approver</label>
                                 <select class="form-control approver2-select" name="Approver2" required>
                                     <option></option>
                                 </select>
                             </div>
-                        </div>
-                    </div> --}}
+                        </div> --}}
+                    </div>
 
 
 
@@ -395,7 +395,8 @@
             });
 
             $(document).on('change','.department-select', function(e) {
-                var deptID = $('#ChargeTo').val();
+                var deptID = $(this).val();
+                console.log(deptID);
                 $glCode.select2({
                     ajax: {
                         url: '/rs/gl-data/'+glType+'/'+deptID,
@@ -457,25 +458,25 @@
         //     $.LoadingOverlay("hide");
         // });
 
-        $(document).on('submit','#form-purchase',function(e){
-            e.preventDefault();
-            var sdata = $(this).serialize();
-            var request = $.ajax({
-                            method: "POST",
-                            url: "/issuance-request/store",
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            data: { sdata: sdata },
-                            beforeSend: function() {
-                                $.LoadingOverlay("show");
-                            }
-                        });
-                    request.done(function(x){
-                        alert(x);
-                        $.LoadingOverlay("hide");
-                        // window.location = window.location.pathname;
-                    });
-        });
+        // $(document).on('submit','#form-purchase',function(e){
+        //     e.preventDefault();
+        //     var sdata = $(this).serialize();
+        //     var request = $.ajax({
+        //                     method: "POST",
+        //                     url: "/issuance-request/store",
+        //                     headers: {
+        //                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //                     },
+        //                     data: { sdata: sdata },
+        //                     beforeSend: function() {
+        //                         $.LoadingOverlay("show");
+        //                     }
+        //                 });
+        //             request.done(function(x){
+        //                 alert(x);
+        //                 $.LoadingOverlay("hide");
+        //                 // window.location = window.location.pathname;
+        //             });
+        // });
     </script>
 @endsection
