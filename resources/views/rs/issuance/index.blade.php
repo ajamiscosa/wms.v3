@@ -145,6 +145,32 @@
                     },
                     targets: 0
 
+                },
+                {
+                    render: function ( data, type, row ) {
+                        addon = '';
+                        if(row['Status']=='Voided') {
+                            addon = '<span class="badge badge-danger">Voided</span>';
+                        }
+                        else if(row['Status']=='Pending Approval') {
+                            addon = '<span class="badge badge-primary">Pending Approval</span>';
+                        }
+                        else if(row['Status']=='Pending Final Approval') {
+                            addon = '<span class="badge badge-warning">Pending Final Approval</span>';
+                        }
+                        else if(row['Status']=='Voided') {
+                            addon = '<span class="badge badge-danger">Voided</span>';
+                        }
+                        else if(row['Status']=='Pending Quotation') {
+                            addon = '<span class="badge badge-info">Pending Quotation</span>';
+                        }
+                        if(row['Status']=='Approved') {
+                            addon = '<span class="badge badge-success">Approved</span>';
+                        }
+                        return addon;
+                    },
+                    targets: 4
+
                 }
             ],
             pagingType: "full_numbers",
@@ -200,6 +226,21 @@
                     targets: 0
                 }
                 @endif
+                ,{
+                    render: function ( data, type, row ) {
+                        addon = '';
+                        if(row['Status']=='Pending Approval') {
+                            addon = '<span class="badge badge-primary">Pending Approval</span>';
+                        }
+                        return addon;
+                    },
+                    @if(auth()->user()->isPurchasingManager())
+                    targets: 5
+                    @else
+                    targets: 4
+                    @endif
+
+                }
             ],
             pagingType: "full_numbers",
             lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
@@ -255,6 +296,17 @@
                     },
                     targets: 0
 
+                },
+                {
+                    render: function ( data, type, row ) {
+                        addon = '';
+                        if(row['Status']=='Approved') {
+                            addon = '<span class="badge badge-success">Approved</span>';
+                        }
+                        return addon;
+                    },
+                    targets: 4
+
                 }
             ],
             pagingType: "full_numbers",
@@ -290,6 +342,17 @@
                         return '<a class="alert-link" href="/issuance-request/view/'+data+'">'+data+'</a> '+addon;
                     },
                     targets: 0
+
+                },
+                {
+                    render: function ( data, type, row ) {
+                        addon = '';
+                        if(row['Status']=='Voided') {
+                            addon = '<span class="badge badge-danger">Voided</span>';
+                        }
+                        return addon;
+                    },
+                    targets: 4
 
                 }
             ],

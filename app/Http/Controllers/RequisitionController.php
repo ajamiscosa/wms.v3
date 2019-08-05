@@ -454,21 +454,21 @@ class RequisitionController extends Controller
         $data = array();
         $authUser = $this->user->where('ID','=',auth()->user()->ID)->firstOrFail();
 
-        //if($authUser->isAuthorized('BypassTransactions','M')
-        //  or $authUser->isPlantManager() or $authUser->isPurchasingManager()
-        // ) {
+        if($authUser->isAuthorized('PurchaseRequests','M')
+         or $authUser->isPlantManager() or $authUser->isPurchasingManager() or $authUser->isAdministrator()
+        ) {
             $issuances = $this->requisition->where('Type', '=', 'PR');
-        // }
-        // else {
-        //     $issuances = $this->requisition
-        //         ->where('Type','=','PR')
-        //         ->where(function($query) use ($authUser) {
-        //             $query
-        //                 ->where('Requester','=',$authUser->ID)
-        //                 ->orWhere('Approver1','=',$authUser->ID)
-        //                 ->orWhere('Approver2','=',$authUser->ID);
-        //         });
-        // }
+        }
+        else {
+            $issuances = $this->requisition
+                ->where('Type','=','PR')
+                ->where(function($query) use ($authUser) {
+                    $query
+                        ->where('Requester','=',$authUser->ID)
+                        ->orWhere('Approver1','=',$authUser->ID)
+                        ->orWhere('Approver2','=',$authUser->ID);
+                });
+        }
 
         if($status=="Z") {
             $issuances = $issuances;
@@ -524,18 +524,22 @@ class RequisitionController extends Controller
         $data = array();
         $authUser = $this->user->where('ID','=',auth()->user()->ID)->firstOrFail();
 
-        // if($authUser->isAdministrator()) {
+        if($authUser->isAdministrator()
+        or $authUser->isAuthorized('PurchaseRequests','M')
+        or $authUser->isPlantManager() 
+        or $authUser->isPurchasingManager()
+        ) {
             $issuances = $this->requisition->where('Type','=','IR');
-        // } else {
-        //     $issuances = $this->requisition
-        //         ->where('Type','=','IR')
-        //         ->where(function($query) use ($authUser) {
-        //             $query
-        //                 ->where('Requester','=',$authUser->ID)
-        //                 ->orWhere('Approver1','=',$authUser->ID)
-        //                 ->orWhere('Approver2','=',$authUser->ID);
-        //         });
-        // }
+        } else {
+            $issuances = $this->requisition
+                ->where('Type','=','IR')
+                ->where(function($query) use ($authUser) {
+                    $query
+                        ->where('Requester','=',$authUser->ID)
+                        ->orWhere('Approver1','=',$authUser->ID)
+                        ->orWhere('Approver2','=',$authUser->ID);
+                });
+        }
 
         if($status=="Z") {
             $issuances = $issuances;
