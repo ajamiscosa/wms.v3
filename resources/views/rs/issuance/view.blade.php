@@ -87,7 +87,7 @@
                         or
                         auth()->user()->isAdministrator() //admins can overrule anybody.
                         or
-                        auth()->user()->isAuthorized('BypassTransactions','M') // overrule bypass Role
+                        auth()->user()->isAuthorized('Issuances','A') // overrule bypass Role
                     )
                         @if($data->Status=='1')
                             <a class="btn btn-sm flat btn-simple" id="btnApprove2">
@@ -105,11 +105,11 @@
 
                     @endif
 
-                    @if(auth()->user()->isAuthorized('Products','M'))
+                    {{-- @if(auth()->user()->isAuthorized('Products','M'))
                         <a class="btn flat btn-sm btn-simple" id="btnCancel">
                             <span class="fa fa-ban pr-1"></span>Cancel
                         </a>
-                    @endif
+                    @endif --}}
 
                 </div>
             </div>

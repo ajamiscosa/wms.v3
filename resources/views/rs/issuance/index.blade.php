@@ -152,6 +152,9 @@
                         if(row['Status']=='Voided') {
                             addon = '<span class="badge badge-danger">Voided</span>';
                         }
+                        else if(row['Status']=='Cancelled') {
+                            addon = '<span class="badge badge-danger">Cancelled</span>';
+                        }
                         else if(row['Status']=='Pending Approval') {
                             addon = '<span class="badge badge-primary">Pending Approval</span>';
                         }
@@ -187,7 +190,7 @@
             serverSide: false,
             processing: true,
             searching: true,
-            ajax: '/issuance-request/data/P',
+            ajax: '/issuance-request/data/1',
             dataSrc: 'data',
             columns: [
                 @if(auth()->user()->isPurchasingManager())

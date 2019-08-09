@@ -525,7 +525,7 @@ class RequisitionController extends Controller
         $authUser = $this->user->where('ID','=',auth()->user()->ID)->firstOrFail();
 
         if($authUser->isAdministrator()
-        or $authUser->isAuthorized('PurchaseRequests','M')
+        or $authUser->isAuthorized('Issuances','M')
         or $authUser->isPlantManager() 
         or $authUser->isPurchasingManager()
         ) {
