@@ -226,7 +226,7 @@
                     targets: 0
                 }
                 @endif
-                ,{
+                {
                     render: function ( data, type, row ) {
                         addon = '';
                         if(row['Status']=='Pending Approval') {
