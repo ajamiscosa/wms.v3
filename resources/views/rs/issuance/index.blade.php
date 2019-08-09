@@ -353,6 +353,9 @@
                         if(row['Status']=='Voided') {
                             addon = '<span class="badge badge-danger">Voided</span>';
                         }
+                        else if(row['Status']=='Cancelled') {
+                            addon = '<span class="badge badge-danger">Cancelled</span>';
+                        }
                         return addon;
                     },
                     targets: 4
