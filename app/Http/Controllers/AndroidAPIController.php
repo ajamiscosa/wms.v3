@@ -37,7 +37,7 @@ class AndroidAPIController extends Controller
     // android login
     public function androidlogin(Request $request) {
         $credentials = $request->only('Username', 'Password');
-
+        
         $user = $credentials['Username'];
         $pass = $credentials['Password'];
 
@@ -513,6 +513,15 @@ class AndroidAPIController extends Controller
         }
 
         return response()->json($data);
+    }
+
+    public function checkDRInvoice($id){
+        try {
+            ReceiveOrder::where('ReferenceNumber','=',$id)->firstOrFail();
+        } catch(\Exception $e) {
+            return response()->json(['result'=>"false"]);
+        }
+        return response()->json(['result'=>"true"]);
     }
     // end of functions
 }
