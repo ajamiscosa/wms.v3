@@ -618,7 +618,7 @@ class ReportController extends Controller
                         $uom,
                         1,
                         $product->Description,
-                        $lineItem->GeneralLedger()->Code,
+                        $product->getGeneralLedger()->Code,
                         $quote->Amount,
                         $quote->Amount,
                         null,
