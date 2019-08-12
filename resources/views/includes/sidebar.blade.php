@@ -172,12 +172,14 @@
                                     </a>
                                 </li>
                                 @endif
+                                @if(auth()->user()->isAuthorized('StockTransfers','V'))
                                 <li class="nav-item">
                                     <a href="/stock-transfer" class="nav-link flat" id="stock-transfer" data-parent="#inventory">
                                         <i class="fa fa-angle-right nav-icon"></i>
                                         <p>Stock Transfers</p>
                                     </a>
                                 </li>
+                                @endif
                                 <li class="nav-item">
                                     <a href="/issuance" class="nav-link flat" id="issuance" data-parent="#inventory">
                                         <i class="fa fa-angle-right nav-icon"></i>
