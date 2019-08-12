@@ -518,6 +518,8 @@ Route::get('/api/requisition/ir-details/{id}','AndroidAPIController@androidGetIR
 Route::get('/api/requisition/ir-items/{id}','AndroidAPIController@androidGetIRItems');
 Route::get('/api/requisition/ir-update/{id}','AndroidAPIController@androidIssuanceStore');
 
+Route::get('/api/receive-order/check-drinvoice/{id}','AndroidAPIController@checkDRInvoice');
+
 // end of android routes
 
 Route::get('/testponumber', function(){
