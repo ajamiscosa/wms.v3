@@ -37,7 +37,7 @@ class Product extends Model
         'Category', 'ProductLine', 'Series', 'ItemType',
         'Location', 'Quantity',
         'SafetyStockQuantity',
-        'MinimumQuantity', 'MaximumQuantity', 'CriticalQuantity',
+        'MinimumQuantity', 'MaximumQuantity', 'ReOrderPoint',
         'LastUnitCost',
         'InventoryGL', 'IssuanceGL',
         'Status'

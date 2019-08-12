@@ -120,14 +120,14 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="control-label">Minimum Quantity (Re-order Point)</label>
-                                    <input required class="form-control text-right numeric-input" name="MinimumQuantity" type="number" step="1" min="0">
+                                    <label class="control-label">Minimum Quantity (MIN)</label>
+                                    <input required class="form-control text-right numeric-input" name="MinimumQuantity" type="number" step="0.001" min="0">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="control-label">Maximum Quantity</label>
-                                    <input required class="form-control text-right numeric-input" name="MaximumQuantity" type="number" step="1" min="0">
+                                    <label class="control-label">Maximum Quantity (MAX)</label>
+                                    <input required class="form-control text-right numeric-input" name="MaximumQuantity" type="number" step="0.001" min="0">
                                 </div>
                             </div>
                         </div>
@@ -135,13 +135,13 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="control-label">Safety Stocks Quantity</label>
-                                    <input required class="form-control text-right numeric-input" name="SafetyStockQuantity" type="number" step="1" min="0">
+                                    <input required class="form-control text-right numeric-input" name="SafetyStockQuantity" type="number" step="0.001" min="0">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="control-label">Critical Quantity</label>
-                                    <input required class="form-control text-right numeric-input" name="CriticalQuantity" type="number" step="1" min="0">
+                                    <label class="control-label">Re-order Point</label>
+                                    <input required class="form-control text-right numeric-input" name="ReOrderPoint" type="number" step="0.001" min="0">
                                 </div>
                             </div>
                         </div>

@@ -89,14 +89,14 @@ $edit_path = str_replace("view", "update", $edit_path);
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="control-label">Minimum Quantity (Re-order Point)</label>
-                                    <input class="form-control text-right" name="ReorderPoint" type="number" step="1" value="{{ $data->MinimumQuantity }}" readonly>
+                                    <label class="control-label">Minimum Quantity (MIN)</label>
+                                    <input class="form-control text-right" name="ReorderPoint" type="number" step="0.001" min="0" value="{{ $data->MinimumQuantity }}">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="control-label">Maximum Quantity</label>
-                                    <input class="form-control text-right" name="ReorderQuantity" type="number" step="1" value="{{ $data->MaximumQuantity }}" readonly>
+                                    <label class="control-label">Maximum Quantity (MAX)</label>
+                                    <input class="form-control text-right" name="ReorderQuantity" type="number" step="0.001" min="0" value="{{ $data->MaximumQuantity }}">
                                 </div>
                             </div>
                         </div>
@@ -104,13 +104,13 @@ $edit_path = str_replace("view", "update", $edit_path);
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="control-label">Safety Stocks Quantity</label>
-                                    <input class="form-control text-right" name="MinimumQuantity" type="number" step="1" value="{{ $data->SafetyStockQuantity }}" readonly>
+                                    <input class="form-control text-right" name="MinimumQuantity" type="number" step="0.001" min="0" value="{{ $data->SafetyStockQuantity }}">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="control-label">Critical Quantity</label>
-                                    <input class="form-control text-right" name="CriticalQuantity" type="number" step="1" value="{{ $data->CriticalQuantity }}" readonly>
+                                    <label class="control-label">Re-order Point</label>
+                                    <input class="form-control text-right" name="ReOrderPoint" type="number" step="0.001" min="0" value="{{ $data->ReOrderPoint }}">
                                 </div>
                             </div>
                         </div>

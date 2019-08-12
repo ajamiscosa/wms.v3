@@ -75,7 +75,7 @@ class ProductController extends Controller
         $product->SafetyStockQuantity = $request->SafetyStockQuantity;
         $product->MaximumQuantity = $request->MaximumQuantity;
         $product->MinimumQuantity = $request->MinimumQuantity;
-        $product->CriticalQuantity = $request->CriticalQuantity;
+        $product->ReOrderPoint = $request->ReOrderPoint;
         $product->UniqueID = $product->generateUniqueID();
 
         $product->save();
@@ -143,6 +143,10 @@ class ProductController extends Controller
         $product->Category = $category;
         $product->ProductLine = $productLine;
 //        $product->UOM = $request->UOM;
+        $product->SafetyStockQuantity = $request->SafetyStockQuantity;
+        $product->MaximumQuantity = $request->MaximumQuantity;
+        $product->MinimumQuantity = $request->MinimumQuantity;
+        $product->ReOrderPoint = $request->ReOrderPoint;
         $product->save();
 
         return redirect()->to('/product/view/'.$product->UniqueID);
