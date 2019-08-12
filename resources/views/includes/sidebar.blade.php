@@ -164,12 +164,14 @@
                                 <li class="nav-item nav-divider">
                                     <hr class="pt-0 pb-0 mt-0 mb-1"/>
                                 </li>
+                                @if(auth()->user()->isAuthorized('StockAdjustments','V'))
                                 <li class="nav-item">
                                     <a href="/stock-adjustment" class="nav-link flat" id="stock-adjustment" data-parent="#inventory">
                                         <i class="fa fa-angle-right nav-icon"></i>
                                         <p>Stock Adjustments</p>
                                     </a>
                                 </li>
+                                @endif
                                 <li class="nav-item">
                                     <a href="/stock-transfer" class="nav-link flat" id="stock-transfer" data-parent="#inventory">
                                         <i class="fa fa-angle-right nav-icon"></i>
