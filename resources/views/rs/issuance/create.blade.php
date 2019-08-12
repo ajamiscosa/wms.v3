@@ -198,64 +198,9 @@
                     </div>
                 </div>
             </div> <? //row ?>
-        </div> {{--card-body-}}
 
-
-
-
-
-
-            {{-- <div class="row" id="mydiv">
-                <div class="col-lg-12">
-                    <table id="roTable" class="table table-no-bordered table-hover dataTable dtr-inline" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
-                        <thead>
-                        <tr role="row">
-                            <th style="width: 50%;">Item</th>
-                            <th style="width: 30%;">GL Code</th>
-                            <th class="text-center">Quantity</th>
-                        </tr>
-                        </thead>
-                        <tbody class="productTable">
-                        @foreach($data as $item)
-                            @php
-                                $product = \App\Product::where('ID','=',$item)->first();
-                            @endphp
-                            <tr>
-                                <td style="vertical-align: middle;">
-                                    <input type="hidden" value="{{ $product->ID }}" name="Product[]">
-                                    [{{ $product->Name }}] {{ $product->Description }}
-                                </td>
-                                <td>
-                                    <select class="form-control glcode-select" name="GLCode[]" required>
-                                        <option></option>
-                                    </select>
-                                </td>
-                                <td class="text-center">
-                                    <div class="col-md-12 pull-right">
-                                        <div class="row">
-                                            <div class="col-md-12 input-group" style="padding-left: 0px;">
-                                                <input 
-                                                    style="width: 75%;" class="form-control quantity-input text-right" 
-                                                    required 
-                                                    placeholder="Max: {!! $product->getAvailableQuantity() !!}" 
-                                                    max="{!! $product->getAvailableQuantity() !!}"
-                                                    min="0" 
-                                                    name="Quantity[]" 
-                                                    type="number" 
-                                                    step="{{ $product->UOM()->Type==1?"0.001":"1" }}"
-                                                >
-                                                <span style="width: 25%;" class="uom">&nbsp;&nbsp;&nbsp;{{ $product->UOM()->Abbreviation }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div> --}}
             <hr class="pt-0 mt-0">
+
             <div class="row">
                 <div class="col-md-6">
                     <div class="row">
@@ -268,7 +213,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+
+    </div> <? // card-body ?>
+    
         <div class="card-footer">
             <div class="row float-right">
                 <div class="col-md-12">
