@@ -234,7 +234,7 @@ Route::get('/reports/recent-items/export', 'ReportController@exportItemsReport')
 Route::get('/reports/adjustments', 'ReportController@showStockAdjustmentsReport')->name('report/adjustments');
 Route::get('/reports/adjustments/export', 'ReportController@exportAdjustmentReport');
 
-Route::get('/reports/item-restock', 'ReportController@showItemRestockReport');
+Route::get('/reports/item-restock', 'ReportController@showItemRestockReport')->name('report/restock');
 Route::get('/reports/item-restock/export', 'ReportController@exportItemRestockReport');
 
 Route::get('/capex', 'CAPEXController@index');
