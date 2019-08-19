@@ -198,7 +198,7 @@ Route::delete('/suppliers-payment/delete', 'PaymentController@delete');
 
 Route::get('/reports','ReportController@index');
 Route::get('/reports/inventory-log', 'ReportController@showInventoryLogReport')->name('report/inventorylog');
-Route::get('/reports/inventory-balance', 'ReportController@showInventoryBalanceReport');
+Route::get('/reports/inventory-balance', 'ReportController@showInventoryBalanceReport')->name('report/inventorybalance');
 Route::get('/reports/inventory-balance/export', 'ReportController@exportInventoryBalanceReport');
 Route::get('/reports/issuance-log', 'ReportController@showIssuanceReport')->name('report/issuance');
 Route::get('/reports/issuance-log/export', 'ReportController@exportIssuanceReport');
@@ -211,7 +211,7 @@ Route::get('/reports/consumption/{product}/variables/{var}', 'ReportController@g
 
 Route::get('/reports/consumption', 'ReportController@showConsumptionReport');
 
-Route::get('/reports/item-movement', 'ReportController@showItemMovementReport');
+Route::get('/reports/item-movement', 'ReportController@showItemMovementReport')->name('report/itemmovement');
 Route::get('/reports/item-movement/export', 'ReportController@exportItemMovementReport');
 
 

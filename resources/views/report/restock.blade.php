@@ -89,7 +89,7 @@
                             <table id="productTable" class="table table-no-bordered table-hover dataTable dtr-inline" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
                                 <thead>
                                 <tr role="row">
-                                    <th>ID</th>
+                                    <th>Item ID</th>
                                     {{--<th>Name</th>--}}
                                     <th>Description</th>
                                     {{--<th>Category</th>--}}
