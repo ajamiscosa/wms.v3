@@ -95,7 +95,8 @@
                     @php
 
                         $products = new \App\Product();
-
+                        $products = $products->where('UniqueID','NOT LIKE','%-TEMP')->where('UniqueID','NOT LIKE','SER-%');
+                        
                         if(request()->has('s')) {
                             $products = $products->
                             where('Code','like','%'.request('s').'%')->
