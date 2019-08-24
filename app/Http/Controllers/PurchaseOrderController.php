@@ -600,7 +600,7 @@ class PurchaseOrderController extends Controller
         $rs = new Requisition();
 
         $pr = $rs->where([
-//            ['Status', '=', '2'],
+           ['Status', '=', 'Q'],
             ['Type', '=', 'PR']
         ])->get();
 
