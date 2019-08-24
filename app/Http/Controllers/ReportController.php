@@ -766,63 +766,70 @@ class ReportController extends Controller
      }
 
     public function exportItemsReport(Request $request) {
-        
-        $product = new Product();
+        try {
+            $product = new Product();
+            $product = $product
+                            ->where('UniqueID','NOT LIKE','%-TEMP')
+                            ->where('UniqueID','NOT LIKE','SER-%');
 
-        if(isset($request->start)) {
-            $start = Carbon::parse($request->start);
-            $end = Carbon::parse($request->end);
+            if(isset($request->start)) {
+                $start = Carbon::parse($request->start);
+                $end = Carbon::parse($request->end);
 
-            if($start->format('Ymd')===$end->format('Ymd')) {
-                $end = $end->addDay();
+                if($start->format('Ymd')===$end->format('Ymd')) {
+                    $end = $end->addDay();
+                }
+
+                $products = $product->whereBetween('created_at', [$start, $end]);
+                $title = sprintf("%s-%s", $start->format('Ymd'), $end->format('Ymd'));
+            }
+            else {
+                $products = $product->whereDate('created_at', '=', Carbon::today()->toDateString());
+                $title = Carbon::today()->format('Ymd');
             }
 
-            $products = $product->whereBetween('created_at', [$start, $end]);
-            $title = sprintf("%s-%s", $start->format('Ymd'), $end->format('Ymd'));
-        }
-        else {
-            $products = $product->whereDate('created_at', '=', Carbon::today()->toDateString());
-            $title = Carbon::today()->format('Ymd');
-        }
-
-        $columns = array(
-            'Item ID','Item Description','Inactive',
-            'Description for Purchases','Last Unit Cost',
-            'Quantity On Hand','Minimum Stock','Reorder Quantity',
-            'G/L Sales Account','G/L Inventory Account',
-            'G/L COGS/Salary Acct','Item Type','Location','Stocking U/M'
-        );
-
-        $data = array();
-        foreach($products->get() as $product) {
-            $location = $product->Location();
-            $location = $location!=null?$location->Name:"";
-
-            $uom = $product->UOM();
-            $uom = $uom!=null?$uom->Abbreviation:"";
-            
-            $entry = array(
-                $product->UniqueID,
-                $product->Description,
-                "FALSE",
-                $product->Description,
-                $product->LastUnitCost,
-                $product->Quantity,
-                $product->SafetyStockQuantity,
-                $product->MinimumQuantity,
-                '41120-00-05',
-                $product->getGeneralLedger()->Code,
-                $product->getIssuanceLedger()->Code,
-                null,
-                $location,
-                $uom
+            $columns = array(
+                'Item ID','Item Description','Inactive',
+                'Description for Purchases','Last Unit Cost',
+                'Quantity On Hand','Minimum Stock','Reorder Quantity',
+                'G/L Sales Account','G/L Inventory Account',
+                'G/L COGS/Salary Acct','Item Type','Location','Stocking U/M'
             );
 
-            array_push($data, $entry);
-        }
+            $data = array();
+            foreach($products->get() as $product) {
+                $location = $product->Location();
+                $location = $location!=null?$location->Name:"";
 
-        $fileName = sprintf('Items%s.csv', $title);
-        return ReportHelper::export($fileName,$columns,$data);
+                $uom = $product->UOM();
+                $uom = $uom!=null?$uom->Abbreviation:"";
+                
+                $entry = array(
+                    $product->UniqueID,
+                    $product->Description,
+                    "FALSE",
+                    $product->Description,
+                    $product->LastUnitCost,
+                    $product->Quantity,
+                    $product->SafetyStockQuantity,
+                    $product->MinimumQuantity,
+                    '41120-00-05',
+                    $product->getGeneralLedger()->Code,
+                    $product->getIssuanceLedger()->Code,
+                    null,
+                    $location,
+                    $uom
+                );
+
+                array_push($data, $entry);
+            }
+
+            $fileName = sprintf('Items%s.csv', $title);
+            return ReportHelper::export($fileName,$columns,$data);
+        }
+        catch(\Exception $ex) {
+            dd($ex);
+        }
     }
 
     public function showStockAdjustmentsReport() {
