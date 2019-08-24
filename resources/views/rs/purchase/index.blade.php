@@ -265,7 +265,7 @@
                 @if(auth()->user()->isPurchasingManager())
                 {
                     render: function ( data, type, row ) {
-                        if(row['Status'] == "Pending Quotation"){
+                        if(row['Status'] == "Pending Quotation" || row['Status'] == "Pending Approval"){
                             return "";
                         }else{
                             return '<input type="checkbox" class="checkSingle icheckbox_square-red" value="' + row['OrderNumber'] + '" name="SelectedItems[]"/>';
