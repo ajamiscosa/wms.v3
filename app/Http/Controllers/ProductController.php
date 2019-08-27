@@ -185,7 +185,7 @@ class ProductController extends Controller
             $entry['ProductLine'] = $product->ProductLine()->Description;
             $entry['ReorderPoint'] = $product->ReorderPoint;
             $entry['MinimumQuantity'] = $product->MinimumQuantity;
-            $entry['CriticalQuantity'] = $product->CriticalQuantity;
+            $entry['ReOrderPoint'] = $product->ReOrderPoint;
             $entry['Status'] = $product->Status;
             array_push($data, $entry);
         }
@@ -251,7 +251,7 @@ class ProductController extends Controller
         $product->SafetyStockQuantity = 0;
         $product->MinimumQuantity = $request->MinimumQuantity;
         $product->MaximumQuantity = 0;
-        $product->CriticalQuantity = 0;
+        $product->ReOrderPoint = 0;
         $product->LastUnitCost = $request->LastUnitCost;
         $product->InventoryGL = GeneralLedger::FindIdByCode($request->InventoryGL);
         $product->IssuanceGL = GeneralLedger::FindIdByCode($request->IssuanceGL);

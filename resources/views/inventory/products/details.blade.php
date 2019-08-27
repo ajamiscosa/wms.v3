@@ -77,7 +77,7 @@ $isReport = $data->IsReport;
             <hr class="pb-0 mt-0">
             <div class="row mb-0 pb-0">
                 <div class="col-lg-6 col-md-6">
-                    <strong><i class="fa fa-cubes mr-1"></i> Minimum Quantity (ROP)</strong>
+                    <strong><i class="fa fa-cubes mr-1"></i> Minimum Quantity</strong>
                     <p class="text-muted">
                         {{ $data->MinimumQuantity }}
                     </p>
@@ -98,9 +98,9 @@ $isReport = $data->IsReport;
                     </p>
                 </div>
                 <div class="col-lg-6 col-md-6">
-                    <strong><i class="fa fa-exclamation mr-1"></i> Critical Quantity</strong>
+                    <strong><i class="fa fa-exclamation mr-1"></i> Re-order Point</strong>
                     <p class="text-muted">
-                        {{ $data->CriticalQuantity }}
+                        {{ $data->ReOrderPoint }}
                     </p>
                 </div>
             </div>

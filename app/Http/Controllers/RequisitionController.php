@@ -933,7 +933,7 @@ class RequisitionController extends Controller
         $product->SafetyStockQuantity = 0;
         $product->MaximumQuantity = 0;
         $product->MinimumQuantity = 0;
-        $product->CriticalQuantity = 0;
+        $product->ReOrderPoint = 0;
         $product->UniqueID = $product->generateUniqueID("temp");
         $product->save();
 
@@ -953,7 +953,7 @@ class RequisitionController extends Controller
         $product->SafetyStockQuantity = 0;
         $product->MaximumQuantity = 0;
         $product->MinimumQuantity = 0;
-        $product->CriticalQuantity = 0;
+        $product->ReOrderPoint = 0;
         $product->UniqueID = $product->generateUniqueID("svc");
         $product->save();
 

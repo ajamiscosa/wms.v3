@@ -207,7 +207,7 @@
                                     // Marker for Reorder Quantity
                                     $marker = $product->getAvailableQuantity() < $product->MinimumQuantity ? "low":"";
                                     // Marker for Critical Quantity
-                                    $marker = $product->getAvailableQuantity() < $product->CriticalQuantity ? "critical":"";
+                                    $marker = $product->getAvailableQuantity() < $product->ReOrderPoint ? "critical":"";
                                     // Marker for Zero Quantity
                                     $marker = $product->getAvailableQuantity() == 0 ? "zero":"";
 
