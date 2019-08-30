@@ -201,7 +201,9 @@
                                                             </tr>
                                                             @endif
                                                         @empty
-                                                            <td colspan="4"></td>
+                                                            <td colspan="2"></td>
+                                                            <td class="text-center">{{ \Carbon\Carbon::parse($po->OrderDate)->diffInDays(\Carbon\Carbon::parse($request->Date)) }}</td>
+                                                            <td></td>
                                                         @endforelse
                                                     @else
                                                         <td colspan="9"></td>
