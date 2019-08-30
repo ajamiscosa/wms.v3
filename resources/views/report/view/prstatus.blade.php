@@ -38,32 +38,8 @@
         </tr>
     </thead>
     <tbody>
-    @php
-
-        $pr = new \App\Requisition();
-        $pr = $pr->where('Type','=','PR');
-        if(request()->has('v')) {
-            $page = request()->v;
-            if($page=="All") {
-                $pr = $pr->paginate($pr->count())->appends([
-                    's' => request('s'),
-                    'v' => request('v')
-                ]);
-            } else {
-                $pr = $pr->paginate(request()->v)->appends([
-                    's' => request('s'),
-                    'v' => request('v')
-                ]);
-            }
-        } else {
-            $pr = $pr->paginate(10)->appends([
-                's' => request('s')
-            ]);
-        }
-
-    @endphp
-    @if($pr->count()>0)
-        @foreach($pr as $request)
+    @if($data->count()>0)
+        @foreach($data as $request)
             <tr>
                 <td>{{ $request->OrderNumber }}</td>
                 <td>{{ $request->Department()->Name }}</td>

@@ -892,8 +892,3 @@ Route::get('/test/po-data/{year}/{month}', function($year, $month) {
         ->where('Status','=','A');
     dd($poList->get());
 });
-
-
-Route::get('/test/prstatusview', function() {
-    return view('report.view.prstatus');
-});
