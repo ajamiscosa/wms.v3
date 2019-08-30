@@ -168,55 +168,53 @@
                                             <td>{{ $product->Description }}</td>
                                         @endif
 
-                                        @php($count++)
-                                        @forelse($request->OrderItems() as $orderItem)
-                                            @if($orderItem)
-                                                @if($po = $orderItem->PurchaseOrder())
-                                                    @if($po->Status != 'D')
-                                                        <td>{{ $po->OrderNumber }}</td>
-                                                        <td>{{ $po->OrderDate->format('m/d/Y') }}</td>
-                                                        <td>{{ $po->Supplier()->Name }}</td>
-                                                        <td class="text-right">{{ $orderItem->SelectedQuote()->Amount }}</td>
-                                                        <td class="text-right">{{ $po->Total }}</td>
-                                                        @forelse($orderItem->getReceivingReceipts() as $rr)
-                                                            @php
-                                                                $purchaseOrder = $rr->PurchaseOrder();
-                                                                $quote = $orderItem->SelectedQuote();
-                                                                $supplier = $quote->Supplier();
-                                                            @endphp
-                                                            
-                                                            @if ($loop->first)
-                                                                <td>{{ $rr->OrderNumber }}</td>
-                                                                <td>{{ \Carbon\Carbon::parse($rr->Received)->format('m/d/Y') }}</td>
-                                                                <td class="text-center">{{ \Carbon\Carbon::parse($po->OrderDate)->diffInDays(\Carbon\Carbon::parse($request->Date)) }}</td>
-                                                                <td class="text-center">{{ \Carbon\Carbon::parse($rr->Received)->diffInDays(\Carbon\Carbon::parse($request->Date)) }}</td>
-                                                            </tr>
-                                                            @else
-                                                            <tr>
-                                                                <td colspan="13"></td>
-                                                                <td>{{ $rr->OrderNumber }}</td>
-                                                                <td>{{ \Carbon\Carbon::parse($rr->Received)->format('m/d/Y') }}</td>
-                                                                <td class="text-center">{{ \Carbon\Carbon::parse($po->OrderDate)->diffInDays(\Carbon\Carbon::parse($request->Date)) }}</td>
-                                                                <td class="text-center">{{ \Carbon\Carbon::parse($rr->Received)->diffInDays(\Carbon\Carbon::parse($request->Date)) }}</td>
-                                                            </tr>
-                                                            @endif
-                                                        @empty
-                                                            <td colspan="2"></td>
+                                        @if($orderItem = $lineItem->OrderItem())
+                                            @if($po = $orderItem->PurchaseOrder())
+                                                @if($po->Status != 'D')
+                                                    <td>{{ $po->OrderNumber }}</td>
+                                                    <td>{{ $po->OrderDate->format('m/d/Y') }}</td>
+                                                    <td>{{ $po->Supplier()->Name }}</td>
+                                                    <td class="text-right">{{ $orderItem->SelectedQuote()->Amount }}</td>
+                                                    <td class="text-right">{{ $po->Total }}</td>
+                                                    @forelse($orderItem->getReceivingReceipts() as $rr)
+                                                        @php
+                                                            $purchaseOrder = $rr->PurchaseOrder();
+                                                            $quote = $orderItem->SelectedQuote();
+                                                            $supplier = $quote->Supplier();
+                                                        @endphp
+                                                        
+                                                        @if ($loop->first)
+                                                            <td>{{ $rr->OrderNumber }}</td>
+                                                            <td>{{ \Carbon\Carbon::parse($rr->Received)->format('m/d/Y') }}</td>
                                                             <td class="text-center">{{ \Carbon\Carbon::parse($po->OrderDate)->diffInDays(\Carbon\Carbon::parse($request->Date)) }}</td>
-                                                            <td></td>
-                                                        @endforelse
-                                                    @else
-                                                        <td colspan="9"></td>
-                                                    @endif
+                                                            <td class="text-center">{{ \Carbon\Carbon::parse($rr->Received)->diffInDays(\Carbon\Carbon::parse($request->Date)) }}</td>
+                                                        </tr>
+                                                        @else
+                                                        <tr>
+                                                            <td colspan="13"></td>
+                                                            <td>{{ $rr->OrderNumber }}</td>
+                                                            <td>{{ \Carbon\Carbon::parse($rr->Received)->format('m/d/Y') }}</td>
+                                                            <td class="text-center">{{ \Carbon\Carbon::parse($po->OrderDate)->diffInDays(\Carbon\Carbon::parse($request->Date)) }}</td>
+                                                            <td class="text-center">{{ \Carbon\Carbon::parse($rr->Received)->diffInDays(\Carbon\Carbon::parse($request->Date)) }}</td>
+                                                        </tr>
+                                                        @endif
+                                                    @empty
+                                                        <td colspan="2"></td>
+                                                        <td class="text-center">{{ \Carbon\Carbon::parse($po->OrderDate)->diffInDays(\Carbon\Carbon::parse($request->Date)) }}</td>
+                                                        <td></td>
+                                                    @endforelse
                                                 @else
                                                     <td colspan="9"></td>
                                                 @endif
                                             @else
-                                            <td colspan="9"></td>
+                                                <td colspan="9"></td>
                                             @endif
-                                        @empty
-                                            <td colspan="9"></td>
-                                        @endforelse
+                                        @else
+                                        <td colspan="9"></td>
+                                        @endif
+
+
+                                        @php($count++)
                                     </tr>
                                     @else
                                     <td colspan="14"></td>
