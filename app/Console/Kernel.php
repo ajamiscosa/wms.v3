@@ -126,7 +126,8 @@ class Kernel extends ConsoleKernel
             foreach($rsList as $rs) {
                 if($rs->isFullyQuoted()) {
                     // TODO: Send email to Plant Manager to notify PR needs approval.
-                    $rs->Status = 2;
+                    // $rs->Status = 2;
+                    $rs->Status = 'A';
                     $rs->save();
                 }
             }
