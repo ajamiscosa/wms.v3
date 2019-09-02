@@ -1,3 +1,4 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <!-- Font Awesome -->
 <link rel="stylesheet" href="{{ asset('css/fontawesome.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/fontawesome-all.min.css') }}">
