@@ -191,7 +191,20 @@
                                                         </tr>
                                                         @else
                                                         <tr>
-                                                            <td colspan="13"></td>
+                                                            <td>{{ $request->OrderNumber }}</td>
+                                                            <td>{{ $request->Department()->Name }}</td>
+                                                            <td>{{ \Carbon\Carbon::parse($request->Date)->format('m/d/Y') }}</td>
+                                                            <td>{{ $product->UniqueID }}</td>
+                                                            <td>{{ $product->getGeneralLedger()->Code }}</td>
+                                                            <td class="text-right">{{ $lineItem->Quantity }}</td>
+                                                            <td>{{ $product->UOM()->Abbreviation }}</td>
+                                                            <td>{{ $product->Description }}</td>
+                                                            <td>{{ $po->OrderNumber }}</td>
+                                                            <td>{{ $po->OrderDate->format('m/d/Y') }}</td>
+                                                            <td>{{ $po->Supplier()->Name }}</td>
+                                                            <td class="text-right">{{ $orderItem->SelectedQuote()->Amount }}</td>
+                                                            <td class="text-right">{{ $po->Total }}</td>
+                                                            
                                                             <td>{{ $rr->OrderNumber }}</td>
                                                             <td>{{ \Carbon\Carbon::parse($rr->Received)->format('m/d/Y') }}</td>
                                                             <td class="text-center">{{ \Carbon\Carbon::parse($po->OrderDate)->diffInDays(\Carbon\Carbon::parse($request->Date)) }}</td>
