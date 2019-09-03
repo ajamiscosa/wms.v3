@@ -210,7 +210,7 @@
             }, function(x) {
                 if(x) {
                        $('#submitReceiveForm').submit();
-                       window.location = "/receive-order";
+                    //    window.location = "/receive-order";
                 } else {
                     return false;
                 }
