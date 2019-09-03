@@ -46,7 +46,10 @@ class OrderItem extends Model
     }
 
     public function SelectedQuote() {
-        return $this->hasOne('App\Quote','ID','Quote')->first();
+        $quote = new Quote();
+        $quote = $quote->withTrashed()->get();
+        $quote = $quote->where('ID','=',$this->Quote)->first();
+        return $quote;
     }
 
     public function Requisition() {
