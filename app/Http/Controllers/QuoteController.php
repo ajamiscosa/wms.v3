@@ -141,7 +141,7 @@ class QuoteController extends Controller
     public function destroy(Quote $quote, $id)
     {
         $quote = Quote::find($id);
-        $quote->forceDelete();
+        $quote->delete();
     }
 
     public function data($product)

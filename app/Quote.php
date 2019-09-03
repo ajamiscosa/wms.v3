@@ -4,10 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\RecordSignature as Signature;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Quote extends Model
 {
     use Signature;
+    use SoftDeletes;
     
     /**
      * The primary key of the table
