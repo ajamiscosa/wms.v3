@@ -116,7 +116,7 @@ class ReceiveOrderController extends Controller
                     $ro->Series = 1;
                 }
 
-                $ro->Quantity = $request->Quantity[$i];
+                $ro->Quantity = (float)$request->Quantity[$i];
 
     
                 $rrNumber = sprintf("RR%s%s%s",
@@ -145,10 +145,10 @@ class ReceiveOrderController extends Controller
                 $inventoryLog->TransactionType = 'RR'; // Receiving Receipt
                 $inventoryLog->Quantity = $request->Quantity[$i];
                 $inventoryLog->Initial = $product->Quantity;
-                $inventoryLog->Final = $product->Quantity + $request->Quantity[$i];
+                $inventoryLog->Final = $product->Quantity + (float)$request->Quantity[$i];
                 $inventoryLog->save();
 
-                $product->Quantity = $product->Quantity + $request->Quantity[$i];
+                $product->Quantity = $product->Quantity + (float)$request->Quantity[$i];
                 $product->save();
             }
         }

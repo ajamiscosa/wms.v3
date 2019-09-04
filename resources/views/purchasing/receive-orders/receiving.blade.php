@@ -233,6 +233,8 @@
     <script src="{{ asset('js/loadingoverlay.min.js') }}"></script>
 
     <script type="text/javascript">
+        var poNumber;
+
         $(document).ajaxStart(function(){
             $.LoadingOverlay("show");
         });
@@ -242,35 +244,11 @@
 
         $("#pendingOrderSelect").on('change', function() {
             var orderNumber = $(this).val();
-
+            poNumber = orderNumber;
             var x = $.ajax({type: "GET", url: "/purchase-order/"+orderNumber+"/data", async: false}).responseText;
             $('#content').html(x);
         });
 
-//        $(document).on('submit', '#submitReceiveForm', function(e) {
-//            e.preventDefault();
-//
-//        });
 
-        $('#submitReceiveForm').submit();
-//
-//        $(document).on('click', '#btnReceive', function(e){
-//            e.preventDefault();
-//            swal({
-//                type: 'success',
-//                title: 'Success',
-//                text: "Transaction Processed Successfully",
-//                confirmButtonColor: '#DC3545',
-//                allowOutsideClick: false,
-//                closeOnConfirm : true
-//            }, function(x) {
-//                if(x) {
-//                    $('#submitReceiveForm').submit();
-//                    window.location = "/receive-order";
-//                } else {
-//                    return false;
-//                }
-//            });
-//        });
     </script>
 @endsection

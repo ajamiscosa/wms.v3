@@ -192,4 +192,28 @@
             }
         });
     });
+
+    $(document).on('click','#btnReceive',function(e){
+        e.preventDefault();
+            swal({
+                html: true,
+                title: 'Receive '+poNumber+'?',
+                text:
+                "<html>Do you wish to receive<br/>Purchase Order?<br/><br/>"+
+                "</html>",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#DC3545',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No'
+            }, function(x) {
+                if(x) {
+                       $('#submitReceiveForm').submit();
+                    //    window.location = "/receive-order";
+                } else {
+                    return false;
+                }
+            });
+    });
 </script>
