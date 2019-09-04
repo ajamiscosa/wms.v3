@@ -121,6 +121,7 @@ class CurrencyController extends Controller
         try {
             $currency = $currency->where('Code','=',$request->Code)->firstOrFail();
             $currency->USD = $request->Rate;
+            $currency->PHP = $currency->USD * $request->Rate;
             $currency->save();
         }
         catch(\Exception $exc){ 
