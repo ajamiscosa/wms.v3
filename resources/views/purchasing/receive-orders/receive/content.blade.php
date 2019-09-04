@@ -141,6 +141,7 @@
                                         <label for="Receiver" class="control-label">Invoice DR / Reference No.</label>
                                         <input id="DRInvoice" type="text" class="form-control flat" name="ReferenceNumber" required/>
                                         <small id="code-error" style="color: red;"></small>
+                                        <input type="hidden" name="Supplier" value="{{ $data->PurchaseOrder()->Supplier()->ID }}">
                                     </div>
                                 </div>
                             </div>

@@ -30,10 +30,12 @@ class ReceiveOrderController extends Controller
         $this->middleware('auth');
     }
 
-    public function search($id)
+    public function search($suppID, $id)
     {
         try {
-            ReceiveOrder::where('ReferenceNumber','=',$id)->firstOrFail();
+            ReceiveOrder::where('ReferenceNumber','=',$id)
+                        ->where('Supplier','=', $suppID)
+                        ->firstOrFail();
         } catch(\Exception $e) {
             return response()->json(false);
         }
@@ -108,6 +110,7 @@ class ReceiveOrderController extends Controller
                 $ro->OrderItem  = $orderItem->ID;
                 $ro->Received = Carbon::now();
                 $ro->ReferenceNumber = $request->ReferenceNumber;
+                $ro->Supplier = $request->Supplier;
 
                 try {
                     $latest = $ro->where('PurchaseOrder','=',$orderItem->PurchaseOrder)->orderBy('Received', 'desc')->firstOrFail();

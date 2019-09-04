@@ -29,7 +29,7 @@ class ReceiveOrder extends Model
      */
     protected $fillable = [
         'OrderNumber', 'PurchaseOrder',
-        'ReferenceNumber', 'OrderItem',
+        'Supplier', 'ReferenceNumber', 'OrderItem',
         'Received', 'Quantity', 'Remarks','Series'
     ];
 
