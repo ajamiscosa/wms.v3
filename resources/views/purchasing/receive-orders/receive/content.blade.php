@@ -141,7 +141,7 @@
                                         <label for="Receiver" class="control-label">Invoice DR / Reference No.</label>
                                         <input id="DRInvoice" type="text" class="form-control flat" name="ReferenceNumber" required/>
                                         <small id="code-error" style="color: red;"></small>
-                                        <input type="hidden" name="Supplier" value="{{ $data->PurchaseOrder()->Supplier()->ID }}">
+                                        <input type="hidden" name="Supplier" id="SupplierID" value="{{ $data->Supplier()->ID }}">
                                     </div>
                                 </div>
                             </div>
@@ -169,10 +169,11 @@
     $(function() {
         $('#DRInvoice').on('input', function() {
             var code = $(this).val();
+            var sid = $('#SupplierID').val();
             console.log(code);
             if(code.length > 0) {
                 $.get({
-                    url: "/receive-order/check/"+$(this).val(),
+                    url: "/receive-order/check/"+sid+"/"+$(this).val(),
                     success: function(msg) {
                         if(msg) {
                             $('#DRInvoice').addClass('is-invalid');
@@ -195,7 +196,8 @@
     });
 
     $(document).on('click','#btnReceive',function(e){
-        e.preventDefault();
+        if($('#submitReceiveForm')[0].checkValidity()) { // force validation. hax. :D
+            e.preventDefault();
             swal({
                 html: true,
                 title: 'Receive '+poNumber+'?',
@@ -216,5 +218,6 @@
                     return false;
                 }
             });
+        }
     });
 </script>

@@ -33,6 +33,8 @@ class ReceiveOrderController extends Controller
     public function search($suppID, $id)
     {
         try {
+            $ro = new ReceiveOrder();
+            $ro = $ro->where('ReferenceNumber','=',$id);
             ReceiveOrder::where('ReferenceNumber','=',$id)
                         ->where('Supplier','=', $suppID)
                         ->firstOrFail();
