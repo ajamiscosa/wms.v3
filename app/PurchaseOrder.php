@@ -92,7 +92,7 @@ class PurchaseOrder extends Model
 
     public function Requisition() {
         try{
-            return $this->belongsTo('App\Requisition','ChargeNumber','OrderNumber')->first();
+            return $this->belongsTo('App\Requisition','ChargeNo','OrderNumber')->first();
         }catch(\ErrorException $exception) {
             dd($this->OrderNumber);
         }
