@@ -471,12 +471,13 @@ class PurchaseOrderController extends Controller
             $statusLog = new StatusLog();
             $logs = $statusLog->where('OrderNumber','=',$tempOrderNumber);
 
-
+            $charge = $po->ChargeType=='S'?"XX":$po->Requisition()->ChargedTo()->Code;
 
             $po->OrderNumber = sprintf("%s%s%s%s",
                 $category,
                 $currency,
-                $po->ProductLine()->Identifier,
+                // $po->ProductLine()->Identifier,
+                $charge,
                 $tempOrderNumber
             );
 

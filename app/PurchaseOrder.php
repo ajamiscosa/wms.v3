@@ -29,6 +29,7 @@ class PurchaseOrder extends Model
      * @var array
      */
     protected $fillable = [
+        'Code',
         'OrderNumber', 'Series',
         'Supplier',
         'ChargeNo', 'ChargeType',
