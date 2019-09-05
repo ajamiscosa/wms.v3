@@ -62,6 +62,7 @@ class DepartmentController extends Controller
         $approvers = json_encode($temp);
         if($request->Name) {
             $department = new Department();
+            $department->Code = $request->Code;
             $department->Name = $request->Name;
             $department->Approvers = $approvers;
             $department->Parent = $request->ParentDepartment;
@@ -116,6 +117,7 @@ class DepartmentController extends Controller
 
         $data = explode('-', $department, 2);
         $department = Department::where('ID','=', $data[0])->first();
+        $department->Code = $request->Code;
         $department->Name = $request->Name;
         $department->Manager = $request->Manager;
         $department->Approvers = $approvers;

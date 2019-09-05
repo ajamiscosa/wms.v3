@@ -31,7 +31,7 @@ class Department extends Model
      * @var array
      */
     protected $fillable = [
-        'Name', 'Manager', 'Approvers', 'Parent', 'GL', 'Legacy', 'Status'
+        'Code','Name', 'Manager', 'Approvers', 'Parent', 'GL', 'Legacy', 'Status'
     ];
 	
     public function getGeneralLedgerCodes($type) {

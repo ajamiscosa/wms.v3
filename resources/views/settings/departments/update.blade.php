@@ -38,6 +38,16 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <span class="label label-danger">**</span>
+                                    <label class="control-label">Code</label>
+                                    <input id="dName" type="text" class="form-control" name="Code" required value="{{ $data->Code }}">
+                                    <small id="code-error" style="color: red;"></small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <span class="label label-danger">**</span>
