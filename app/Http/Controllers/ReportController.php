@@ -223,10 +223,30 @@ class ReportController extends Controller
             $product = $lineItem->Product();
             $quote = $orderItem->SelectedQuote();
             $supplier = $quote->Supplier();
+            $currency = $quote->Currency()->Code;
             $pr = $orderItem->Requisition();
             $po = $orderItem->PurchaseOrder();
             $term = $po->PaymentTerm();
 
+            if($currency == "PHP") {
+                if($curr == "PHP") {
+                    $amount = number_format(round(($quote->Amount * $order->Quantity),2) ,2,'.',',');
+                }
+                else {
+                    $amount = number_format(round(($quote->Amount * $order->Quantity) / $divisor,2) ,2,'.',',');
+                }
+            }
+            else { // USD
+                $divisor = Currency::getExchangeRate('USD');
+                if($curr == "PHP") {
+                    $amount = number_format(round($quote->Amount * $order->Quantity * $divisor,2) ,2,'.',',');
+                }
+                else {
+                    $amount = number_format(round(($quote->Amount * $order->Quantity),2) ,2,'.',',');
+                }
+            }
+
+            
             $entry = array(
                 $supplier->Code,
                 sprintf("%s/%s", $order->OrderNumber, $order->ReferenceNumber),
@@ -234,7 +254,7 @@ class ReportController extends Controller
                 'FALSE',
                 'FALSE',
                 $po->APAccount()->Code,
-                round(($quote->Amount * $order->Quantity) / $divisor,2),
+                $amount,
                 'FALSE',
                 'FALSE',
                 'TRUE',
@@ -245,11 +265,15 @@ class ReportController extends Controller
                 $product->UniqueID,
                 $product->Description,
                 $product->getGeneralLedger()->Code,
-                round(($quote->Amount * $order->Quantity) / $divisor,2),
+                $amount,
                 $term->Description,
                 Carbon::parse($po->OrderDate)->addDays($supplier->Due)->format('m/d/Y'),
                 sprintf("%s/%s", $pr->OrderNumber, 'STOCKS')
             );
+
+
+            
+
             if($counter < $order->getTotalDistributions()) $counter++;
             else $counter = 1;
             array_push($data, $entry);
@@ -569,6 +593,7 @@ class ReportController extends Controller
         foreach($purchaseOrders->get() as $po) {
             if($po->Status=='A') {
                 $supplier = $po->Supplier();
+                $currency = $supplier->Currency();
                 $term = $po->PaymentTerm();
                 $apAccount = $po->APAccount();
                 $orderItems = $po->OrderItems();
