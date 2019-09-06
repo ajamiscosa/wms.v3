@@ -76,7 +76,7 @@
                                 <td>{{ $po->OrderDate->format('m/d/Y') }}</td>
                                 <td>{{ $po->Supplier()->Name }}</td>
                                 <td class="text-right">{{ $orderItem->SelectedQuote()->Amount }}</td>
-                                <td class="text-right">{{ $po->Total }}</td>
+                                <td class="text-right">{{ $orderItem->SelectedQuote()->Amount * $lineItem->Quantity }}</td>
                                 @forelse($orderItem->getReceivingReceipts() as $rr)
                                     @php
                                         $purchaseOrder = $rr->PurchaseOrder();

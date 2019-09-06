@@ -175,7 +175,7 @@
                                                     <td>{{ $po->OrderDate->format('m/d/Y') }}</td>
                                                     <td>{{ $po->Supplier()->Name }}</td>
                                                     <td class="text-right">{{ $orderItem->SelectedQuote()->Amount }}</td>
-                                                    <td class="text-right">{{ $po->Total }}</td>
+                                                    <td class="text-right">{{ number_format($orderItem->SelectedQuote()->Amount * $lineItem->Quantity,2,'.',',') }}</td>
                                                     @forelse($orderItem->getReceivingReceipts() as $rr)
                                                         @php
                                                             $purchaseOrder = $rr->PurchaseOrder();
@@ -203,7 +203,7 @@
                                                             <td>{{ $po->OrderDate->format('m/d/Y') }}</td>
                                                             <td>{{ $po->Supplier()->Name }}</td>
                                                             <td class="text-right">{{ $orderItem->SelectedQuote()->Amount }}</td>
-                                                            <td class="text-right">{{ $po->Total }}</td>
+                                                            <td class="text-right">{{ number_format($orderItem->SelectedQuote()->Amount * $lineItem->Quantity,2,'.',',') }}</td>
                                                             
                                                             <td>{{ $rr->OrderNumber }}</td>
                                                             <td>{{ \Carbon\Carbon::parse($rr->Received)->format('m/d/Y') }}</td>

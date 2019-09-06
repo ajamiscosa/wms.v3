@@ -218,9 +218,9 @@
                                         <td class="text-right">&nbsp;</td>
                                         <td class="text-right">{{ number_format($product->getLastUnitCost() * $lineItem->Quantity,2,'.',',') }}</td>
                                         <td>{{ $po->APAccount()->Code }}</td>
-                                        <td>{{ sprintf("%s/%s", $pr, 'STOCKS') }}</td>
+                                        <td>{{ sprintf("%s/%s", $pr->OrderNumber, 'STOCKS') }}</td>
                                         <td>{{ $term->Description }}</td>
-                                        <td>{{ $supplier->Due }}</td>
+                                        <td>{{ $supplier->PaymentTerm()->Value }}</td>
                                     </tr>
                                 @endforeach
                             @endforeach

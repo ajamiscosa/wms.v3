@@ -141,7 +141,8 @@
                                     <td>{{ $product->UniqueID }}</td>
                                     <td>{{ $receipt->OrderNumber }}</td>
                                     <td>{{ \Carbon\Carbon::parse($receipt->Received)->format('m/d/Y') }}</td>
-                                    <td class="text-center">{{ $receipt->Series }}</td>
+                                    {{-- <td class="text-center">{{ $receipt->Series }}</td> --}}
+                                    <td class="text-center">1</td> {{-- // 1 daw to sabi ni Zarah. Sept 6 2019 --}}
                                     <td class="text-right">{{ $product->getIssuanceLedger()->Code }}</td>
                                     <td class="text-right">{{ $receipt->Quantity }}</td>
                                     <td class="text-right">
