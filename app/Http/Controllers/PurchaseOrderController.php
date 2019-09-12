@@ -259,37 +259,42 @@ class PurchaseOrderController extends Controller
 
             DB::transaction(function () use ($request, $entry, $current) {
                 foreach($entry as $item) {
-                    $supplier = new Supplier();
-                    $supplier = $supplier->where('ID','=',$item['Supplier'])->first();
-//                    $category = $supplier->Category=='L'?"LO":"FO";
-
 
                     $today = Carbon::today();
-                    $po = new PurchaseOrder();
-                    $po->OrderNumber = sprintf("%s%s",
-//                    $category,
-//                    $supplier->SupplierType==1?"PH":"US",
-                        $today->format('my'),
-                        str_pad($current,3,'0',STR_PAD_LEFT)
-                    );
-                    
-                    $po->ChargeNo = $item['OrderNumber'];
-                    $po->ChargeType = 'S';
-                    $po->Series = self::$series;
-                    $po->Supplier = $supplier->ID;
-                    $po->OrderDate = $today;
-                    $po->DeliveryDate = $today->addDays($supplier->SupplierType==1?14:90);
-                    $po->PaymentTerm = 0;
-                    $po->Total = 0;
-                    $po->APAccount = 0;
-                    $po->Status = 'D'; // draft
 
-                    $remarks = array();
-                    $remark = array('userid'=>auth()->user()->ID, 'message'=>"Draft Created.", 'time'=>Carbon::now()->toDateTimeString());
-                    array_push($remarks, $remark);
-                    $po->Remarks = json_encode(['data'=>$remarks]);
+                    if(!isset($supplier)) {
+                        $supplier = new Supplier();
+                        $supplier = $supplier->where('ID','=',$item['Supplier'])->first();
 
-                    $po->save();
+                        
+                        $po = new PurchaseOrder();
+                        $po->OrderNumber = sprintf("%s%s",
+                            $today->format('my'),
+                            str_pad($current,3,'0',STR_PAD_LEFT)
+                        );
+                        
+                        $po->ChargeNo = $item['OrderNumber'];
+                        $po->ChargeType = 'S';
+                        $po->Series = self::$series;
+                        $po->Supplier = $supplier->ID;
+                        $po->OrderDate = $today;
+                        $po->DeliveryDate = $today->addDays($supplier->SupplierType==1?14:90);
+                        $po->PaymentTerm = 0;
+                        $po->Total = 0;
+                        $po->APAccount = 0;
+                        $po->Status = 'D'; // draft
+
+                        $remarks = array();
+                        $remark = array('userid'=>auth()->user()->ID, 'message'=>"Draft Created.", 'time'=>Carbon::now()->toDateTimeString());
+                        array_push($remarks, $remark);
+                        $po->Remarks = json_encode(['data'=>$remarks]);
+                        $po->save();
+
+                    }
+                    else {
+                        $supplier = $supplier->where('ID','=',$item['Supplier'])->first();
+                    }
+
                     usleep( 1000 );
 
                     self::$series++;
