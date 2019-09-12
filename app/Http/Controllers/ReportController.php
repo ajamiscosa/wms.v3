@@ -152,7 +152,7 @@ class ReportController extends Controller
                 $reason??"",
                 // $receipt->Series,
                 1, // 1 daw to sabi ni Zarah. Sept 9 2019
-                $lineItem->GeneralLedger()->Code,
+                $product->getIssuanceLedger()->Code, // $lineItem->GeneralLedger()->Code,
                 $receipt->Quantity * -1,
                 $product->getLastUnitCost() / $divisor,
                 'NA'
