@@ -188,3 +188,30 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+            $(document).on('click','#btnIssue',function(e){
+            if($('#submitIssuanceForm')[0].checkValidity()) { // force validation. hax. :D
+                e.preventDefault();
+                swal({
+                    html: true,
+                    title: 'Issue Request?',
+                    text:
+                    "<html>Do you wish to Issue<br/> Request?<br/><br/>"+
+                    "</html>",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#DC3545',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No'
+                }, function(x) {
+                    if(x) {
+                        $('#submitIssuanceForm').submit();
+                        //    window.location = "/receive-order";
+                    } else {
+                        return false;
+                    }
+                });
+            }
+        });
+    </script>
