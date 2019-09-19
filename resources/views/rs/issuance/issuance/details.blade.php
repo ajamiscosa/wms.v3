@@ -136,6 +136,7 @@
                                             type="number" 
                                             step="{{ $item->Product()->UOM()->Type==1?"0.001":"1" }}"
                                             name="Quantity[]" 
+                                            min="0"
                                             max="{{$item->getRemainingReceivableQuantity()}}" 
                                             style="max-width: 100px;" 
                                             required

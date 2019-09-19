@@ -152,7 +152,7 @@ class ReportController extends Controller
                 $reason??"",
                 // $receipt->Series,
                 1, // 1 daw to sabi ni Zarah. Sept 9 2019
-                $product->getIssuanceLedger()->Code, // $lineItem->GeneralLedger()->Code,
+                $receipt->getLineItem()->GeneralLedger()->Code, // $product->getIssuanceLedger()->Code, // $lineItem->GeneralLedger()->Code,
                 $receipt->Quantity * -1,
                 $product->getLastUnitCost() / $divisor,
                 'NA'
@@ -913,9 +913,9 @@ class ReportController extends Controller
                     $adjustment->Reason,
                     // null,
                     1, // 1 daw to sabi ni Zarah. Sept 9 2019
-                    $product->getGeneralLedger()->Code,
+                    $product->getIssuanceLedger()->Code,
                     $adjustment->Final - $adjustment->Initial,
-                    $product->getLastUnitCost() / $divisor,
+                    0, // $product->getLastUnitCost() / $divisor, 0 daw sabi ni zarah. Sept 19 2019
                     'NA'
                 );
                 array_push($data, $entry);

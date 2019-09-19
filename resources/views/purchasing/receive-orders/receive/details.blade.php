@@ -114,7 +114,15 @@
                             <td>
                                 <div class="input-group my-colorpicker2 colorpicker-element float-right">
                                     @if($lineItem->getRemainingDeliverableQuantity()>0)
-                                    <input class="form-control text-right middle-dis" step="{{ $product->UOM()->Type==1?"0.001":"1" }}" type="number" name="Quantity[]" max="{{$lineItem->getRemainingDeliverableQuantity()}}" style="max-width: 100px;" required/>
+                                    <input 
+                                        class="form-control text-right middle-dis" 
+                                        step="{{ $product->UOM()->Type==1?"0.001":"1" }}" 
+                                        type="number" 
+                                        name="Quantity[]" 
+                                        min="0"
+                                        max="{{$lineItem->getRemainingDeliverableQuantity()}}" 
+                                        style="max-width: 100px;" 
+                                        required/>
                                     <div class="input-group-append middle-dis xwrapper">
                                         <span class="middle-dis ml-3">/ {{ round($lineItem->getRemainingDeliverableQuantity(), 2) }} {{ $product->UOM()->Abbreviation }}</span>
                                     </div>
@@ -166,3 +174,30 @@
         @endif
     </form>
 </div>
+<script type="text/javascript">
+    $(document).on('click','#btnReceive',function(e){
+        if($('#submitReceiveForm')[0].checkValidity()) { // force validation. hax. :D
+            e.preventDefault();
+            swal({
+                html: true,
+                title: 'Receive '+poNumber+'?',
+                text:
+                "<html>Do you wish to receive<br/>Purchase Order?<br/><br/>"+
+                "</html>",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#DC3545',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No'
+            }, function(x) {
+                if(x) {
+                       $('#submitReceiveForm').submit();
+                    //    window.location = "/receive-order";
+                } else {
+                    return false;
+                }
+            });
+        }
+    });
+</script>
