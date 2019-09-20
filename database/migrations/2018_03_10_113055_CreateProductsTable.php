@@ -26,7 +26,7 @@ class CreateProductsTable extends Migration
             $table->unsignedDecimal('Quantity',11,2);
             $table->unsignedDecimal('MinimumQuantity',11,2); //Reorder Point.
             $table->unsignedDecimal('MaximumQuantity',11,2);
-            $table->unsignedDecimal('SafetyStockQuantity',11,2);
+            $table->unsignedDecimal('ReOrderQuantity',11,2);
             $table->unsignedDecimal('ReOrderPoint',11,2);
             $table->boolean('Status')->default(true);
             $table->softDeletes();

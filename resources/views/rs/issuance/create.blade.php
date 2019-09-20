@@ -169,7 +169,7 @@
                                         <tr>
                                             <th scope="row" class="w-25">
                                                 <input type="hidden" value="{{ $product->ID }}" name="Product[]">
-                                                [{{ $product->Name }}] {{ $product->Description }}
+                                                [{{ $product->UniqueID }}] {{ $product->Description }}
                                             </th>
                                             
                                             <td scope="col" class="w-auto">

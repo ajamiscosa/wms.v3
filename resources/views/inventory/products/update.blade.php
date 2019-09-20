@@ -104,7 +104,7 @@ $edit_path = str_replace("view", "update", $edit_path);
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="control-label">Safety Stocks Quantity</label>
-                                    <input class="form-control text-right" name="MinimumQuantity" type="number" step="0.001" min="0" value="{{ $data->SafetyStockQuantity }}">
+                                    <input class="form-control text-right" name="MinimumQuantity" type="number" step="0.001" min="0" value="{{ $data->ReOrderQuantity }}">
                                 </div>
                             </div>
                             <div class="col-lg-6">

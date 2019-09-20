@@ -108,6 +108,7 @@
                                     {{--<th>Category</th>--}}
                                     {{--<th>Product Line</th>--}}
                                     <th class="text-right">Reorder Point</th>
+                                    <th class="text-right">Reorder Quantity</th>
                                     <th class="text-right">Current Quantity</th>
                                     <th class="text-right">Incoming Quantity</th>
                                     <th class="text-center">Unit of Measure</th>
@@ -118,6 +119,7 @@
                                 @php
 
                                     $products = new \App\Product();
+                                    $products = $products->where('UniqueID','NOT LIKE','%-TEMP')->where('UniqueID','NOT LIKE','SER-%');
                                     $products = $products->whereRaw('Quantity < MinimumQuantity');
 
                                     if(request()->has('s')) {
@@ -125,6 +127,8 @@
                                         where('Name','like','%'.request('s').'%')->
                                         orWhere('Description','like','%'.request('s').'%')->
                                         orWhere('UniqueID','like','%'.request('s').'%');
+                                        
+                                        $products = $products->where('UniqueID','NOT LIKE','%-TEMP')->where('UniqueID','NOT LIKE','SER-%');
                                     }
 
 
@@ -158,7 +162,8 @@
                                             <td>{{ $product->Description }}</td>
                                             {{--<td>{{ $product->Category()->Identifier }}</td>--}}
                                             {{--<td>{{ $product->ProductLine()->Identifier }}</td>--}}
-                                            <td class="text-right">{{ sprintf('%d',$product->MinimumQuantity) }}</td>
+                                            <td class="text-right">{{ sprintf('%d',$product->ReOrderPoint) }}</td>
+                                            <td class="text-right">{{ sprintf('%d',$product->ReOrderQuantity) }}</td>
                                             <td class="text-right">{{ sprintf('%d',$product->Quantity) }}</td>
                                             <td class="text-right">{{ sprintf('%d',$product->getIncomingQuantity()) }}</td>
                                             <td class='text-center'>{{ $uom }}</td>

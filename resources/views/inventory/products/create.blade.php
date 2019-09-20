@@ -134,14 +134,14 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="control-label">Safety Stocks Quantity</label>
-                                    <input required class="form-control text-right numeric-input" name="SafetyStockQuantity" type="number" step="0.001" min="0">
+                                    <label class="control-label">Re-order Point</label>
+                                    <input required class="form-control text-right numeric-input" name="ReOrderPoint" type="number" step="0.001" min="0">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="control-label">Re-order Point</label>
-                                    <input required class="form-control text-right numeric-input" name="ReOrderPoint" type="number" step="0.001" min="0">
+                                    <label class="control-label">Re-order Quantity</label>
+                                    <input required class="form-control text-right numeric-input" name="ReOrderQuantity" type="number" step="0.001" min="0">
                                 </div>
                             </div>
                         </div>
@@ -199,8 +199,8 @@
                         8. Enter the
                         <strong>Minimum Quantity</strong>,
                         <strong>Maximum Quantity</strong>,
-                        <strong>Safety Stock Quantity</strong>, and
-                        <strong>Critical Quantity</strong>
+                        <strong>Reorder Point</strong>, and
+                        <strong>Reorder Quantity</strong>
                         based on the submitted warehouse request form.
                     </p>
                     <hr/>

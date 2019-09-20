@@ -930,7 +930,7 @@ class RequisitionController extends Controller
         $product->Series = $product->getNextItemSeriesNumber();
         $product->Quantity = 0;
         $product->UOM = $request->UOM;
-        $product->SafetyStockQuantity = 0;
+        $product->ReOrderQuantity = 0;
         $product->MaximumQuantity = 0;
         $product->MinimumQuantity = 0;
         $product->ReOrderPoint = 0;
@@ -950,7 +950,7 @@ class RequisitionController extends Controller
         $product->Series = $product->getNextServiceSeriesNumber();
         $product->Quantity = 0;
         $product->UOM = UnitOfMeasure::findByName('Lot')->ID;
-        $product->SafetyStockQuantity = 0;
+        $product->ReOrderQuantity = 0;
         $product->MaximumQuantity = 0;
         $product->MinimumQuantity = 0;
         $product->ReOrderPoint = 0;

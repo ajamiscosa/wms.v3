@@ -837,7 +837,7 @@ class ReportController extends Controller
                     $product->Description,
                     $product->LastUnitCost,
                     $product->Quantity,
-                    $product->SafetyStockQuantity,
+                    $product->ReOrderQuantity,
                     $product->MinimumQuantity,
                     '41120-00-05',
                     $product->getGeneralLedger()->Code,

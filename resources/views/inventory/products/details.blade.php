@@ -94,7 +94,7 @@ $isReport = $data->IsReport;
                 <div class="col-lg-6 col-md-6">
                     <strong><i class="fa fa-ellipsis-h mr-1"></i> Safety Stocks Quantity</strong>
                     <p class="text-muted">
-                        {{ $data->SafetyStockQuantity }}
+                        {{ $data->ReOrderQuantity }}
                     </p>
                 </div>
                 <div class="col-lg-6 col-md-6">

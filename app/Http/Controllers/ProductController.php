@@ -72,7 +72,7 @@ class ProductController extends Controller
         $product->Series = $product->getNextItemSeriesNumber();
         $product->UOM = $request->UOM;
         $product->Quantity = 0;
-        $product->SafetyStockQuantity = $request->SafetyStockQuantity;
+        $product->ReOrderQuantity = $request->ReOrderQuantity;
         $product->MaximumQuantity = $request->MaximumQuantity;
         $product->MinimumQuantity = $request->MinimumQuantity;
         $product->ReOrderPoint = $request->ReOrderPoint;
@@ -143,7 +143,7 @@ class ProductController extends Controller
         $product->Category = $category;
         $product->ProductLine = $productLine;
 //        $product->UOM = $request->UOM;
-        $product->SafetyStockQuantity = $request->SafetyStockQuantity;
+        $product->ReOrderQuantity = $request->ReOrderQuantity;
         $product->MaximumQuantity = $request->MaximumQuantity;
         $product->MinimumQuantity = $request->MinimumQuantity;
         $product->ReOrderPoint = $request->ReOrderPoint;
@@ -248,7 +248,7 @@ class ProductController extends Controller
         $product->ProductLine = ProductLine::FindIdByInventoryLedgerCode($request->IssuanceGL);
         $product->Location = Location::FindIdByName($request->Location);
         $product->Quantity = $request->Quantity < 0 ? $request->Quantity * -1 : $request->Quantity;
-        $product->SafetyStockQuantity = 0;
+        $product->ReOrderQuantity = 0;
         $product->MinimumQuantity = $request->MinimumQuantity;
         $product->MaximumQuantity = 0;
         $product->ReOrderPoint = 0;

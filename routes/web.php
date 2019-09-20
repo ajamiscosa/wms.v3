@@ -574,7 +574,7 @@ Route::get('/test/weeklystockadj', function(){
     foreach($issuanceReceipts as $issuanceReceipt) {
         $product = $issuanceReceipt->getLineItem()->Product();
         $product->MinimumQuantity = $product->getMinimumStockLevel();
-        $product->SafetyStockQuantity = $product->getSafetyStockCount();
+        $product->ReOrderQuantity = $product->getSafetyStockCount();
         $product->MaximumQuantity = $product->getMaximumStockLevel();
         $product->save();
     }

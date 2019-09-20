@@ -36,7 +36,7 @@ class Product extends Model
         'UniqueID', 'Name', 'Description', 'UOM',
         'Category', 'ProductLine', 'Series', 'ItemType',
         'Location', 'Quantity',
-        'SafetyStockQuantity',
+        'ReOrderQuantity',
         'MinimumQuantity', 'MaximumQuantity', 'ReOrderPoint',
         'LastUnitCost',
         'InventoryGL', 'IssuanceGL',
