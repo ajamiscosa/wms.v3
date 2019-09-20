@@ -95,6 +95,7 @@
                                     {{--<th>Category</th>--}}
                                     {{--<th>Product Line</th>--}}
                                     <th class="text-right">Reorder Point</th>
+                                    <th class="text-right">Reorder Quantity</th>
                                     <th class="text-right">Current Quantity</th>
                                     <th class="text-right">Incoming Quantity</th>
                                     <th class="text-center">Unit of Measure</th>
