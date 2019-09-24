@@ -103,14 +103,14 @@ $edit_path = str_replace("view", "update", $edit_path);
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="control-label">Safety Stocks Quantity</label>
-                                    <input class="form-control text-right" name="MinimumQuantity" type="number" step="0.001" min="0" value="{{ $data->ReOrderQuantity }}">
+                                    <label class="control-label">Re-order Point</label>
+                                    <input class="form-control text-right" name="ReOrderPoint" type="number" step="0.001" min="0" value="{{ $data->ReOrderPoint }}">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="control-label">Re-order Point</label>
-                                    <input class="form-control text-right" name="ReOrderPoint" type="number" step="0.001" min="0" value="{{ $data->ReOrderPoint }}">
+                                    <label class="control-label">Re-order Quantity</label>
+                                    <input class="form-control text-right" name="MinimumQuantity" type="number" step="0.001" min="0" value="{{ $data->ReOrderQuantity }}">
                                 </div>
                             </div>
                         </div>
