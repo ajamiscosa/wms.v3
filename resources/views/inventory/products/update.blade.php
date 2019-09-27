@@ -54,7 +54,7 @@ $edit_path = str_replace("view", "update", $edit_path);
                                     <select required class="invgl-select form-control" name="InventoryGL">
                                         <option></option>
                                         @foreach(\App\GeneralLedger::getGeneralLedgerCodesFor('v') as $gl)
-                                            <option value="{{ $gl->Code }}" {{ $gl->ID==$data->InventoryGL?"selected":"" }}>[{{ $gl->Code }}] {{ $gl->Description }}</option>
+                                            <option value="{{ $gl->ID }}" {{ $gl->ID==$data->InventoryGL?"selected":"" }}>[{{ $gl->Code }}] {{ $gl->Description }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -67,7 +67,7 @@ $edit_path = str_replace("view", "update", $edit_path);
                                     <select required class="cogsgl-select form-control" name="IssuanceGL">
                                         <option></option>
                                         @foreach(\App\GeneralLedger::getGeneralLedgerCodesFor('i') as $gl)
-                                            <option value="{{ $gl->Code }}" {{ $gl->ID==$data->IssuanceGL?"selected":"" }}>[{{ $gl->Code }}] {{ $gl->Description }}</option>
+                                            <option value="{{ $gl->ID }}" {{ $gl->ID==$data->IssuanceGL?"selected":"" }}>[{{ $gl->Code }}] {{ $gl->Description }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -90,13 +90,13 @@ $edit_path = str_replace("view", "update", $edit_path);
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="control-label">Minimum Quantity (MIN)</label>
-                                    <input class="form-control text-right" name="ReorderPoint" type="number" step="0.001" min="0" value="{{ $data->MinimumQuantity }}">
+                                    <input class="form-control text-right" name="MinimumQuantity" type="number" step="0.001" min="0" value="{{ $data->MinimumQuantity }}">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="control-label">Maximum Quantity (MAX)</label>
-                                    <input class="form-control text-right" name="ReorderQuantity" type="number" step="0.001" min="0" value="{{ $data->MaximumQuantity }}">
+                                    <input class="form-control text-right" name="MaximumQuantity" type="number" step="0.001" min="0" value="{{ $data->MaximumQuantity }}">
                                 </div>
                             </div>
                         </div>
@@ -110,7 +110,7 @@ $edit_path = str_replace("view", "update", $edit_path);
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="control-label">Re-order Quantity</label>
-                                    <input class="form-control text-right" name="MinimumQuantity" type="number" step="0.001" min="0" value="{{ $data->ReOrderQuantity }}">
+                                    <input class="form-control text-right" name="ReOrderQuantity" type="number" step="0.001" min="0" value="{{ $data->ReOrderQuantity }}">
                                 </div>
                             </div>
                         </div>

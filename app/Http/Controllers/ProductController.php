@@ -127,21 +127,37 @@ class ProductController extends Controller
      */
     public function update(Request $request, $product)
     {
+        // dd($request->IssuanceGL);
         $p = new Product();
         $product = $p->where('UniqueID','=', $product)->first();
-        $category = Category::FindIdByInventoryLedgerCode($request->InventoryGL);
-        $productLine = ProductLine::FindIdByInventoryLedgerCode($request->IssuanceGL);
 
-        $inventoryGL = GeneralLedger::FindIdByCode($request->InventoryGL);
-        $issuanceGL = GeneralLedger::FindIdByCode($request->IssuanceGL);
+        $inventoryGL = GeneralLedger::find($request->InventoryGL);
+        $issuanceGL = GeneralLedger::find($request->IssuanceGL);
+
+
+        $category = Category::FindIdByInventoryLedgerCode($inventoryGL->Code);
+        $productLine = ProductLine::FindIdByInventoryLedgerCode($issuanceGL->Code);
+
+        if($product->InventoryGL != $request->InventoryGL) {
+            $product->InventoryGL = $request->InventoryGL;
+        }
+
+        if($product->IssuanceGL != $request->IssuanceGL) {
+            $product->IssuanceGL = $request->IssuanceGL;
+        }
+
+        if($product->Category!=$category) {
+            $product->Category = $category;
+        }
+
+        if($product->ProductLine!=$productLine) {
+            $product->ProductLine = $productLine;
+        }
+        
 
 //        $product->Location = $request->Location;
 //        $product->Name = strtoupper($request->Name);
         $product->Description = strtoupper($request->Description);
-        $product->InventoryGL = $inventoryGL;
-        $product->IssuanceGL = $issuanceGL;
-        $product->Category = $category;
-        $product->ProductLine = $productLine;
 //        $product->UOM = $request->UOM;
         $product->ReOrderQuantity = $request->ReOrderQuantity;
         $product->MaximumQuantity = $request->MaximumQuantity;
