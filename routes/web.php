@@ -892,3 +892,24 @@ Route::get('/test/po-data/{year}/{month}', function($year, $month) {
         ->where('Status','=','A');
     dd($poList->get());
 });
+
+
+Route::get('/test/maildist', function() {
+    $department = App\Department::find(14);
+    $recepients = ["ajamiscosa@gmail.com","era.azana@gmail.com"];
+
+    // foreach($department->Users() as $user) {
+    //     $person = $user->Person();
+    //     array_push($recepients,$person->Email);
+    // }
+
+    $reportController = new App\Http\Controllers\ReportController();
+
+    $fileName = sprintf('ItemsForRestock%s.xlsx', Carbon::today()->format('Ymd'));
+
+    $mailHelper = new \App\Classes\MailHelper();
+    $mailHelper->sendMailWithAttachment('mail.restock', [], $recepients, '[WIS] Restock List', $reportController->exportItemRestockReportAsFile(), $fileName);
+    
+    // dd($emailList);
+    dd("sent");
+});

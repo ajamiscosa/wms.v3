@@ -934,8 +934,8 @@ class ReportController extends Controller
         $columns = array(
             'UniqueID',
             'Description',
+            'ReOrderPoint',
             'Quantity',
-            'MinimumQuantity',
             'IncomingQuantity',
             'UOM'
         );
@@ -950,15 +950,31 @@ class ReportController extends Controller
             $entry = array(
                 $product->UniqueID,
                 $product->Description,
+                $product->ReOrderPoint,
                 $product->Quantity,
-                $product->MinimumQuantity,
                 $product->getIncomingQuantity(),
                 $uom
             );
             array_push($data, $entry);
         }
 
-        $fileName = sprintf('InventoryBalance%s.csv', Carbon::today()->format('Ymd'));
+        $fileName = sprintf('ItemsForRestock%s.csv', Carbon::today()->format('Ymd'));
         return ReportHelper::export($fileName,$columns,$data);
+    }
+
+    public function exportItemRestockReportAsFile() { 
+        
+        \Excel::create(sprintf('ItemsForRestock%s', Carbon::today()->format('Ymd')), function($excel) {
+
+            $excel->sheet('New sheet', function($sheet) {
+
+                $product = new Product();
+                $products = $product->whereRaw('Quantity < MinimumQuantity');
+                $sheet->loadView('report.view.restock', ['products'=>$products]);
+
+            });
+
+        })->store('xlsx');
+        
     }
 }

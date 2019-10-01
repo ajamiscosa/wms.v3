@@ -113,6 +113,24 @@ class Kernel extends ConsoleKernel
         })->daily();
 
 
+
+        $schedule->call(function() {
+
+            // 2. send daily restock report.
+            // get Recepient(s). 
+            $department = App\Department::find(14);
+            $recepients = [];
+        
+            foreach($department->Users() as $user) {
+                $person = $user->Person();
+                array_push($recepients,$person->Email);
+            }
+            
+
+            $mailHelper = new \App\Classes\MailHelper();
+            $mailHelper->sendMail('mail.restock', [], $recepients, '[WIS] Restock List');
+        })->dailyAt('06:00');
+
         // * Automated Task *
         // Update Fully Quoted RS to be ready for Plant Manager's Approval.
         // Run Time: Every Minute
