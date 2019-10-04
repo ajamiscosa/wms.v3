@@ -14,6 +14,15 @@
 
 @if(auth()->user()->isAuthorized('Dashboard','V'))
 @section('content')
+
+    @if(auth()->user()->isAccounting())
+        @include('templates.dashboard.accounting-charts')
+    @endif
+    @if(auth()->user()->isMaterialsControl())
+        @include('templates.dashboard.warehouse-charts')
+    @endif
+
+
     <div class="row">
         <div class="col-md-6">
            <!-- DONUT CHART -->

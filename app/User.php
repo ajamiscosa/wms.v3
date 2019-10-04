@@ -148,4 +148,10 @@ class User extends Authenticatable
         $role = $role->where('Name','=','MaterialsControl')->first();
         return in_array($role->ID, $this->Roles(1));
     }
+
+    public function isAccounting() {
+        $role = new Role();
+        $role = $role->where('Name','=','Accounting')->first();
+        return in_array($role->ID, $this->Roles(1));
+    }
 }
