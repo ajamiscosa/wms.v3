@@ -895,13 +895,18 @@ Route::get('/test/po-data/{year}/{month}', function($year, $month) {
 
 
 Route::get('/test/maildist', function() {
+    // 2. send daily restock report.
+    // get Recepient(s). 
     $department = App\Department::find(14);
-    $recepients = ["ajamiscosa@gmail.com","era.azana@gmail.com"];
+    // $recepients = [];
 
     // foreach($department->Users() as $user) {
     //     $person = $user->Person();
     //     array_push($recepients,$person->Email);
     // }
+    
+
+    $recepients = ["jmsaria@outlook.com","zmps.engg@gmail.com"];
 
     $reportController = new App\Http\Controllers\ReportController();
 
@@ -909,7 +914,8 @@ Route::get('/test/maildist', function() {
 
     $mailHelper = new \App\Classes\MailHelper();
     $mailHelper->sendMailWithAttachment('mail.restock', [], $recepients, '[WIS] Restock List', $reportController->exportItemRestockReportAsFile(), $fileName);
-    
+
+
     // dd($emailList);
     dd("sent");
 });

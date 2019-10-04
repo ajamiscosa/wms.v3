@@ -114,22 +114,30 @@ class Kernel extends ConsoleKernel
 
 
 
-        $schedule->call(function() {
+        // $schedule->call(function() {
 
-            // 2. send daily restock report.
-            // get Recepient(s). 
-            $department = App\Department::find(14);
-            $recepients = [];
+        //     // 2. send daily restock report.
+        //     // get Recepient(s). 
+        //     $department = App\Department::find(14);
+        //     // $recepients = [];
         
-            foreach($department->Users() as $user) {
-                $person = $user->Person();
-                array_push($recepients,$person->Email);
-            }
+        //     // foreach($department->Users() as $user) {
+        //     //     $person = $user->Person();
+        //     //     array_push($recepients,$person->Email);
+        //     // }
             
+        //     $recepients = ["ajamiscosa@gmail.com","era.azana@gmail.com"];
 
-            $mailHelper = new \App\Classes\MailHelper();
-            $mailHelper->sendMail('mail.restock', [], $recepients, '[WIS] Restock List');
-        })->dailyAt('06:00');
+        //     $reportController = new App\Http\Controllers\ReportController();
+
+        //     $fileName = sprintf('ItemsForRestock%s.xlsx', Carbon::today()->format('Ymd'));
+
+        //     $mailHelper = new \App\Classes\MailHelper();
+        //     $mailHelper->sendMailWithAttachment('mail.restock', [], $recepients, '[WIS] Restock List', $reportController->exportItemRestockReportAsFile(), $fileName);
+
+
+
+        // })->dailyAt('10:38');
 
         // * Automated Task *
         // Update Fully Quoted RS to be ready for Plant Manager's Approval.
