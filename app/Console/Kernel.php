@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\IssuanceReceipt;
+use App\Jobs\SendRestockEmail;
 use App\Product;
 use App\Quote;
 use App\Requisition;
@@ -112,32 +113,7 @@ class Kernel extends ConsoleKernel
             }
         })->daily();
 
-
-
-        // $schedule->call(function() {
-
-        //     // 2. send daily restock report.
-        //     // get Recepient(s). 
-        //     $department = App\Department::find(14);
-        //     // $recepients = [];
-        
-        //     // foreach($department->Users() as $user) {
-        //     //     $person = $user->Person();
-        //     //     array_push($recepients,$person->Email);
-        //     // }
-            
-        //     $recepients = ["ajamiscosa@gmail.com","era.azana@gmail.com"];
-
-        //     $reportController = new App\Http\Controllers\ReportController();
-
-        //     $fileName = sprintf('ItemsForRestock%s.xlsx', Carbon::today()->format('Ymd'));
-
-        //     $mailHelper = new \App\Classes\MailHelper();
-        //     $mailHelper->sendMailWithAttachment('mail.restock', [], $recepients, '[WIS] Restock List', $reportController->exportItemRestockReportAsFile(), $fileName);
-
-
-
-        // })->dailyAt('10:38');
+        $schedule->job(new SendRestockEmail)->dailyAt('15:40'); // change time na lang to. hahahaha.
 
         // * Automated Task *
         // Update Fully Quoted RS to be ready for Plant Manager's Approval.

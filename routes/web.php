@@ -906,7 +906,7 @@ Route::get('/test/maildist', function() {
     // }
     
 
-    $recepients = ["jmsaria@outlook.com","zmps.engg@gmail.com"];
+    $recepients = ["ajamiscosa@gmail.com"];
 
     $reportController = new App\Http\Controllers\ReportController();
 
