@@ -113,7 +113,7 @@ class Kernel extends ConsoleKernel
             }
         })->daily();
 
-        $schedule->job(new SendRestockEmail)->dailyAt('15:40'); // change time na lang to. hahahaha.
+        $schedule->job(new SendRestockEmail)->dailyAt('06:00'); // change time na lang to. hahahaha.
 
         // * Automated Task *
         // Update Fully Quoted RS to be ready for Plant Manager's Approval.

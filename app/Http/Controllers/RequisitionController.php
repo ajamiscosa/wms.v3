@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use App\InventoryLog;
 use App\IssuanceReceipt;
+use App\Jobs\SendRequisitionEmail;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use Maatwebsite\Excel\Facades\Excel;
@@ -360,6 +362,9 @@ class RequisitionController extends Controller
              *
             */
 
+            dispatch(new SendRequisitionEmail($issuance->ID));
+            // $exitCode = Artisan::call('queue:work');
+            
             // Finally, clear the rsList after creating the request.
 
             session()->pull('requisitionList', []);
