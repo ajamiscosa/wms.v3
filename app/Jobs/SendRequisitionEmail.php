@@ -36,15 +36,16 @@ class SendRequisitionEmail implements ShouldQueue
         $charged = \App\Department::find($instance->ChargeTo);
         $requester = $instance->Requester();
         $approver1 = $instance->Approver1();
-        // $recepients = [];
+
+        $recepients = [];
     
-        // foreach($department->Users() as $user) {
-        //     $person = $user->Person();
-        //     array_push($recepients,$person->Email);
-        // }
+        foreach($department->Users() as $user) {
+            $person = $user->Person();
+            array_push($recepients,$person->Email);
+        }
         
     
-        $recepients = ["ajamiscosa@gmail.com"];
+        // $recepients = ["ajamiscosa@gmail.com"];
     
         $mailHelper = new \App\Classes\MailHelper();
         $mailHelper->sendMail('mail.requisition', [

@@ -30,15 +30,15 @@ class SendRestockEmail implements ShouldQueue
     public function handle()
     {
         $department = \App\Department::find(14);
-        // $recepients = [];
+        $recepients = [];
     
-        // foreach($department->Users() as $user) {
-        //     $person = $user->Person();
-        //     array_push($recepients,$person->Email);
-        // }
+        foreach($department->Users() as $user) {
+            $person = $user->Person();
+            array_push($recepients,$person->Email);
+        }
         
     
-        $recepients = ["ajamiscosa@gmail.com"];
+        // $recepients = ["ajamiscosa@gmail.com"];
     
         $reportController = new \App\Http\Controllers\ReportController();
     
