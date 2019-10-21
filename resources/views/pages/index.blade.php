@@ -15,10 +15,10 @@
 @if(auth()->user()->isAuthorized('Dashboard','V'))
 @section('content')
 
-    @if(auth()->user()->isAccounting())
+    @if(auth()->user()->isAccounting() || auth()->user()->isAdministrator())
         @include('templates.dashboard.accounting-charts')
     @endif
-    @if(auth()->user()->isMaterialsControl())
+    @if(auth()->user()->isMaterialsControl() || auth()->user()->isAdministrator())
         @include('templates.dashboard.warehouse-charts')
     @endif
 

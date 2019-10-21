@@ -11,8 +11,8 @@
                         <thead>
                         <tr>
                             <th>Order ID</th>
-                            <th>Requested By</th>
-                            <th class='text-center'>Status</th>
+                            <th>Description</th>
+                            <th class='text-center'>Quantity</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -23,7 +23,7 @@
                                 <tr>
                                     <td><a href="/product/view/{{ $product->UniqueID }}">{{ $product->UniqueID }}</a></td>
                                     <td>{{ $product->Description }}</td>
-                                    <td>{{ $product->getAvailableQuantity() }}</td>
+                                    <td class='text-center'>{{ $product->getAvailableQuantity() }}</td>
                                 </tr>
                                 @php($counter++)
                             @endif
