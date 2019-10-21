@@ -48,13 +48,13 @@ class SendRequisitionEmail implements ShouldQueue
         // $recepients = ["ajamiscosa@gmail.com"];
     
         $mailHelper = new \App\Classes\MailHelper();
-        $mailHelper->sendMail('mail.requisition', [
-            'number' => $instance->OrderNumber,
-            'type' => ($instance->Type=='IR'?"Issuance":"Purchase")." Request",
-            'requester' => $requester->Name(),
-            'approver' => $approver1->Name(),
-            'department' => $department->Name,
-            'charged' => $charged->Name,
-        ], $recepients, '[WIS] New Requisition');
+        // $mailHelper->sendMail('mail.requisition', [
+        //     'number' => $instance->OrderNumber,
+        //     'type' => ($instance->Type=='IR'?"Issuance":"Purchase")." Request",
+        //     'requester' => $requester->Name(),
+        //     'approver' => $approver1->Name(),
+        //     'department' => $department->Name,
+        //     'charged' => $charged->Name,
+        // ], $recepients, '[WIS] New Requisition');
     }
 }
