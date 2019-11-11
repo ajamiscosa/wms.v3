@@ -470,4 +470,8 @@ class Product extends Model
         }
         return false;
     }
+
+    public function getReOrderQuantity() {
+        return (4/4) * $this->getAverageUsage('M'); 
+    }
 }
