@@ -942,7 +942,7 @@ class ReportController extends Controller
 
         $data = array();
         $product = new Product();
-        $products = $product->whereRaw('Quantity < MinimumQuantity');
+        $products = $product->whereRaw('Quantity < ReOrderPoint');
 
         foreach($products->get() as $product) {
 
@@ -969,7 +969,7 @@ class ReportController extends Controller
             $excel->sheet('New sheet', function($sheet) {
 
                 $product = new Product();
-                $products = $product->whereRaw('Quantity < MinimumQuantity');
+                $products = $product->whereRaw('Quantity < ReOrderPoint');
                 $sheet->loadView('report.view.restock', ['products'=>$products]);
 
             });

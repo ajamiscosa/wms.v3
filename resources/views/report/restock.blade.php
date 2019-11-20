@@ -121,7 +121,7 @@
 
                                     $products = new \App\Product();
                                     $products = $products->where('UniqueID','NOT LIKE','%-TEMP')->where('UniqueID','NOT LIKE','SER-%');
-                                    $products = $products->whereRaw('Quantity < MinimumQuantity');
+                                    $products = $products->whereRaw('Quantity < ReOrderPoint');
 
                                     if(request()->has('s')) {
                                         $products = $products->
