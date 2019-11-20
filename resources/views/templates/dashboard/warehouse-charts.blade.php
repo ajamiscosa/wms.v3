@@ -11,7 +11,7 @@
                         <thead>
                         <tr>
                             <th>Order ID</th>
-                            <th>Requested By</th>
+                            <th>Description</th>
                             <th class='text-center'>Status</th>
                         </tr>
                         </thead>

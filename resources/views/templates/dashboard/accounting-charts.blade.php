@@ -94,7 +94,7 @@
     <div class="col-md-6">
         <div class="card card-info">
             <div class="card-header border-transparent">
-                <h3 class="card-title">Approved Issuances</h3>
+                <h3 class="card-title">Issued Items</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body p-0" style="display: block;">
@@ -102,19 +102,22 @@
                     <table class="table m-0">
                         <thead>
                         <tr>
-                            <th>Order ID</th>
-                            <th>Requested By</th>
-                            <th class='text-center'>Status</th>
+                            <th>Item ID</th>
+                            <th>Reference </th>
+                            <th>Quantity</th>
                         </tr>
                         </thead>
                         <tbody>
                         @php($counter = 0)
                         @foreach(\App\IssuanceReceipt::orderBy('ID','desc')->get() as $issuance)
                             @if($counter<5)
+                                @php 
+                                    $product = $issuance->getLineItem()->Product();
+                                @endphp
                                 <tr>
-                                    <td><a href="/product/view/{{ $issuance->UniqueID }}">{{ $issuance->UniqueID }}</a></td>
-                                    <td>{{ $issuance->Description }}</td>
-                                    {{-- <td>{{ $product->getAvailableQuantity() }}</td> --}}
+                                    <td>{{ $product->UniqueID }}</td>
+                                    <td>{{ $issuance->OrderNumber }}</td>
+                                    <td>{{ $issuance->Quantity }} </td>
                                 </tr>
                                 @php($counter++)
                             @endif
@@ -126,7 +129,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer clearfix" style="display: block;">
-                <a href="/issuance" class="btn btn-sm btn-info float-right">View All Issuances</a>
+                <a href="/reports/issuance-log" class="btn btn-sm btn-info float-right">View Issued Items</a>
             </div>
             <!-- /.card-footer -->
         </div>
