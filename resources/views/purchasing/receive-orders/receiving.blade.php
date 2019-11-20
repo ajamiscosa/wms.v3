@@ -122,12 +122,35 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <strong><i class="fa fa-money-check-alt mr-1"></i> Vendor Name</strong>
+                                    <span class="xwrapper">
+                                        <p class="text-muted pt-2 mb-0" id="PaymentTerm">
+
+                                        </p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <strong><i class="fa fa-clipboard-list mr-1"></i> Vendor Code</strong>
+                                    <span class="xwrapper">
+                                        <p class="text-muted pt-2 mb-0" id="ChargeType">
+
+                                        </p>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row" id="mydiv">
                             <div class="col-lg-12">
                                 <table id="poTable" class="table table-no-bordered dataTable dtr-inline" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
                                     <thead>
                                     <tr role="row">
-                                        <th style="width: 50%;">Item</th>
+                                        <th>Item ID</th>
+                                        <th>Item Description</th>
                                         <th>G/L Code</th>
                                         <th>Quantity</th>
                                     </tr>

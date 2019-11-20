@@ -77,13 +77,37 @@
                             </p>
                         </div>
                     </div>
+                </div><div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <strong><i class="fa fa-money-check-alt mr-1"></i> Vendor Name</strong>
+                            <p class="text-muted">
+                        <span>
+                            {{$data->Supplier()->Name}}
+                        </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <strong><i class="fa fa-clipboard-list mr-1"></i> Vendor Code</strong>
+                            <p class="text-muted">
+                        <span>
+                            {{$data->Supplier()->Code}}
+                        </span>
+                            </p>
+                        </div>
+                    </div>
                 </div>
+
+
                 <div class="row" id="mydiv">
                     <div class="col-lg-12">
                         <table id="poTable" class="table table-no-bordered dataTable dtr-inline" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
                             <thead>
                             <tr role="row">
-                                <th style="width: 30%;">Item</th>
+                                <th>Item ID</th>
+                                <th>Item Description</th>
                                 <th>G/L Code</th>
                                 <th>Quantity</th>
                             </tr>
@@ -102,9 +126,10 @@
                                 <tr>
                                     <td class=" pt-0 pb-0 mt-0 mb-0 align-middle">
                                         <a href="/product/view/{{ $product->UniqueID }}">
-                                            [{{ $product->UniqueID }}] {{ $product->Description }}
+                                            [{{ $product->UniqueID }}]
                                         </a>
                                     </td>
+                                    <td> {{ $product->Description }} </td>
                                     <td class=" pt-0 pb-0 mt-0 mb-0 align-middle">{{ $lineItem->Product()->getGeneralLedger()->Code }}</td>
                                     <td>
                                         <div class="input-group my-colorpicker2 colorpicker-element float-right">
