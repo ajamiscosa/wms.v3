@@ -38,11 +38,11 @@
             <td>{{ $uom }}</td>
         </tr>
     @empty
-    <tr>
-        <td colspan="100%" style="text-align: center; vertical-align: middle;">
-            No Data Available
-        </td>
-    </tr>
+        <tr>
+            <td colspan="100%" style="text-align: center; vertical-align: middle;">
+                No Data Available
+            </td>
+        </tr>
     @endforelse
     </tbody>
 </table>

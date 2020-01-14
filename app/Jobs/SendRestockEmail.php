@@ -37,15 +37,12 @@ class SendRestockEmail implements ShouldQueue
             array_push($recepients,$person->Email);
         }
         
-    
-        // $recepients = ["ajamiscosa@gmail.com"];
-    
         $reportController = new \App\Http\Controllers\ReportController();
     
         $fileName = sprintf('ItemsForRestock%s.xlsx', \Carbon\Carbon::today()->format('Ymd'));
     
         $mailHelper = new \App\Classes\MailHelper();
-        //$mailHelper->sendMailWithAttachment('mail.restock', [], $recepients, '[WIS] Restock List', $reportController->exportItemRestockReportAsFile(), $fileName);
+        $mailHelper->sendMailWithAttachment('mail.restock', [], $recepients, '[WIS] Restock List', $reportController->exportItemRestockReportAsFile(), $fileName);
         
     }
 }
