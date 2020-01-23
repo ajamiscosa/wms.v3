@@ -15,10 +15,10 @@
 @section('content')
 
     <div class="row">        
-        @if(auth()->user()->isMaterialsControl() || auth()->user()->isGeneralManager() )
+        @if(auth()->user()->isMaterialsControl() || auth()->user()->isAdministrator()  || auth()->user()->isGeneralManager() )
             @include('templates.dashboard.warehouse-charts')
         @endif
-        @if(auth()->user()->isAccounting() || auth()->user()->isGeneralManager() )
+        @if(auth()->user()->isAccounting() || auth()->user()->isAdministrator() || auth()->user()->isGeneralManager() )
             @include('templates.dashboard.accounting-charts')
         @endif
     </div>
