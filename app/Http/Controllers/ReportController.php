@@ -935,6 +935,7 @@ class ReportController extends Controller
             'UniqueID',
             'Description',
             'ReOrderPoint',
+            'ReOrderQuantity',
             'Quantity',
             'IncomingQuantity',
             'UOM'
@@ -951,6 +952,7 @@ class ReportController extends Controller
                 $product->UniqueID,
                 $product->Description,
                 $product->ReOrderPoint,
+                $product->ReOrderQuantity,
                 $product->Quantity,
                 $product->getIncomingQuantity(),
                 $uom
