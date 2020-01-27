@@ -62,7 +62,7 @@
                         ['Type','=','IR'],
                         ['Status','=','A'],
                         ])->get() as $issuance)
-                        @if($counter<5)
+                        @if($counter<3)
                             <tr>
                                 <td><a href="/product/view/{{ $issuance->OrderNumber }}">{{ $issuance->OrderNumber }}</a></td>
                                 <td>{{ $issuance->Department()->Name }}</td>
@@ -109,7 +109,7 @@
 
                     @php($counter = 0)
                     @foreach(\App\ReceiveOrder::orderBy('OrderNumber','desc')->get() as $receive)
-                        @if($counter<5)
+                        @if($counter<3)
                                 <tr>
                                     <td><a href="/issuance-request/view/{{ $receive->OrderNumber }}">{{ $receive->OrderNumber }}</a></td>
                                     <td>{{ $receive->OrderItem()->LineItem()->Product()->UniqueID }} - {{ $receive->OrderItem()->LineItem()->Product()->Description }}</td>
@@ -154,7 +154,7 @@
                     <tbody>
                     @foreach(\App\PurchaseOrder::all() as $po)
                         @php($counter = 0)
-                        @if($counter<10)
+                        @if($counter<3)
                             @if($po->Status != 'D')
                             <tr>
                                 <td><a href="/purchase-order/view/{{ $po->OrderNumber }}">{{ $po->OrderNumber }}</a></td>
@@ -199,7 +199,7 @@
 
                     @foreach(\App\Requisition::IssuanceRequests() as $ir)
                         @php($counter = 0)
-                        @if($counter<10)
+                        @if($counter<3)
                             @if($ir->Status != 'D')
                                 <tr>
                                     <td><a href="/issuance-request/view/{{ $ir->OrderNumber }}">{{ $ir->OrderNumber }}</a></td>

@@ -18,7 +18,7 @@
 
                     @php($counter = 0)
                     @foreach(\App\StockAdjustment::orderBy('ID','desc')->get() as $stockadj)
-                        @if($counter<5)
+                        @if($counter<3)
                             @if($stockadj->Status=='A')
                                 <tr>
                                     <td><a href="/issuance-request/view/{{ $stockadj->Number }}">{{ $stockadj->Number }}</a></td>
@@ -63,7 +63,7 @@
                     <tbody>
                     @php($counter = 0)
                     @foreach(\App\IssuanceReceipt::orderBy('ID','desc')->get() as $issuance)
-                        @if($counter<5)
+                        @if($counter<3)
                             @php 
                                 $product = $issuance->getLineItem()->Product();
                             @endphp
