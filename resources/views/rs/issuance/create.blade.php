@@ -49,7 +49,7 @@
             <strong>Issuance Request #</strong>
         </h3>
     </div>
-    <form action="/issuance-request/store" method="post">
+    <form action="/issuance-request/store" method="post" id="issuanceRequestForm">
         <input type="hidden" name="Type" value="IR">
         {{csrf_field()}}
         <div class="card-body">
@@ -219,7 +219,8 @@
         <div class="card-footer">
             <div class="row float-right">
                 <div class="col-md-12">
-                    <button type="submit" class="btn flat btn-danger btn-sm">Save</button>
+                    {{-- <button id="btnSave" type="submit" class="btn flat btn-danger btn-sm">Save</button> --}}
+                    <input type="submit" class="btn flat btn-danger btn-md" value="Save" id="btnSave">
                     <a href="/rs" class="btn btn-default btn-sm">Cancel</a>
                 </div>
             </div>
@@ -229,6 +230,7 @@
 </div>
 @endsection
 @section('scripts')
+    <script src="{{ asset('js/sweetalert.js') }}"></script>
     <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('js/moment.js') }}"></script>
     <script src="{{ asset('js/select2.min.js') }}"></script>
@@ -401,6 +403,32 @@
                 // Return `null` if the term should not be displayed
                 return null;
             }
+
+            $(document).on('click','#btnSave',function(e){
+                if($('#issuanceRequestForm')[0].checkValidity()) { // force validation. hax. :D
+                    Swal.fire({
+                        html: true,
+                        title: 'Issuance Request',
+                        text:
+                        "<html>Are you sure you want<br/>To proceed?<br/><br/>"+
+                        "</html>",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#DC3545',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No'
+                    }, function(x) {
+                        if(x) {
+                            // $('#submitReceiveForm').submit();
+                            //    window.location = "/receive-order";
+                        } else {
+                            return false;
+                        }
+                    });
+                }
+                e.preventDefault();
+            });
 
         })
     </script>

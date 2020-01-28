@@ -209,7 +209,7 @@
         <div class="card-footer">
             <div class="row float-right">
                 <div class="col-md-12">
-                    <button type="submit" class="btn flat btn-danger btn-sm">Save</button>
+                    <button type="submit" class="btn flat btn-danger btn-sm" id="btnSave">Save</button>
                     <a href="{{ Request::server('HTTP_REFERER') }}" class="btn btn-default btn-sm">Cancel</a>
                 </div>
             </div>
@@ -226,6 +226,34 @@
     <script src="{{ asset('js/loadingoverlay.min.js') }}"></script>
     <script>
         $(function(){
+
+
+            $(document).on('click','#btnSave',function(e){
+                e.preventDefault();
+                if($('#form-purchase')[0].checkValidity()) { // force validation. hax. :D
+                    Swal.fire({
+                        html: true,
+                        title: 'Purchase Request',
+                        text:
+                        "<html>Are you sure you want<br/>To proceed?<br/><br/>"+
+                        "</html>",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#DC3545',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No'
+                    }, function(x) {
+                        if(x) {
+                            // $('#submitReceiveForm').submit();
+                            //    window.location = "/receive-order";
+                        } else {
+                            return false;
+                        }
+                    });
+                }
+            });
+
             var $datepicker = $('#DateRequired').datepicker({
                 format: "MM dd, yyyy",
                 autoclose: true,
