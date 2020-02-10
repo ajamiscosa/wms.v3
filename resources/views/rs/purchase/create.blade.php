@@ -230,26 +230,36 @@
 
             $(document).on('click','#btnSave',function(e){
                 e.preventDefault();
-                if($('#form-purchase')[0].checkValidity()) { // force validation. hax. :D
+                if((typeof($('#form-purchase')[0].checkValidity) == "function" ) && $('#form-purchase')[0].checkValidity()) { // force validation. hax. :D
                     Swal.fire({
-                        html: true,
                         title: 'Purchase Request',
-                        text:
-                        "<html>Are you sure you want<br/>To proceed?<br/><br/>"+
+                        html:
+                        "<html>Are you sure you want to proceed?<br/><br/>"+
                         "</html>",
                         type: 'warning',
                         showCancelButton: true,
-                        confirmButtonColor: '#DC3545',
+                        confirmButtonColor: '#83B74B',
                         cancelButtonColor: '#d33',
                         confirmButtonText: 'Yes',
                         cancelButtonText: 'No'
-                    }, function(x) {
-                        if(x) {
-                            // $('#submitReceiveForm').submit();
-                            //    window.location = "/receive-order";
+                    }).then((result) => {
+                        if (result.value) {
+                            console.log(result.value);
+                            $('#form-purchase').submit();
                         } else {
-                            return false;
+                            
                         }
+                    });
+                }
+                else {
+                    Swal.fire({
+                        html: false,
+                        title: 'Purchase Request',
+                        text: "Please fill up all fields.",
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: '#83B74B',
+                        confirmButtonText: 'OK',
                     });
                 }
             });

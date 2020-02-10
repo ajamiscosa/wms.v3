@@ -405,29 +405,39 @@
             }
 
             $(document).on('click','#btnSave',function(e){
-                if($('#issuanceRequestForm')[0].checkValidity()) { // force validation. hax. :D
+                e.preventDefault();
+                if((typeof($('#issuanceRequestForm')[0].checkValidity) == "function" ) && $('#issuanceRequestForm')[0].checkValidity()) { // force validation. hax. :D
                     Swal.fire({
-                        html: true,
                         title: 'Issuance Request',
-                        text:
-                        "<html>Are you sure you want<br/>To proceed?<br/><br/>"+
+                        html:
+                        "<html>Are you sure you want to proceed?<br/><br/>"+
                         "</html>",
                         type: 'warning',
                         showCancelButton: true,
-                        confirmButtonColor: '#DC3545',
+                        confirmButtonColor: '#83B74B',
                         cancelButtonColor: '#d33',
                         confirmButtonText: 'Yes',
                         cancelButtonText: 'No'
-                    }, function(x) {
-                        if(x) {
-                            // $('#submitReceiveForm').submit();
-                            //    window.location = "/receive-order";
+                    }).then((result) => {
+                        if (result.value) {
+                            console.log(result.value);
+                            $('#issuanceRequestForm').submit();
                         } else {
-                            return false;
+                            
                         }
                     });
                 }
-                e.preventDefault();
+                else {
+                    Swal.fire({
+                        html: false,
+                        title: 'Issuance Request',
+                        text: "Please fill up all fields.",
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: '#83B74B',
+                        confirmButtonText: 'OK',
+                    });
+                }
             });
 
         })
