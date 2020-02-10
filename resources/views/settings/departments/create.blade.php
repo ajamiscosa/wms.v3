@@ -54,7 +54,7 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="control-label">Manager</label>
-                                    <select class="manager-select form-control select2-container" name="Manager" style="width: 100%;">
+                                    <select required class="manager-select form-control select2-container" name="Manager" style="width: 100%;">
                                         <option></option>
                                     </select>
                                 </div>

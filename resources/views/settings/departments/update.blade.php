@@ -30,7 +30,7 @@
 @section('content')
     <div class="col-lg-4 col-lg-offset-4">
         <div class="row">
-            <form method="post" action="{{ $edit_path }}">
+            <form method="post" action="/department/update/{{$data->ID}}">
                 {{ csrf_field() }}
                 <div class="card card-danger card-outline flat"> <!--  collapsed-card-->
                     <div class="card-header card-header-text">
@@ -61,7 +61,7 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="control-label">Manager</label>
-                                    <select class="manager-select form-control select2-container" name="Manager" style="width: 100%;">
+                                    <select class="manager-select form-control select2-container" name="Manager" style="width: 100%;" required>
                                         <option></option>
                                         @foreach($data->Approvers() as $approver)
                                             @if($approver->user()->Status==1)
